@@ -1,0 +1,309 @@
+/**
+ * SleepyTube Styles
+ * YouTube-matching dark theme design
+ */
+
+/* Sleep Mode Button - Watch Page */
+.ytp-button.sleepytube-btn {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+
+.ytp-button.sleepytube-btn:hover {
+  opacity: 1;
+}
+
+.ytp-button.sleepytube-btn.sleepytube-active {
+  color: #3ea6ff; /* YouTube blue */
+}
+
+.ytp-button.sleepytube-btn .sleepytube-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+/* Sleep Mode Button - Shorts Page */
+#sleepytube-shorts-container {
+  margin: 8px 0;
+}
+
+#sleepytube-toggle.yt-spec-button-shape-next--overlay {
+  background-color: rgba(62, 166, 255, 0.2); /* YouTube blue with transparency */
+}
+
+/* Control Panel */
+.sleepytube-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(33, 33, 33, 0.98); /* YouTube dark theme */
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  min-width: 360px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  font-family: "Roboto", "Arial", sans-serif;
+  color: #ffffff;
+}
+
+.sleepytube-panel-visible {
+  opacity: 1;
+}
+
+.sleepytube-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sleepytube-panel-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.sleepytube-close {
+  background: none;
+  border: none;
+  color: #aaaaaa;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.sleepytube-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.sleepytube-panel-content {
+  padding: 20px;
+  overflow-y: auto;
+  max-height: calc(90vh - 70px);
+}
+
+.sleepytube-section {
+  margin-bottom: 24px;
+}
+
+.sleepytube-section:last-child {
+  margin-bottom: 0;
+}
+
+.sleepytube-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #ffffff;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sleepytube-label input[type="checkbox"] {
+  margin-right: 12px;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: #3ea6ff;
+}
+
+.sleepytube-value {
+  font-size: 13px;
+  color: #aaaaaa;
+  text-transform: capitalize;
+}
+
+/* Toggle Switch */
+.sleepytube-toggle {
+  position: relative;
+  width: 48px;
+  height: 24px;
+}
+
+.sleepytube-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.sleepytube-toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #717171;
+  transition: 0.3s;
+  border-radius: 24px;
+}
+
+.sleepytube-toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.sleepytube-toggle input:checked + .sleepytube-toggle-slider {
+  background-color: #3ea6ff;
+}
+
+.sleepytube-toggle input:checked + .sleepytube-toggle-slider:before {
+  transform: translateX(24px);
+}
+
+/* Preset Buttons */
+.sleepytube-preset-group {
+  display: flex;
+  gap: 8px;
+}
+
+.sleepytube-preset {
+  flex: 1;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: capitalize;
+}
+
+.sleepytube-preset:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.sleepytube-preset.active {
+  background: #3ea6ff;
+  border-color: #3ea6ff;
+  color: #000000;
+}
+
+/* Slider */
+.sleepytube-slider {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.sleepytube-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #3ea6ff;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.sleepytube-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.sleepytube-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #3ea6ff;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s;
+}
+
+.sleepytube-slider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Subsection (for nested controls) */
+.sleepytube-subsection {
+  margin-top: 12px;
+  padding-left: 24px;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.sleepytube-subsection.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .sleepytube-panel {
+    min-width: 300px;
+  }
+  
+  .sleepytube-preset {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+/* Accessibility - focus states */
+.ytp-button.sleepytube-btn:focus-visible,
+.sleepytube-close:focus-visible,
+.sleepytube-preset:focus-visible {
+  outline: 2px solid #3ea6ff;
+  outline-offset: 2px;
+}
+
+/* Animation for panel entrance */
+@keyframes sleepytube-fade-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.sleepytube-panel-visible {
+  animation: sleepytube-fade-in 0.2s ease;
+}

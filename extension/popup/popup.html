@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SleepyTube Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <h1>SleepyTube</h1>
+      <p class="popup-tagline">Sleep-safe YouTube audio</p>
+    </header>
+    
+    <main class="popup-content">
+      <div class="status-section">
+        <div class="status-indicator" id="status">
+          <svg width="12" height="12" viewBox="0 0 12 12">
+            <circle cx="6" cy="6" r="6" fill="currentColor"/>
+          </svg>
+          <span id="status-text">Inactive</span>
+        </div>
+      </div>
+      
+      <div class="quick-actions">
+        <button class="action-button primary" id="toggle-sleep-mode">
+          <span id="toggle-text">Enable Sleep Mode</span>
+        </button>
+      </div>
+      
+      <div class="info-section">
+        <p class="info-text">
+          Open a YouTube video and click the Sleep Mode button in the player controls to get started.
+        </p>
+      </div>
+      
+      <div class="links-section">
+        <a href="https://sleepytube.github.io" target="_blank" class="link">Documentation</a>
+        <a href="https://github.com/sleepytube/sleepytube" target="_blank" class="link">GitHub</a>
+      </div>
+    </main>
+    
+    <footer class="popup-footer">
+      <p>Version 1.0.0</p>
+    </footer>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{
+  "manifest_version": 3,
+  "name": "SleepyTube - YouTube Sleep Mode",
+  "version": "1.0.0",
+  "description": "Transform YouTube into a sleep-safe audio experience with intelligent volume stabilization and frequency optimization.",
+  
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    },
+    "default_title": "SleepyTube Settings"
+  },
+  
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": [
+        "content/utils.js",
+        "content/config.js",
+        "content/audio-engine.js",
+        "content/ui-components.js",
+        "content/main.js"
+      ],
+      "css": ["content/styles.css"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "permissions": [
+    "storage"
+  ],
+  
+  "host_permissions": [
+    "*://*.youtube.com/*"
+  ],
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*", "assets/*"],
+      "matches": ["*://*.youtube.com/*"]
+    }
+  ]
+}

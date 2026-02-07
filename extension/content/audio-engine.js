@@ -9,6 +9,9 @@ class AudioEngine {
     this.audioContext = null;
     this.nodes = null;
     this.agcController = null;
+    this.voiceFocusController = null;
+    this.speechRateDetector = null;
+    this.speechRateController = null;
     this.isInitialized = false;
     this.isConnected = false;
     this.isEnabled = false;
@@ -37,6 +40,22 @@ class AudioEngine {
       if (this.video.__sleepytubeSource && this.video.__sleepytubeSource.__sleepytubeNodes) {
         window.SleepyTubeUtils.log('Reusing existing audio graph');
         this.nodes = this.video.__sleepytubeSource.__sleepytubeNodes;
+        
+        // Re-initialize controllers for the reused graph
+        this.agcController = new AGCController(
+          this.audioContext,
+          this.nodes.makeupGain,
+          this.nodes.midAnalyser,
+          this.nodes.midAnalyserBuffer
+        );
+        
+        this.voiceFocusController = new VoiceFocusController(
+          this.nodes.lowGain,
+          this.nodes.highGain,
+          this.nodes.midAnalyser,
+          this.nodes.midAnalyserBuffer
+        );
+        
         this.isInitialized = true;
         return true;
       }
@@ -193,6 +212,16 @@ class AudioEngine {
         this.nodes.midAnalyserBuffer
       );
       
+      // Initialize speech rate detector and controller
+      this.speechRateDetector = new window.SpeechRateDetector(
+        this.audioContext,
+        this.nodes.midAnalyser
+      );
+      this.speechRateController = new window.SpeechRateController(
+        this.video,
+        this.speechRateDetector
+      );
+      
       // Resume audio context on video play (required by some browsers)
       this.video.addEventListener('play', () => {
         if (this.audioContext.state === 'suspended') {
@@ -223,6 +252,18 @@ class AudioEngine {
       return;
     }
     
+    // Fade in: Start from low volume and gradually increase
+    const fadeInDuration = 1.0; // 1 second fade in
+    const currentTime = this.audioContext.currentTime;
+    
+    // Set initial volume to 30% to avoid sudden loudness
+    this.nodes.makeupGain.gain.setValueAtTime(0.3, currentTime);
+    
+    // Gradually increase to normal volume over 1 second
+    this.nodes.makeupGain.gain.linearRampToValueAtTime(1.0, currentTime + fadeInDuration);
+    
+    window.SleepyTubeUtils.log('Audio fade-in started (1.0s)');
+    
     // Audio graph is always connected (no bypass needed)
     // Instead, we just start AGC and voice focus controllers
     
@@ -232,6 +273,13 @@ class AudioEngine {
     
     if (window.SleepyTubeConfig.getValue('voiceFocusEnabled')) {
       this.voiceFocusController.start(this.audioContext);
+    }
+    
+    // Start speech rate detection if enabled
+    if (window.SleepyTubeConfig.getValue('speechRateEnabled')) {
+      this.speechRateDetector.start();
+      const targetRate = window.SleepyTubeConfig.getValue('targetSpeechRate') || 'auto';
+      this.speechRateController.enable(targetRate);
     }
     
     this.isConnected = true;
@@ -247,26 +295,48 @@ class AudioEngine {
       return;
     }
     
-    // Stop AGC and voice focus
-    if (this.agcController) {
-      this.agcController.stop();
-    }
+    // Fade out: Gradually decrease volume before disabling
+    const fadeOutDuration = 0.5; // 0.5 second fade out
+    const currentTime = this.audioContext.currentTime;
     
-    if (this.voiceFocusController) {
-      this.voiceFocusController.stop();
-    }
+    // Gradually decrease to 30% volume
+    this.nodes.makeupGain.gain.setValueAtTime(this.nodes.makeupGain.gain.value, currentTime);
+    this.nodes.makeupGain.gain.linearRampToValueAtTime(0.3, currentTime + fadeOutDuration);
     
-    // Reset gains to neutral
-    if (this.nodes) {
-      const t = this.audioContext.currentTime + 0.1;
-      this.nodes.makeupGain.gain.setTargetAtTime(1.0, t, 0.05);
-      this.nodes.lowGain.gain.setTargetAtTime(1.0, t, 0.05);
-      this.nodes.highGain.gain.setTargetAtTime(1.0, t, 0.05);
-    }
+    window.SleepyTubeUtils.log('Audio fade-out started (0.5s)');
+    
+    // Wait for fade out to complete before stopping controllers
+    setTimeout(() => {
+      // Stop AGC and voice focus
+      if (this.agcController) {
+        this.agcController.stop();
+      }
+      
+      if (this.voiceFocusController) {
+        this.voiceFocusController.stop();
+      }
+      
+      // Stop speech rate detection
+      if (this.speechRateDetector) {
+        this.speechRateDetector.stop();
+      }
+      if (this.speechRateController) {
+        this.speechRateController.disable();
+      }
+      
+      // Reset gains to neutral after a short delay
+      if (this.nodes) {
+        const t = this.audioContext.currentTime + 0.1;
+        this.nodes.makeupGain.gain.setTargetAtTime(1.0, t, 0.05);
+        this.nodes.lowGain.gain.setTargetAtTime(1.0, t, 0.05);
+        this.nodes.highGain.gain.setTargetAtTime(1.0, t, 0.05);
+      }
+      
+      window.SleepyTubeUtils.log('Audio processing disabled');
+    }, fadeOutDuration * 1000);
     
     this.isConnected = false;
     this.isEnabled = false;
-    window.SleepyTubeUtils.log('Audio processing disabled');
   }
   
   /**
@@ -331,6 +401,26 @@ class AudioEngine {
     
     if (config.duckingAmount !== undefined && this.voiceFocusController) {
       this.voiceFocusController.duckingAmount = config.duckingAmount;
+    }
+    
+    // Update speech rate control
+    if (config.speechRateEnabled !== undefined) {
+      if (config.speechRateEnabled && this.isConnected) {
+        this.speechRateDetector.start();
+        const targetRate = config.targetSpeechRate || 'auto';
+        this.speechRateController.enable(targetRate);
+      } else {
+        if (this.speechRateDetector) {
+          this.speechRateDetector.stop();
+        }
+        if (this.speechRateController) {
+          this.speechRateController.disable();
+        }
+      }
+    }
+    
+    if (config.targetSpeechRate !== undefined && this.speechRateController) {
+      this.speechRateController.setTargetRate(config.targetSpeechRate);
     }
   }
   

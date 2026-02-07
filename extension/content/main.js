@@ -8,8 +8,11 @@ class SleepyTubeController {
     this.currentVideo = null;
     this.audioEngine = null;
     this.uiManager = null;
+    this.miniWaveform = null;
+    this.globalHeatmap = null;
     this.isInitialized = false;
     this.videoObserver = null;
+    this.navigationTimer = null;
     
     // Bind methods
     this.init = this.init.bind(this);
@@ -42,8 +45,33 @@ class SleepyTubeController {
       if (this.audioEngine && config.sleepModeEnabled !== this.audioEngine.isEnabled) {
         if (config.sleepModeEnabled) {
           this.audioEngine.connect();
+          // Show mini waveform if enabled
+          if (this.miniWaveform && config.miniWaveformEnabled) {
+            this.miniWaveform.show();
+          }
+          // Show global heatmap
+          if (this.globalHeatmap) {
+            this.globalHeatmap.show();
+          }
         } else {
           this.audioEngine.disconnect();
+          // Hide mini waveform
+          if (this.miniWaveform) {
+            this.miniWaveform.hide();
+          }
+          // Hide global heatmap
+          if (this.globalHeatmap) {
+            this.globalHeatmap.hide();
+          }
+        }
+      }
+      
+      // Handle mini waveform toggle
+      if (this.miniWaveform && config.miniWaveformEnabled !== undefined) {
+        if (config.miniWaveformEnabled && config.sleepModeEnabled) {
+          this.miniWaveform.show();
+        } else if (!config.miniWaveformEnabled) {
+          this.miniWaveform.hide();
         }
       }
       
@@ -71,32 +99,63 @@ class SleepyTubeController {
     window.SleepyTubeUtils.log('Booting on', window.location.pathname);
     
     try {
-      // Find video element
+      // STRATEGY: Inject UI FIRST, then connect audio when video is ready
+      // This ensures button appears immediately, even if video isn't loaded yet
+      
+      // Step 1: Inject UI immediately (doesn't need video element)
+      if (!this.uiManager) {
+        this.uiManager = new window.UIManager(null); // Pass null initially
+        await this.uiManager.injectSleepModeButton();
+        window.SleepyTubeUtils.log('UI injected early ✨');
+      }
+      
+      // Step 2: Find and connect to video element (can be delayed)
       const video = await this.findVideoElement();
       
       if (!video) {
-        window.SleepyTubeUtils.logError('Video element not found');
+        window.SleepyTubeUtils.logError('Video element not found, UI available but audio disabled');
         return;
       }
       
       this.currentVideo = video;
       
-      // Initialize audio engine
+      // Step 3: Initialize audio engine and connect to UI
       this.audioEngine = new window.AudioEngine(video);
       await this.audioEngine.init();
       
+      // Connect audio engine to UI manager
+      this.uiManager.updateAudioEngine(this.audioEngine);
+      
+      // Step 4: Initialize mini waveform
+      if (window.MiniWaveform) {
+        this.miniWaveform = new window.MiniWaveform(this.audioEngine);
+        
+        // Check if mini waveform should be shown
+        const config = window.SleepyTubeConfig.get();
+        if (config.miniWaveformEnabled && config.sleepModeEnabled) {
+          this.miniWaveform.show();
+        }
+      }
+      
+      // Step 5: Initialize global heatmap
+      if (window.GlobalHeatmap) {
+        this.globalHeatmap = new window.GlobalHeatmap(this.audioEngine);
+        
+        // Auto-show heatmap when sleep mode is enabled
+        if (config.sleepModeEnabled) {
+          this.globalHeatmap.show();
+        }
+      }
+      
       // Check if sleep mode should be enabled
-      const config = window.SleepyTubeConfig.get();
       if (config.sleepModeEnabled) {
         await this.audioEngine.connect();
       }
       
-      // Initialize UI manager
-      this.uiManager = new window.UIManager(this.audioEngine);
-      await this.uiManager.injectSleepModeButton();    // Start observing for video changes
+      // Start observing for video changes
       this.observeVideoChanges();
       
-      window.SleepyTubeUtils.log('SleepyTube ready');
+      window.SleepyTubeUtils.log('SleepyTube ready (audio connected) 🎵');
       
     } catch (error) {
       window.SleepyTubeUtils.logError('Boot failed:', error);
@@ -121,7 +180,8 @@ class SleepyTubeController {
     
     for (const selector of selectors) {
       try {
-        const video = await window.SleepyTubeUtils.waitForElement(selector, 3000);
+        // Reduced timeout from 3000ms to 1500ms for faster fallback
+        const video = await window.SleepyTubeUtils.waitForElement(selector, 1500);
         if (video) {
           window.SleepyTubeUtils.log('Found video element:', selector);
           return video;
@@ -185,6 +245,16 @@ class SleepyTubeController {
       this.uiManager.updateAudioEngine(this.audioEngine);
     }
     
+    // Update mini waveform
+    if (this.miniWaveform) {
+      this.miniWaveform.updateAudioEngine(this.audioEngine);
+    }
+    
+    // Update global heatmap
+    if (this.globalHeatmap) {
+      this.globalHeatmap.updateAudioEngine(this.audioEngine);
+    }
+    
     this.currentVideo = newVideo;
   }
   
@@ -194,8 +264,14 @@ class SleepyTubeController {
   handleNavigation() {
     window.SleepyTubeUtils.log('Navigation detected');
     
+    // Prevent duplicate initialization
+    if (this.navigationTimer) {
+      clearTimeout(this.navigationTimer);
+    }
+    
     // Reinitialize on navigation
-    setTimeout(() => {
+    this.navigationTimer = setTimeout(() => {
+      this.navigationTimer = null;
       this.boot();
     }, 500); // Give YouTube time to render
   }
@@ -235,5 +311,77 @@ controller.init();
 
 // Export for debugging
 window.SleepyTubeController = controller;
+
+// Listen for messages from popup
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  window.SleepyTubeUtils.log('Received message:', message);
+  
+  switch (message.type) {
+    case 'CONFIG_UPDATED':
+      // Configuration was updated in popup, already handled by storage listener
+      sendResponse({ success: true });
+      break;
+      
+    case 'GET_WAVEFORM_DATA':
+      // Send waveform data to popup
+      if (controller.audioEngine && controller.audioEngine.nodes) {
+        const nodes = controller.audioEngine.nodes;
+        if (nodes.sourceAnalyser && nodes.outputAnalyser) {
+          const beforeData = new Float32Array(128);
+          const afterData = new Float32Array(128);
+          
+          nodes.sourceAnalyser.getFloatTimeDomainData(beforeData);
+          nodes.outputAnalyser.getFloatTimeDomainData(afterData);
+          
+          sendResponse({
+            beforeData: Array.from(beforeData),
+            afterData: Array.from(afterData)
+          });
+        } else {
+          sendResponse({ beforeData: null, afterData: null });
+        }
+      } else {
+        sendResponse({ beforeData: null, afterData: null });
+      }
+      break;
+      
+    case 'UPDATE_PLAYER_BUTTON':
+      // Update player button state from popup
+      if (controller.uiManager) {
+        controller.uiManager.updateButtonState();
+        sendResponse({ success: true });
+      } else {
+        sendResponse({ success: false, error: 'UI Manager not ready' });
+      }
+      break;
+      
+    case 'TOGGLE_SLEEP_MODE':
+      // Toggle sleep mode from popup
+      if (controller.uiManager) {
+        controller.uiManager.toggleSleepMode();
+        sendResponse({ success: true });
+      } else {
+        sendResponse({ success: false, error: 'UI Manager not ready' });
+      }
+      break;
+      
+    case 'getSpeechRateStatus':
+      // Get speech rate status
+      if (controller.audioEngine && controller.audioEngine.speechRateController) {
+        const status = controller.audioEngine.speechRateController.getStatus();
+        sendResponse({ status });
+      } else {
+        sendResponse({ status: null });
+      }
+      break;
+      }
+      break;
+      
+    default:
+      sendResponse({ success: false, error: 'Unknown message type' });
+  }
+  
+  return true; // Keep channel open for async response
+});
 
 window.SleepyTubeUtils.log('Content script loaded');

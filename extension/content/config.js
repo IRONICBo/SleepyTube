@@ -6,6 +6,7 @@
 const DEFAULT_CONFIG = {
   // Sleep Mode state
   sleepModeEnabled: false,
+  currentScene: 'off',  // 'off' | 'sleep' | 'podcast' | 'movie' | 'custom'
   
   // Audio processing settings
   compressionStrength: 'medium',  // 'light' | 'medium' | 'strong'
@@ -14,15 +15,21 @@ const DEFAULT_CONFIG = {
   
   // EQ settings
   eqPreset: 'gentle',             // 'natural' | 'gentle' | 'ultra-soft'
-  voiceFocusEnabled: true,
+  voiceFocusEnabled: false,
   duckingAmount: 9,               // dB (0-12)
   
   // Advanced settings
   autoGainEnabled: true,
   limiterEnabled: true,
   
+  // Speech rate settings
+  speechRateEnabled: false,       // Enable speech rate detection
+  targetSpeechRate: 'normal',     // 'slow' | 'normal' | 'fast' | 'auto'
+  speechRateAdjustment: 1.0,      // Playback rate multiplier (0.5-2.0)
+  
   // UI preferences
-  showOnboarding: true
+  showOnboarding: true,
+  miniWaveformEnabled: true
 };
 
 // Compression presets
@@ -100,6 +107,37 @@ const AGC_CONFIG = {
   maxGainDb: 18,        // Maximum boost
   minGainDb: -18,       // Maximum cut
   updateRate: 60        // Updates per second
+};
+
+// Speech rate configuration
+const SPEECH_RATE_CONFIG = {
+  // Detection parameters
+  frameSize: 2048,           // Analysis frame size
+  hopLength: 512,            // Hop length for analysis
+  energyThreshold: 0.01,     // Energy threshold for syllable detection
+  zcrThreshold: 0.1,         // Zero-crossing rate threshold
+  smoothingWindow: 5,        // Frames for smoothing
+  
+  // Speech rate standards (syllables per second)
+  standards: {
+    very_slow: 2.0,      // < 2.0 syllables/sec
+    slow: 2.5,           // 2.0-3.0 syllables/sec
+    normal: 3.5,         // 3.0-4.0 syllables/sec
+    fast: 4.5,           // 4.0-5.0 syllables/sec
+    very_fast: 5.5       // > 5.0 syllables/sec
+  },
+  
+  // Playback rate adjustment limits
+  minPlaybackRate: 0.5,   // Minimum 0.5x speed
+  maxPlaybackRate: 1.5,   // Maximum 1.5x speed (avoid chipmunk effect)
+  
+  // Target rates for adjustment
+  targets: {
+    slow: 2.5,      // syllables/sec
+    normal: 3.5,    // syllables/sec
+    fast: 4.5,      // syllables/sec
+    auto: 3.5       // default to normal
+  }
 };
 
 /**
@@ -221,5 +259,6 @@ window.SleepyTubeConstants = {
   EQ_PRESETS,
   VOICE_FOCUS_CONFIG,
   LIMITER_CONFIG,
-  AGC_CONFIG
+  AGC_CONFIG,
+  SPEECH_RATE_CONFIG
 };

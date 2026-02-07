@@ -8,13 +8,14 @@
   position: relative;
   width: 48px;
   height: 48px;
-  padding: 0;
+  padding: 12px;
   margin: 0;
   border: none;
   background: transparent;
   cursor: pointer;
   opacity: 0.9;
   transition: opacity 0.2s;
+  color: white;
 }
 
 .ytp-button.sleepytube-btn:hover {
@@ -22,16 +23,60 @@
 }
 
 .ytp-button.sleepytube-btn.sleepytube-active {
-  color: #3ea6ff; /* YouTube blue */
+  color: #4CAF50;
 }
 
 .ytp-button.sleepytube-btn .sleepytube-icon {
-  width: 24px;
-  height: 24px;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: auto;
+}
+
+.ytp-button.sleepytube-btn .sleepytube-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+/* Custom Tooltip */
+.sleepytube-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: rgba(28, 28, 28, 0.95);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: 'Roboto', 'Arial', sans-serif;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 10000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.ytp-button.sleepytube-btn:hover .sleepytube-tooltip {
+  opacity: 1;
+}
+
+.sleepytube-tooltip-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.sleepytube-tooltip-status {
+  font-size: 11px;
+  margin-bottom: 2px;
+}
+
+.sleepytube-tooltip-hint {
+  font-size: 10px;
+  opacity: 0.7;
 }
 
 /* Sleep Mode Button - Shorts Page */
@@ -272,33 +317,6 @@
   pointer-events: none;
 }
 
-/* Visualizer Button */
-.sleepytube-visualizer-btn {
-  width: 100%;
-  padding: 12px 16px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  border-radius: 8px;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.sleepytube-visualizer-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-}
-
-.sleepytube-visualizer-btn:active {
-  transform: translateY(0);
-}
-
 /* Responsive adjustments */
 @media (max-width: 600px) {
   .sleepytube-panel {
@@ -334,3 +352,321 @@
 .sleepytube-panel-visible {
   animation: sleepytube-fade-in 0.2s ease;
 }
+
+/* Custom Enhanced Tooltip */
+.sleepytube-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(28, 28, 28, 0.95);
+  color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 10000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  font-family: "Roboto", "Arial", sans-serif;
+}
+
+.sleepytube-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(28, 28, 28, 0.95);
+}
+
+.ytp-button.sleepytube-btn:hover .sleepytube-tooltip {
+  opacity: 1;
+}
+
+.sleepytube-tooltip-title {
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #3ea6ff;
+}
+
+.sleepytube-tooltip-status {
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+.sleepytube-tooltip-hint {
+  font-size: 10px;
+  opacity: 0.7;
+  margin-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 4px;
+}
+
+/* ===================================
+   AUDIO VISUALIZER
+   =================================== */
+
+.sleepytube-visualizer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  width: 850px;
+  max-width: 90vw;
+  max-height: 90vh;
+  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+  border: 1px solid #333;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+  z-index: 10001;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  font-family: "Roboto", "Arial", sans-serif;
+}
+
+.sleepytube-visualizer.visualizer-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: all;
+}
+
+.visualizer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid #333;
+}
+
+.visualizer-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.visualizer-title svg {
+  fill: #3ea6ff;
+}
+
+.visualizer-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  color: #999;
+  font-size: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.visualizer-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.visualizer-content {
+  padding: 20px;
+}
+
+.visualizer-canvas-container {
+  position: relative;
+  background: #0a0a0a;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  border: 1px solid #222;
+}
+
+#sleepytube-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.canvas-labels {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.label-before,
+.label-after {
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  backdrop-filter: blur(8px);
+}
+
+.label-before {
+  color: #ff4444;
+  border: 1px solid rgba(255, 68, 68, 0.3);
+}
+
+.label-after {
+  color: #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.visualizer-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.metric-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.metric-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 14px 16px;
+  transition: all 0.2s;
+}
+
+.metric-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #444;
+}
+
+.metric-card-wide {
+  grid-column: 1 / -1;
+}
+
+.metric-label {
+  font-size: 11px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.metric-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 8px;
+}
+
+.metric-subtitle {
+  font-size: 10px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.metric-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.metric-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3ea6ff 0%, #667eea 100%);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.metric-bar-gain {
+  background: linear-gradient(90deg, #f44336 0%, #4caf50 50%, #2196f3 100%);
+}
+
+.compression-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.compression-bar {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.compression-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50 0%, #ffeb3b 50%, #f44336 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+.compression-label {
+  font-size: 12px;
+  color: #999;
+  font-weight: 500;
+  min-width: 80px;
+  text-align: right;
+}
+
+.visualizer-footer {
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid #333;
+}
+
+.footer-info {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #666;
+}
+
+.info-item svg {
+  stroke: #3ea6ff;
+}
+
+/* Responsive adjustments for visualizer */
+@media (max-width: 900px) {
+  .sleepytube-visualizer {
+    width: 95vw;
+  }
+  
+  .metric-group {
+    grid-template-columns: 1fr;
+  }
+  
+  .metric-value {
+    font-size: 20px;
+  }
+}
+

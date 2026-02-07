@@ -8,21 +8,22 @@ class UIManager {
     this.audioEngine = audioEngine;
     this.sleepModeButton = null;
     this.controlPanel = null;
-    this.visualizer = null;
     this.initialized = false;
     
     // Bind methods
     this.injectSleepModeButton = this.injectSleepModeButton.bind(this);
     this.toggleSleepMode = this.toggleSleepMode.bind(this);
     this.toggleControlPanel = this.toggleControlPanel.bind(this);
-    this.toggleVisualizer = this.toggleVisualizer.bind(this);
   }
   
   /**
    * Inject Sleep Mode toggle button into YouTube player
    */
   async injectSleepModeButton() {
+    window.SleepyTubeUtils.log('Starting button injection...');
+    
     if (this.sleepModeButton && document.body.contains(this.sleepModeButton)) {
+      window.SleepyTubeUtils.log('Button already injected, skipping');
       return; // Already injected
     }
     
@@ -30,17 +31,21 @@ class UIManager {
       let controls;
       
       if (window.SleepyTubeUtils.isShortsPage()) {
-        // Shorts page injection
-        controls = await window.SleepyTubeUtils.waitForElement('#actions.ytd-reel-player-overlay-renderer');
+        window.SleepyTubeUtils.log('Detected Shorts page, injecting Shorts button');
+        // Shorts page injection - wait up to 2 seconds
+        controls = await window.SleepyTubeUtils.waitForElement('#actions.ytd-reel-player-overlay-renderer', 2000);
+        window.SleepyTubeUtils.log('Found Shorts controls element:', controls);
         this.injectShortsButton(controls);
       } else {
-        // Watch page injection
-        controls = await window.SleepyTubeUtils.waitForElement('.ytp-right-controls');
+        window.SleepyTubeUtils.log('Detected Watch page, injecting Watch button');
+        // Watch page injection - wait up to 2 seconds (faster than video load)
+        controls = await window.SleepyTubeUtils.waitForElement('.ytp-right-controls', 2000);
+        window.SleepyTubeUtils.log('Found Watch controls element:', controls);
         this.injectWatchButton(controls);
       }
       
       this.initialized = true;
-      window.SleepyTubeUtils.log('Sleep mode button injected');
+      window.SleepyTubeUtils.log('Sleep mode button injected successfully ✅');
       
     } catch (error) {
       window.SleepyTubeUtils.logError('Failed to inject sleep mode button:', error);
@@ -60,7 +65,7 @@ class UIManager {
     button.className = 'yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-l yt-spec-button-shape-next--icon-button';
     button.setAttribute('aria-label', 'SleepyTube Sleep Mode');
     button.setAttribute('aria-pressed', 'false');
-    button.title = 'Sleep Mode - Stabilize audio for sleep';
+    button.title = 'Sleep Mode: OFF\nTap to enable | Long press for settings';
     
     const iconWrap = document.createElement('div');
     iconWrap.className = 'yt-spec-button-shape-next__icon';
@@ -96,40 +101,89 @@ class UIManager {
    * Inject button for Watch page
    */
   injectWatchButton(controls) {
+    window.SleepyTubeUtils.log('Creating Watch page button...');
+    
     const button = document.createElement('button');
     button.id = 'sleepytube-toggle';
     button.className = 'ytp-button sleepytube-btn';
-    button.title = 'Sleep Mode - Stabilize audio for sleep';
+    button.title = ''; // Will use custom tooltip instead
     button.setAttribute('aria-label', 'SleepyTube Sleep Mode');
     button.setAttribute('aria-pressed', 'false');
     
+    window.SleepyTubeUtils.log('Creating icon container...');
     const iconContainer = document.createElement('div');
     iconContainer.className = 'sleepytube-icon';
     iconContainer.appendChild(this.createSleepModeIcon());
     button.appendChild(iconContainer);
     
+    // Add custom tooltip
+    const tooltip = this.createTooltip(false);
+    button.appendChild(tooltip);
+    
     // Insert before settings button
     const settingsButton = controls.querySelector('.ytp-settings-button');
+    window.SleepyTubeUtils.log('Settings button found:', !!settingsButton);
+    
     if (settingsButton && settingsButton.parentElement) {
+      window.SleepyTubeUtils.log('Inserting button before settings button');
       settingsButton.parentElement.insertBefore(button, settingsButton);
     } else {
+      window.SleepyTubeUtils.log('Prepending button to controls');
       controls.prepend(button);
     }
     
     this.sleepModeButton = button;
+    this.tooltip = tooltip;
+    window.SleepyTubeUtils.log('Button element created and inserted:', button);
+    window.SleepyTubeUtils.log('Button ID:', button.id, 'Classes:', button.className);
+    
     this.attachButtonListeners();
+    window.SleepyTubeUtils.log('Button listeners attached');
+  }
+  
+  /**
+   * Create custom tooltip element
+   */
+  createTooltip(isEnabled) {
+    const tooltip = document.createElement('div');
+    tooltip.className = 'sleepytube-tooltip';
+    this.updateTooltipContent(tooltip, isEnabled);
+    return tooltip;
+  }
+  
+  /**
+   * Update tooltip content based on state
+   */
+  updateTooltipContent(tooltip, isEnabled) {
+    if (!tooltip) return;
+    
+    const status = isEnabled ? 'ON' : 'OFF';
+    const statusColor = isEnabled ? '#4CAF50' : '#999';
+    const action = isEnabled ? 'Click to disable' : 'Click to enable';
+    
+    tooltip.innerHTML = `
+      <div class="sleepytube-tooltip-title">SleepyTube</div>
+      <div class="sleepytube-tooltip-status" style="color: ${statusColor}">
+        Status: ${status}
+      </div>
+      <div class="sleepytube-tooltip-hint">
+        ${action} • Right-click for settings
+      </div>
+    `;
   }
   
   /**
    * Create SVG icon for Sleep Mode button
    */
   createSleepModeIcon() {
+    window.SleepyTubeUtils.log('Creating SVG icon...');
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('viewBox', '0 0 24 24');
     svg.setAttribute('aria-hidden', 'true');
     svg.setAttribute('focusable', 'false');
     svg.style.width = '100%';
     svg.style.height = '100%';
+    svg.style.display = 'block';
     
     // Equalizer bars icon
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -137,6 +191,7 @@ class UIManager {
     path.setAttribute('fill', 'currentColor');
     
     svg.appendChild(path);
+    window.SleepyTubeUtils.log('SVG icon created:', svg);
     return svg;
   }
   
@@ -165,10 +220,37 @@ class UIManager {
   async toggleSleepMode(e) {
     if (e) e.stopPropagation();
     
+    // Check if audio engine is ready
+    if (!this.audioEngine) {
+      window.SleepyTubeUtils.log('Audio engine not ready yet, waiting...');
+      setTimeout(() => {
+        if (!this.audioEngine) {
+          window.SleepyTubeUtils.logError('Audio engine still not available');
+        }
+      }, 2000);
+      return;
+    }
+    
     const config = window.SleepyTubeConfig.get();
     const newState = !config.sleepModeEnabled;
     
+    // Determine scene based on new state
+    const currentScene = config.currentScene || 'off';
+    let newScene = currentScene;
+    
+    if (newState) {
+      // Turning ON: Switch to sleep if currently off, otherwise keep current scene
+      if (currentScene === 'off') {
+        newScene = 'sleep';
+      }
+    } else {
+      // Turning OFF: Always switch to off scene
+      newScene = 'off';
+    }
+    
+    // Save both sleepModeEnabled and currentScene
     await window.SleepyTubeConfig.setValue('sleepModeEnabled', newState);
+    await window.SleepyTubeConfig.setValue('currentScene', newScene);
     
     if (newState) {
       await this.audioEngine.connect();
@@ -184,7 +266,7 @@ class UIManager {
       enabled: newState
     });
     
-    window.SleepyTubeUtils.log('Sleep mode', newState ? 'enabled' : 'disabled');
+    window.SleepyTubeUtils.log('Sleep mode', newState ? 'enabled' : 'disabled', '- Scene:', newScene);
   }
   
   /**
@@ -197,6 +279,18 @@ class UIManager {
     
     this.sleepModeButton.classList.toggle('sleepytube-active', isEnabled);
     this.sleepModeButton.setAttribute('aria-pressed', String(isEnabled));
+    
+    // Update custom tooltip
+    if (this.tooltip) {
+      this.updateTooltipContent(this.tooltip, isEnabled);
+    }
+    
+    // Fallback: Update native title attribute
+    if (isEnabled) {
+      this.sleepModeButton.title = 'Sleep Mode: ON - Click to disable';
+    } else {
+      this.sleepModeButton.title = 'Sleep Mode: OFF - Click to enable';
+    }
     
     if (window.SleepyTubeUtils.isShortsPage()) {
       // Shorts button uses YouTube's built-in classes
@@ -326,15 +420,6 @@ class UIManager {
             <span>Auto Gain Control</span>
           </label>
         </div>
-        
-        <div class="sleepytube-section">
-          <button class="sleepytube-visualizer-btn" id="sleepytube-show-visualizer">
-            <svg width="16" height="16" viewBox="0 0 24 24">
-              <path d="M3 12h2v4H3v-4zm4-8h2v12H7V4zm4 5h2v11h-2V9zm4-3h2v14h-2V6zm4 7h2v7h-2v-7z" fill="currentColor"/>
-            </svg>
-            <span>Show Audio Monitor</span>
-          </button>
-        </div>
       </div>
     `;
     
@@ -368,7 +453,10 @@ class UIManager {
       btn.addEventListener('click', async (e) => {
         const preset = e.target.dataset.preset;
         await window.SleepyTubeConfig.setValue('compressionStrength', preset);
-        this.audioEngine.updateSettings({ compressionStrength: preset });
+        
+        if (this.audioEngine) {
+          this.audioEngine.updateSettings({ compressionStrength: preset });
+        }
         
         // Update UI
         panel.querySelectorAll('[data-preset]').forEach(b => b.classList.remove('active'));
@@ -382,7 +470,10 @@ class UIManager {
       btn.addEventListener('click', async (e) => {
         const preset = e.target.dataset.eq;
         await window.SleepyTubeConfig.setValue('eqPreset', preset);
-        this.audioEngine.updateSettings({ eqPreset: preset });
+        
+        if (this.audioEngine) {
+          this.audioEngine.updateSettings({ eqPreset: preset });
+        }
         
         // Update UI
         panel.querySelectorAll('[data-eq]').forEach(b => b.classList.remove('active'));
@@ -395,7 +486,10 @@ class UIManager {
     panel.querySelector('#sleepytube-voice-focus').addEventListener('change', async (e) => {
       const enabled = e.target.checked;
       await window.SleepyTubeConfig.setValue('voiceFocusEnabled', enabled);
-      this.audioEngine.updateSettings({ voiceFocusEnabled: enabled });
+      
+      if (this.audioEngine) {
+        this.audioEngine.updateSettings({ voiceFocusEnabled: enabled });
+      }
       
       // Update ducking section
       const duckSection = panel.querySelector('#sleepytube-duck-section');
@@ -410,7 +504,11 @@ class UIManager {
     panel.querySelector('#sleepytube-duck-slider').addEventListener('input', window.SleepyTubeUtils.debounce(async (e) => {
       const amount = parseInt(e.target.value);
       await window.SleepyTubeConfig.setValue('duckingAmount', amount);
-      this.audioEngine.updateSettings({ duckingAmount: amount });
+      
+      if (this.audioEngine) {
+        this.audioEngine.updateSettings({ duckingAmount: amount });
+      }
+      
       panel.querySelector('#sleepytube-duck-value').textContent = `-${amount} dB`;
     }, 100));
     
@@ -418,27 +516,11 @@ class UIManager {
     panel.querySelector('#sleepytube-agc').addEventListener('change', async (e) => {
       const enabled = e.target.checked;
       await window.SleepyTubeConfig.setValue('autoGainEnabled', enabled);
-      this.audioEngine.updateSettings({ autoGainEnabled: enabled });
+      
+      if (this.audioEngine) {
+        this.audioEngine.updateSettings({ autoGainEnabled: enabled });
+      }
     });
-    
-    // Visualizer button
-    panel.querySelector('#sleepytube-show-visualizer').addEventListener('click', () => {
-      this.toggleVisualizer();
-      this.closeControlPanel();
-    });
-  }
-  
-  /**
-   * Toggle visualizer
-   */
-  toggleVisualizer() {
-    if (!this.visualizer && window.AudioVisualizer) {
-      this.visualizer = new window.AudioVisualizer(this.audioEngine);
-    }
-    
-    if (this.visualizer) {
-      this.visualizer.toggle();
-    }
   }
   
   /**
@@ -446,11 +528,6 @@ class UIManager {
    */
   updateAudioEngine(audioEngine) {
     this.audioEngine = audioEngine;
-    
-    // Update visualizer if exists
-    if (this.visualizer) {
-      this.visualizer.audioEngine = audioEngine;
-    }
   }
 }
 

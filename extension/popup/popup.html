@@ -3,47 +3,245 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SleepyTube Settings</title>
+  <title>SleepyTube</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
   <div class="popup-container">
-    <header class="popup-header">
-      <h1>SleepyTube</h1>
-      <p class="popup-tagline">Sleep-safe YouTube audio</p>
-    </header>
     
-    <main class="popup-content">
-      <div class="status-section">
-        <div class="status-indicator" id="status">
-          <svg width="12" height="12" viewBox="0 0 12 12">
-            <circle cx="6" cy="6" r="6" fill="currentColor"/>
-          </svg>
-          <span id="status-text">Inactive</span>
+    <!-- Header with Logo and Settings -->
+    <div class="popup-header">
+      <div class="header-left">
+        <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24">
+          <path d="M3 12h2v4H3v-4zm4-8h2v12H7V4zm4 5h2v11h-2V9zm4-3h2v14h-2V6zm4 7h2v7h-2v-7z" fill="currentColor"/>
+        </svg>
+        <div class="header-text">
+          <h1>SleepyTube</h1>
+          <span class="version">v1.3.0</span>
         </div>
       </div>
-      
-      <div class="quick-actions">
-        <button class="action-button primary" id="toggle-sleep-mode">
-          <span id="toggle-text">Enable Sleep Mode</span>
+      <button class="settings-icon-btn" id="settings-btn" title="Advanced Settings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="2"/>
+          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Live Waveform Display -->
+    <div class="waveform-display" id="waveform-display">
+      <canvas id="popup-waveform-canvas" width="400" height="120"></canvas>
+      <div class="waveform-labels">
+        <div class="waveform-label before">Before</div>
+        <div class="waveform-label after">After</div>
+      </div>
+    </div>
+    
+    <!-- Scene Mode Selector -->
+    <div class="scene-selector">
+      <div class="scene-tabs">
+        <button class="scene-tab active" data-scene="off">
+          <div class="scene-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+              <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <span class="scene-name">OFF</span>
+        </button>
+        
+        <button class="scene-tab" data-scene="sleep">
+          <div class="scene-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <span class="scene-name">Sleep</span>
+        </button>
+        
+        <button class="scene-tab" data-scene="podcast">
+          <div class="scene-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke="currentColor" stroke-width="2"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <span class="scene-name">Podcast</span>
+        </button>
+        
+        <button class="scene-tab" data-scene="movie">
+          <div class="scene-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+              <rect x="2" y="7" width="20" height="15" rx="2" stroke="currentColor" stroke-width="2"/>
+              <path d="M17 2l-3 5M12 2l-3 5M7 2L4 7" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <span class="scene-name">Movie</span>
         </button>
       </div>
       
-      <div class="info-section">
-        <p class="info-text">
-          Open a YouTube video and click the Sleep Mode button in the player controls to get started.
-        </p>
+      <!-- Scene Description -->
+      <div class="scene-description" id="scene-description">
+        <p class="scene-desc-text">All audio processing disabled</p>
       </div>
-      
-      <div class="links-section">
-        <a href="https://sleepytube.github.io" target="_blank" class="link">Documentation</a>
-        <a href="https://github.com/sleepytube/sleepytube" target="_blank" class="link">GitHub</a>
-      </div>
-    </main>
+    </div>
     
-    <footer class="popup-footer">
-      <p>Version 1.0.0</p>
-    </footer>
+    <!-- Current Settings Display (Read-only) -->
+    <div class="current-settings" id="current-settings">
+      <div class="setting-row-compact">
+        <span class="setting-label-compact">Stability</span>
+        <span class="setting-value-compact" id="display-stability">—</span>
+      </div>
+      <div class="setting-row-compact">
+        <span class="setting-label-compact">Sound</span>
+        <span class="setting-value-compact" id="display-sound">—</span>
+      </div>
+      <div class="setting-row-compact">
+        <span class="setting-label-compact">Voice Focus</span>
+        <span class="setting-value-compact" id="display-voice">—</span>
+      </div>
+      <div class="setting-row-compact">
+        <span class="setting-label-compact">AGC</span>
+        <span class="setting-value-compact" id="display-agc">—</span>
+      </div>
+    </div>
+    
+    <!-- Advanced Settings Panel (Hidden by default) -->
+    <div class="advanced-settings-overlay" id="advanced-settings-overlay">
+      <div class="advanced-settings-panel">
+        <div class="advanced-header">
+          <h2>Advanced Settings</h2>
+          <button class="close-btn" id="close-settings">×</button>
+        </div>
+        
+        <div class="advanced-content">
+          
+          <!-- Audio Processing -->
+          <div class="setting-section">
+            <h3 class="section-title">Audio Processing</h3>
+            
+            <div class="setting-item">
+              <label class="setting-label">Stability Level</label>
+              <div class="button-group">
+                <button class="option-btn" data-setting="compressionStrength" data-value="light">
+                  <span class="option-label">Light</span>
+                  <span class="option-desc">Minimal</span>
+                </button>
+                <button class="option-btn active" data-setting="compressionStrength" data-value="medium">
+                  <span class="option-label">Medium</span>
+                  <span class="option-desc">Balanced</span>
+                </button>
+                <button class="option-btn" data-setting="compressionStrength" data-value="strong">
+                  <span class="option-label">Strong</span>
+                  <span class="option-desc">Maximum</span>
+                </button>
+              </div>
+            </div>
+            
+            <div class="setting-item">
+              <label class="setting-label">Sound Character</label>
+              <div class="button-group">
+                <button class="option-btn" data-setting="eqPreset" data-value="natural">
+                  <span class="option-label">Natural</span>
+                </button>
+                <button class="option-btn active" data-setting="eqPreset" data-value="gentle">
+                  <span class="option-label">Gentle</span>
+                </button>
+                <button class="option-btn" data-setting="eqPreset" data-value="ultra-soft">
+                  <span class="option-label">Soft</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Voice Enhancement -->
+          <div class="setting-section">
+            <h3 class="section-title">Voice Enhancement</h3>
+            
+            <div class="setting-row">
+              <label class="row-label">
+                <span>Voice Focus</span>
+                <span class="hint">Enhance speech clarity</span>
+              </label>
+              <label class="switch">
+                <input type="checkbox" id="voice-focus-toggle">
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+            
+            <div class="setting-item slider-item" id="ducking-container" style="display: none;">
+              <label class="setting-label">
+                <span>Background Reduction</span>
+                <span class="value" id="ducking-value">-9 dB</span>
+              </label>
+              <input type="range" class="slider" id="ducking-slider" min="0" max="12" step="1" value="9">
+              <div class="slider-track-labels">
+                <span>0</span>
+                <span>-6</span>
+                <span>-12</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Volume Control -->
+          <div class="setting-section">
+            <h3 class="section-title">Volume Control</h3>
+            
+            <div class="setting-row">
+              <label class="row-label">
+                <span>Auto Gain Control</span>
+                <span class="hint">Consistent loudness</span>
+              </label>
+              <label class="switch">
+                <input type="checkbox" id="agc-toggle" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+            
+            <div class="setting-item slider-item" id="loudness-container">
+              <label class="setting-label">
+                <span>Target Loudness</span>
+                <span class="value" id="loudness-value">-18 LUFS</span>
+              </label>
+              <input type="range" class="slider" id="loudness-slider" min="-24" max="-12" step="1" value="-18">
+              <div class="slider-track-labels">
+                <span>Quiet</span>
+                <span>Normal</span>
+                <span>Loud</span>
+              </div>
+            </div>
+            
+            <div class="setting-item slider-item">
+              <label class="setting-label">
+                <span>Output Volume</span>
+                <span class="value" id="output-value">0 dB</span>
+              </label>
+              <input type="range" class="slider" id="output-slider" min="-12" max="12" step="1" value="0">
+              <div class="slider-track-labels">
+                <span>-12</span>
+                <span>0</span>
+                <span>+12</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Speech Rate Control -->\n          <div class="setting-section">\n            <h3 class="section-title">Speech Rate</h3>\n            \n            <div class="setting-row">\n              <label class="row-label">\n                <span>Speech Rate Adjustment</span>\n                <span class="hint">Auto-adjust playback speed</span>\n              </label>\n              <label class="switch">\n                <input type="checkbox" id="speech-rate-toggle">\n                <span class="switch-slider"></span>\n              </label>\n            </div>\n            \n            <div class="setting-item" id="speech-rate-container" style="display: none;">\n              <label class="setting-label">Target Speech Rate</label>\n              <div class="button-group">\n                <button class="option-btn" data-setting="targetSpeechRate" data-value="slow">\n                  <span class="option-label">Slow</span>\n                  <span class="option-desc">2.5 syl/s</span>\n                </button>\n                <button class="option-btn active" data-setting="targetSpeechRate" data-value="normal">\n                  <span class="option-label">Normal</span>\n                  <span class="option-desc">3.5 syl/s</span>\n                </button>\n                <button class="option-btn" data-setting="targetSpeechRate" data-value="fast">\n                  <span class="option-label">Fast</span>\n                  <span class="option-desc">4.5 syl/s</span>\n                </button>\n                <button class="option-btn" data-setting="targetSpeechRate" data-value="auto">\n                  <span class="option-label">Auto</span>\n                  <span class="option-desc">Adaptive</span>\n                </button>\n              </div>\n              <p class="setting-hint">Detected: <span id="detected-rate" class="highlight">—</span> | Playback: <span id="playback-rate" class="highlight">1.0x</span></p>\n            </div>\n          </div>
+          
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="popup-footer">
+      <a href="#" id="help-link" class="footer-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        Help & Documentation
+      </a>
+    </div>
+    
   </div>
   
   <script src="popup.js"></script>

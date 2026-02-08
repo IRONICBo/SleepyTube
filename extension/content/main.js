@@ -374,8 +374,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse({ status: null });
       }
       break;
-      }
-      break;
       
     default:
       sendResponse({ success: false, error: 'Unknown message type' });

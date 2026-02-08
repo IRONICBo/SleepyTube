@@ -4,7 +4,7 @@
 
 **SleepyTube** is a Chrome browser extension designed for users who watch YouTube videos while falling asleep. It intelligently stabilizes volume and eliminates sudden audio spikes, ensuring a peaceful sleep experience.
 
-**Version**: v1.3.2  
+**Version**: v0.0.1  
 **Last Updated**: 2026-02-08  
 **Supported Platform**: Chrome Browser (Version 90+)
 
@@ -596,11 +596,7 @@ See LICENSE file for full terms.
 ---
 
 **Version History**:
-- v1.3.2 (2026-02-08): Enhanced AI predictions, onboarding redesign
-- v1.3.0 (2026-02-07): Added scene modes, speech rate control
-- v1.2.0 (2026-02-06): AI video prediction feature
-- v1.1.0 (2026-02-05): Popup UI improvements
-- v1.0.0 (2026-02-04): Initial release
+- v0.0.1 (2026-02-09): Initial release with core audio processing features
 
 ---
 

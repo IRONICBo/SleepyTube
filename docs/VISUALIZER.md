@@ -297,7 +297,7 @@ The Audio Visualizer provides real-time visualization of SleepyTube's audio proc
 | `Alt + M` | Toggle metrics panel |
 | `Alt + R` | Reset peak counter |
 
-> ⚠️ **Note**: Keyboard shortcuts not yet implemented in v1.3.2
+> ⚠️ **Note**: Keyboard shortcuts not yet implemented in v0.0.1
 
 ---
 
@@ -307,7 +307,7 @@ The Audio Visualizer provides real-time visualization of SleepyTube's audio proc
 A: No. Visualization is separate from processing. Disabling visuals doesn't change audio.
 
 **Q: Can I customize visualizer colors?**  
-A: Not yet. Custom color themes planned for v1.4.0.
+A: Not yet. Custom color themes planned for future versions.
 
 **Q: Why does the waveform sometimes lag?**  
 A: High CPU usage or slow browser can cause lag. Try closing other tabs.
@@ -347,7 +347,7 @@ A: No. Extension is desktop-only. Mobile support not planned.
 
 ## Future Enhancements
 
-**Planned for v1.4.0**:
+**Planned for future versions**:
 - [ ] Full-screen visualizer mode
 - [ ] Frequency spectrum analyzer
 - [ ] Stereo field visualization
@@ -356,8 +356,6 @@ A: No. Extension is desktop-only. Mobile support not planned.
 - [ ] Custom color themes
 - [ ] Keyboard shortcuts
 - [ ] Accessibility improvements
-
-**Planned for v2.0**:
 - [ ] Machine learning analysis of audio patterns
 - [ ] Predictive compression adjustment
 - [ ] Cloud-based compression profile sharing
@@ -381,5 +379,5 @@ A: No. Extension is desktop-only. Mobile support not planned.
 
 **Document Version**: 1.0  
 **Last Updated**: 2026-02-08  
-**Applies to**: SleepyTube v1.3.2+  
+**Applies to**: SleepyTube v0.0.1+  
 **Maintained By**: SleepyTube Team

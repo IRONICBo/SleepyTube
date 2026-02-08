@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SleepyTube - YouTube Sleep Mode",
-  "version": "1.3.2",
+  "version": "0.0.1",
   "description": "Transform YouTube into a sleep-safe audio experience with intelligent volume stabilization and frequency optimization.",
   
   "icons": {

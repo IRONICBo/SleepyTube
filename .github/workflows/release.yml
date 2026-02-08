@@ -1,0 +1,69 @@
+name: Release Extension
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        
+      - name: Create extension package
+        run: |
+          cd extension
+          zip -r ../sleepytube-v${{ steps.get_version.outputs.VERSION }}.zip . \
+            -x "*.DS_Store" \
+            -x "*.git*" \
+            -x "*node_modules/*" \
+            -x "*.map"
+          cd ..
+          
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Extract changelog for this version from manifest or create simple one
+          VERSION=${{ steps.get_version.outputs.VERSION }}
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo "## SleepyTube v${VERSION}" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "### Installation" >> $GITHUB_OUTPUT
+          echo "1. Download \`sleepytube-v${VERSION}.zip\`" >> $GITHUB_OUTPUT
+          echo "2. Extract the ZIP file" >> $GITHUB_OUTPUT
+          echo "3. Open Chrome and go to \`chrome://extensions/\`" >> $GITHUB_OUTPUT
+          echo "4. Enable 'Developer mode' (toggle in top right)" >> $GITHUB_OUTPUT
+          echo "5. Click 'Load unpacked' and select the extracted \`extension\` folder" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "### What's New" >> $GITHUB_OUTPUT
+          echo "See the [User Guide](https://github.com/IRONICBo/SleepyTube/blob/main/docs/USER_GUIDE.md) for full documentation." >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "### Requirements" >> $GITHUB_OUTPUT
+          echo "- Chrome Browser 90+" >> $GITHUB_OUTPUT
+          echo "- Or any Chromium-based browser (Edge, Brave, etc.)" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: sleepytube-v${{ steps.get_version.outputs.VERSION }}.zip
+          body: ${{ steps.changelog.outputs.CHANGELOG }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Upload artifact for verification
+        uses: actions/upload-artifact@v4
+        with:
+          name: sleepytube-extension
+          path: sleepytube-v${{ steps.get_version.outputs.VERSION }}.zip
+          retention-days: 90

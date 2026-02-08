@@ -841,3 +841,59 @@ body {
 .feature-card:nth-child(5) { animation-delay: 0.5s; }
 .feature-card:nth-child(6) { animation-delay: 0.6s; }
 .feature-card:nth-child(7) { animation-delay: 0.7s; }
+
+/* Install Section Enhancements */
+.install-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  margin-top: var(--spacing-xl);
+}
+
+.install-note svg {
+  flex-shrink: 0;
+  color: var(--color-primary);
+  margin-top: 2px;
+}
+
+.install-note div {
+  flex: 1;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.install-note strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.install-note a {
+  color: var(--color-primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.install-note a:hover {
+  border-bottom-color: var(--color-primary);
+}
+
+.button svg {
+  vertical-align: middle;
+}
+
+.available-now {
+  display: inline-block;
+  padding: 4px 12px;
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  color: white;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin: var(--spacing-sm) 0;
+}

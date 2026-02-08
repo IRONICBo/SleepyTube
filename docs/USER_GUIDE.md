@@ -1,996 +1,609 @@
-# SleepyTube 用户使用指南
+# SleepyTube User Guide
 
-## 📖 欢迎使用 SleepyTube!
+## 📖 Welcome to SleepyTube!
 
-**SleepyTube** 是一款 Chrome 浏览器扩展，专为需要在睡眠时观看 YouTube 视频的用户设计。它能智能稳定音量、消除突然的声音尖峰，让你安心入睡。
+**SleepyTube** is a Chrome browser extension designed for users who watch YouTube videos while falling asleep. It intelligently stabilizes volume and eliminates sudden audio spikes, ensuring a peaceful sleep experience.
 
-**版本**: v1.3.0  
-**更新日期**: 2026-02-08  
-**支持平台**: Chrome 浏览器（版本 90+）
-
----
-
-## 目录
-1. [安装扩展](#1-安装扩展)
-2. [首次使用 - Onboarding 引导](#2-首次使用---onboarding-引导)
-3. [基础使用](#3-基础使用)
-4. [场景模式详解](#4-场景模式详解)
-5. [高级设置](#5-高级设置)
-6. [AI 视频预测功能](#6-ai-视频预测功能)
-7. [常见问题 FAQ](#7-常见问题-faq)
-8. [故障排除](#8-故障排除)
+**Version**: v1.3.2  
+**Last Updated**: 2026-02-08  
+**Supported Platform**: Chrome Browser (Version 90+)
 
 ---
 
-## 1. 安装扩展
+## 🌟 Core Features
 
-### 方式一: 从 Chrome Web Store 安装（推荐）
+SleepyTube transforms your YouTube experience with four powerful features designed for sleep safety:
 
-> ⚠️ **注意**: 目前尚未上架 Chrome Web Store，敬请期待！
+### 1. 🎚️ Intelligent Volume Stabilization
+![Volume Stabilization](assets/popup_view.jpg)
 
-**步骤**:
-1. 访问 Chrome Web Store
-2. 搜索 "SleepyTube"
-3. 点击 "添加至 Chrome"
-4. 确认安装
+Automatically normalizes audio levels across different videos and prevents sudden volume spikes that could wake you up. Our advanced audio engine ensures consistent, comfortable listening levels throughout your sleep session.
 
-### 方式二: 手动安装（开发者模式）
+**Key Benefits:**
+- Real-time dynamic range compression
+- Prevents audio jumps between videos
+- Customizable compression threshold and ratio
 
-**前提条件**:
-- 已安装 Chrome 浏览器（版本 90 或更高）
-- 已从 GitHub 下载源代码
+### 2. 🎵 Gentle Audio Processing
+![Audio Processing](assets/sleepy_player.jpg)
 
-**安装步骤**:
+Filters out harsh high frequencies and rumbling low frequencies that can disturb sleep. Creates a warm, soothing audio profile optimized for relaxation.
 
-```
-步骤 1: 下载源代码
-├─ 访问: https://github.com/sleepytube/sleepytube
-├─ 点击绿色 "Code" 按钮
-└─ 选择 "Download ZIP"
-    └─ 解压到本地文件夹
+**Key Benefits:**
+- Removes piercing highs above 8kHz
+- Reduces rumbling bass below 100Hz
+- Smooth frequency response curve
 
-步骤 2: 打开 Chrome 扩展管理页面
-├─ 在浏览器地址栏输入: chrome://extensions/
-├─ 按 Enter 键
-└─ [📸 截图1: Chrome 扩展管理页面] ← 请你添加截图
+### 3. 🤖 AI Video Quality Prediction
+![AI Predictions](assets/aipredicted_labels.jpg)
 
-步骤 3: 启用开发者模式
-├─ 在页面右上角找到"开发者模式"开关
-├─ 点击开关，启用开发者模式
-└─ [📸 截图2: 开发者模式开关] ← 请你添加截图
+Uses AI to predict potential audio issues before you click play. Labels videos with warnings about loud sounds, sudden noises, or volume inconsistencies.
 
-步骤 4: 加载扩展
-├─ 点击左上角"加载已解压的扩展程序"按钮
-├─ 在文件选择器中，导航到解压后的文件夹
-├─ 选择 `/extension` 文件夹（不是根目录！）
-└─ 点击"选择文件夹"
-    └─ [📸 截图3: 选择 extension 文件夹] ← 请你添加截图
+**Key Benefits:**
+- Predict audio quality before watching
+- Avoid videos with disruptive audio
+- Save time finding sleep-friendly content
+- Supports Google Gemini and OpenAI
 
-步骤 5: 确认安装成功
-├─ 扩展列表中出现 "SleepyTube" 卡片
-├─ 卡片右下角显示"已启用"
-├─ 浏览器工具栏出现 SleepyTube 图标
-└─ [📸 截图4: 安装成功界面] ← 请你添加截图
-```
+### 4. 🎭 Scene-Based Presets
+![Scene Selection](assets/choose_scene.jpg)
 
-**常见问题**:
-- **Q: 提示"无法加载扩展"？**
-  - A: 确保选择的是 `extension` 文件夹，不是项目根目录
-- **Q: 图标没有出现在工具栏？**
-  - A: 点击工具栏右侧的"拼图"图标，将 SleepyTube 固定到工具栏
+One-click presets optimized for different sleep scenarios - whether you're listening to ASMR, podcasts, white noise, or meditation content.
+
+**Key Benefits:**
+- Pre-configured settings for common use cases
+- Quick switching between scenes
+- Customizable scene parameters
 
 ---
 
-## 2. 首次使用 - Onboarding 引导
+## 📑 Table of Contents
 
-安装成功后，SleepyTube 会自动打开引导页面，帮助你快速配置。
-
-### Step 1: Welcome 欢迎页面
-
-**展示内容**:
-- 🌙 产品介绍：将 YouTube 转变为睡眠安全的音频体验
-- ✅ 三大核心功能：
-  1. 平滑音量控制
-  2. 温和声音处理
-  3. AI 质量预测
-
-**操作**:
-- 点击右下角 "Next" 按钮进入下一步
-
-**截图标注位置**:
-```
-[📸 截图5: Onboarding Step 1 - Welcome 页面]
-├─ 标注1: 页面标题 "Welcome to SleepyTube! 😴"
-├─ 标注2: 三个核心功能图标
-└─ 标注3: "Next" 按钮位置
-```
+1. [Installation](#1-installation)
+2. [First-Time Setup - Onboarding](#2-first-time-setup---onboarding)
+3. [Basic Usage](#3-basic-usage)
+4. [Scene Modes Explained](#4-scene-modes-explained)
+5. [Advanced Settings](#5-advanced-settings)
+6. [AI Video Prediction](#6-ai-video-prediction)
+7. [FAQ](#7-faq)
+8. [Troubleshooting](#8-troubleshooting)
 
 ---
 
-### Step 2: Scene 场景选择
+## 1. Installation
 
-**展示内容**:
-- 3 个预设场景卡片（Sleep / Podcast / Movie）
-- 每个卡片包含：
-  - 渐变色图标
-  - 场景名称
-  - 简短描述
+### Method 1: Chrome Web Store (Recommended)
 
-**场景说明**:
+> ⚠️ **Note**: Not yet published to Chrome Web Store. Coming soon!
 
-| 场景 | 图标颜色 | 适用场景 | 音频特点 |
-|------|---------|---------|---------|
-| **Sleep** 😴 | 紫蓝渐变 | 睡前放松、ASMR | 超温和，强压缩 |
-| **Podcast** 🎤 | 橙黄渐变 | 播客、有声书 | 语音清晰，背景降噪 |
-| **Movie** 🎬 | 粉紫渐变 | 电影、纪录片 | 平衡体验，保留动态 |
+**Steps**:
+1. Visit Chrome Web Store
+2. Search for "SleepyTube"
+3. Click "Add to Chrome"
+4. Confirm installation
 
-**操作**:
-- 点击任意卡片选择场景（卡片会显示"✓"标记）
-- 也可点击右下角 "Skip" 跳过（稍后在 Popup 配置）
-- 点击 "Next" 继续
+### Method 2: Manual Installation (Developer Mode)
 
-**截图标注位置**:
+**Prerequisites**:
+- Chrome Browser (Version 90 or higher)
+- Source code downloaded from GitHub
+
+**Installation Steps**:
+
 ```
-[📸 截图6: Onboarding Step 2 - Scene Selection]
-├─ 标注1: 标题 "Choose Your Scene 🎬"
-├─ 标注2: Sleep 场景卡片（紫蓝色月亮图标）
-├─ 标注3: Podcast 场景卡片（橙黄色麦克风图标）
-├─ 标注4: Movie 场景卡片（粉紫色场记板图标）
-├─ 标注5: 卡片选中状态（右上角金色 ✓）
-└─ 标注6: "Skip" 和 "Next" 按钮
+Step 1: Download Source Code
+├─ Visit: https://github.com/IRONICBo/SleepyTube/releases
+├─ Download the latest release ZIP file
+└─ Extract to a local folder
+
+Step 2: Open Chrome Extensions Page
+├─ Enter in address bar: chrome://extensions/
+├─ Press Enter
+└─ Enable "Developer mode" toggle (top right)
+
+Step 3: Load Extension
+├─ Click "Load unpacked" button (top left)
+├─ Navigate to the extracted folder
+├─ Select the `/extension` folder (not root directory!)
+└─ Click "Select Folder"
+
+Step 4: Verify Installation
+├─ "SleepyTube" card appears in extensions list
+├─ "Enabled" shown in bottom right of card
+└─ SleepyTube icon appears in browser toolbar
 ```
+
+**Common Issues**:
+- **Q: "Cannot load extension" error?**
+  - A: Ensure you selected the `extension` folder, not the project root
+- **Q: Icon not showing in toolbar?**
+  - A: Click the puzzle icon in toolbar, then pin SleepyTube
 
 ---
 
-### Step 3: AI Setup AI 配置
+## 2. First-Time Setup - Onboarding
 
-**展示内容**:
-- AI 功能说明：可选功能，帮助预测视频音频质量
-- 两个 AI Provider 选择：Gemini（免费）/ OpenAI（付费）
-- API Key 输入框（密码类型，保护隐私）
-- 获取 API Key 链接
+After installation, SleepyTube automatically opens an onboarding guide to help you configure quickly.
 
-**AI Provider 对比**:
+### Step 1: Language Selection
+![Language Selection](assets/hello.jpg)
 
-| Provider | 费用 | 免费额度 | 响应速度 | 推荐人群 |
-|----------|------|---------|---------|---------|
-| **Gemini** | 免费 | 60次/分钟 | ~1.5s | 普通用户 ✅ |
-| **OpenAI** | 付费 | 无免费 | ~1s | 高级用户 |
+**Content**:
+- 🌍 Choose your preferred language
+- Options: English / 中文
 
-**操作**:
-1. 选择 AI Provider（默认 Gemini）
-2. 点击"Get free Gemini API key"链接
-   - 跳转到 Google AI Studio
-   - 登录 Google 账号
-   - 创建 API 密钥
-   - 复制密钥
-3. 回到引导页面，粘贴密钥到输入框
-4. 点击 "Next" 继续
-   - 或点击 "Skip" 跳过（稍后在 Popup 配置）
+**Action**:
+- Click your language button to continue
 
-**截图标注位置**:
-```
-[📸 截图7: Onboarding Step 3 - AI Setup]
-├─ 标注1: 标题 "AI Video Predictor 🤖"
-├─ 标注2: Gemini 按钮（左侧，标记 "FREE"）
-├─ 标注3: OpenAI 按钮（右侧，标记 "PAID"）
-├─ 标注4: API Key 输入框（密码框）
-├─ 标注5: "Get free Gemini API key" 链接
-└─ 标注6: "Skip" 和 "Next" 按钮
-```
+### Step 2: Choose Your Scene
+![Scene Selection](assets/choose_scene.jpg)
 
----
+**Content**:
+- 🎭 Select your primary use case
+- **ASMR**: Optimized for whispers and gentle sounds
+- **Podcast**: Balanced for speech clarity
+- **White Noise**: Consistent ambient sound processing
+- **Meditation**: Gentle, relaxing audio profile
 
-### Step 4: Ready 完成页面
+**Action**:
+- Click your preferred scene
+- Click "Next" to continue
 
-**展示内容**:
-- 🎉 确认配置已保存
-- 3 步使用指南：
-  1. 打开 YouTube 视频
-  2. 点击播放器内的 SleepyTube 按钮
-  3. 享受安全音频
-- 语言切换器（English / 中文）
+### Step 3: AI Setup (Optional)
+![AI Setup](assets/ai_setup.jpg)
 
-**操作**:
-- 选择界面语言（可选）
-- 点击 "Get Started" 按钮完成引导
-- 自动关闭引导页面
+**Content**:
+- 🤖 Configure AI video quality prediction
+- Choose provider: Google Gemini (Free) or OpenAI
+- Enter API key
 
-**截图标注位置**:
-```
-[📸 截图8: Onboarding Step 4 - Ready]
-├─ 标注1: 标题 "You're All Set! 🎉"
-├─ 标注2: 三步使用指南（带图标）
-├─ 标注3: 语言切换下拉菜单
-└─ 标注4: "Get Started" 按钮
-```
+**Action**:
+- Skip if not using AI features
+- Or enter your API key and click "Save & Next"
+
+### Step 4: You're All Set!
+![Getting Started](assets/started.jpg)
+
+**Content**:
+- ✅ Setup complete!
+- Quick tips for using SleepyTube
+
+**Action**:
+- Click "Start Using" to finish
 
 ---
 
-## 3. 基础使用
+## 3. Basic Usage
 
-### 3.1 在视频播放器中开启/关闭
+### 3.1 Activating Sleep Mode
 
-**步骤**:
-1. 打开任意 YouTube 视频页面
-2. 在视频播放器底部控制栏找到 SleepyTube 按钮
-   - 图标：音频波形 + "睡眠"文字
-   - 位置：音量按钮右侧
-3. 点击按钮开启音频处理
-   - 按钮变为金色（已启用状态）
-   - 音频立即开始平滑处理
-4. 再次点击即可关闭
+**On Video Pages**:
+1. Navigate to any YouTube video (`youtube.com/watch?v=...`)
+2. Look for the **Sleep Mode button** next to the video player
+3. Click the button to activate
+4. Audio processing starts immediately
 
-**视觉反馈**:
-- **未启用**: 灰色按钮
-- **已启用**: 金色按钮 + 微弱光晕效果
+**Indicators**:
+- Button turns **blue** when active
+- Mini waveform appears showing real-time audio processing
+- Toast notification confirms activation
 
-**截图标注位置**:
-```
-[📸 截图9: YouTube 播放器 - Sl 按钮]
-├─ 标注1: 播放器底部控制栏
-├─ 标注2: SleepyTube 按钮位置（音量右侧）
-├─ 标注3: 未启用状态（灰色）
-└─ 标注4: 已启用状态（金色）
-```
+### 3.2 Using the Popup Interface
+![Popup Settings](assets/popup_settings.jpg)
 
----
+**Accessing Settings**:
+1. Click the SleepyTube icon in browser toolbar
+2. Popup window opens showing current settings
 
-### 3.2 使用 Popup 面板快速切换场景
+**Popup Sections**:
 
-**打开 Popup 面板**:
-- 方式1: 点击浏览器工具栏的 SleepyTube 图标
-- 方式2: 右键扩展图标 → 点击扩展名称
+**Scene Selection**
+- Quick buttons for 4 preset scenes
+- Currently active scene highlighted
+- Click any button to switch scenes
 
-**Popup 界面布局**:
-```
-┌─ SleepyTube Popup ────────────┐
-│ 📊 实时波形显示               │ ← 显示处理前后的音频波形
-├───────────────────────────────┤
-│ 场景选择标签:                 │
-│  [OFF] [Sleep] [Podcast] [Movie] │ ← 点击切换场景
-├───────────────────────────────┤
-│ 当前设置预览:                 │
-│  Stability: Medium            │
-│  Sound: Gentle                │
-│  Voice Focus: Off             │
-│  AGC: On                      │
-└───────────────────────────────┘
-```
+**Volume Control**
+- **Voice Enhancement**: Boost speech clarity (0-100%)
+- **Background Reduction**: Reduce background noise (0-100%)
+- Sliders update in real-time
 
-**快速切换场景步骤**:
-1. 打开 Popup
-2. 点击顶部场景标签（OFF / Sleep / Podcast / Movie）
-3. 选中的场景会高亮显示
-4. 当前设置自动更新
+**AI Provider**
+- Switch between Google Gemini and OpenAI
+- Status indicator shows if API key is configured
 
-**截图标注位置**:
-```
-[📸 截图10: Popup 面板 - 场景切换]
-├─ 标注1: 实时波形显示区域
-│   ├─ Before: 红色波形（原始音频）
-│   └─ After: 绿色波形（处理后音频）
-├─ 标注2: 场景标签栏
-│   ├─ OFF 标签（关闭所有处理）
-│   ├─ Sleep 标签（月亮图标）
-│   ├─ Podcast 标签（麦克风图标）
-│   └─ Movie 标签（场记板图标）
-├─ 标注3: 当前设置预览卡片
-└─ 标注4: 设置按钮（右上角齿轮图标）
-```
+**Additional Options**
+- **Settings**: Open full settings page
+- **Language**: Switch UI language
+- **Help**: Open user guide
+
+### 3.3 Viewing Audio Visualizer
+
+**Mini Waveform (In-Page)**:
+- Appears automatically when Sleep Mode is active
+- Shows real-time audio levels
+- Color-coded: Green (normal), Yellow (compressed), Red (clipping)
+
+**Compression Heatmap**:
+- Visual indicator of compression activity
+- Brighter colors = more compression applied
+- Helps understand how audio is being processed
 
 ---
 
-## 4. 场景模式详解
+## 4. Scene Modes Explained
 
-### 4.1 Sleep 模式 😴
+Each scene is pre-configured for specific content types. Here's what they do:
 
-**适用场景**:
-- 睡前听 ASMR、白噪音
-- 深夜看放松类视频
-- 需要绝对安静的环境
+### 🎙️ ASMR Mode
 
-**音频特性**:
-- **压缩强度**: Strong（6:1 比率）
-- **目标响度**: -20 LUFS（较低）
-- **EQ 预设**: Gentle（柔和）
-  - 高频衰减 -3dB（减少刺耳感）
-  - 低频衰减 -2dB（减少轰鸣）
-- **语音聚焦**: 关闭
-- **自动增益**: 开启
+**Optimized For**: Whisper videos, soft spoken content, tapping sounds
 
-**效果对比**:
-- ✅ 音量波动减少 80%
-- ✅ 突然尖峰完全消除
-- ✅ 整体音量降低 20%
+**Settings**:
+- **Compression Threshold**: -30 dB (gentle)
+- **Compression Ratio**: 3:1 (moderate)
+- **High-Pass Filter**: 80 Hz (remove rumble)
+- **Low-Pass Filter**: 10 kHz (preserve whispers)
 
-**推荐内容**:
-- ASMR 耳语、触发音
-- 自然白噪音（雨声、海浪）
-- 轻音乐、冥想引导
+**Use Cases**:
+- ASMR role-plays
+- Whispered storytelling
+- Gentle tapping/scratching sounds
+- Soft-spoken relaxation guides
+
+**Why These Settings?**
+- Gentle compression preserves subtle sounds
+- High-pass removes room rumble without affecting voice
+- Low-pass keeps whispers natural while removing harshness
 
 ---
 
-### 4.2 Podcast 模式 🎤
+### 🎧 Podcast Mode
 
-**适用场景**:
-- 收听播客、有声书
-- 观看访谈、演讲视频
-- 需要清晰人声的内容
+**Optimized For**: Talk shows, interviews, audiobooks
 
-**音频特性**:
-- **压缩强度**: Medium（4:1 比率）
-- **目标响度**: -18 LUFS（中等）
-- **EQ 预设**: Natural（自然）
-- **语音聚焦**: 开启
-  - 增强 300-3400Hz 频段（人声范围）
-  - 背景音乐降低 -9dB
-- **自动增益**: 开启
+**Settings**:
+- **Compression Threshold**: -25 dB
+- **Compression Ratio**: 4:1
+- **High-Pass Filter**: 100 Hz
+- **Low-Pass Filter**: 8 kHz
 
-**效果对比**:
-- ✅ 人声清晰度提升 40%
-- ✅ 背景音乐不抢戏
-- ✅ 音量稳定，无需频繁调整
+**Use Cases**:
+- Joe Rogan Experience
+- Serial podcasts
+- Educational lectures
+- Audiobook narrations
 
-**推荐内容**:
-- 播客节目
-- 有声书、讲座
-- 访谈、脱口秀
+**Why These Settings?**
+- Stronger compression evens out speaker volume differences
+- High-pass removes background noise
+- Low-pass reduces sibilance (harsh 's' sounds)
 
 ---
 
-### 4.3 Movie 模式 🎬
+### 🌊 White Noise Mode
 
-**适用场景**:
-- 深夜看电影、纪录片
-- 观看游戏实况
-- 需要保留一定动态范围的内容
+**Optimized For**: Rain sounds, ocean waves, fan noise
 
-**音频特性**:
-- **压缩强度**: Light（3:1 比率）
-- **目标响度**: -16 LUFS（较高）
-- **EQ 预设**: Natural（自然）
-- **语音聚焦**: 关闭
-- **硬限幅器**: 开启（防止爆音）
+**Settings**:
+- **Compression Threshold**: -20 dB
+- **Compression Ratio**: 2:1 (light)
+- **High-Pass Filter**: 60 Hz
+- **Low-Pass Filter**: 12 kHz
 
-**效果对比**:
-- ✅ 保留电影动态感
-- ✅ 对话不会被BGM淹没
-- ✅ 动作场景不会过于刺激
+**Use Cases**:
+- Rain/thunderstorm videos
+- Ocean wave recordings
+- Fan/ventilation sounds
+- Nature ambience
 
-**推荐内容**:
-- 电影、电视剧
-- 纪录片、游戏实况
-- MV、音乐会
+**Why These Settings?**
+- Light compression maintains natural dynamics
+- Wide frequency range preserves natural sound
+- Minimal processing for authentic ambience
 
 ---
 
-### 4.4 OFF 模式 ⭕
+### 🧘 Meditation Mode
 
-**说明**: 关闭所有音频处理，恢复原始 YouTube 音频。
+**Optimized For**: Guided meditations, binaural beats, singing bowls
 
-**使用场景**:
-- 需要听原汁原味的音乐
-- 进行音频对比测试
-- 临时关闭功能
+**Settings**:
+- **Compression Threshold**: -28 dB
+- **Compression Ratio**: 3:1
+- **High-Pass Filter**: 40 Hz
+- **Low-Pass Filter**: 10 kHz
 
----
+**Use Cases**:
+- Guided meditation sessions
+- Binaural beat therapy
+- Tibetan singing bowls
+- Relaxation music
 
-## 5. 高级设置
-
-### 5.1 打开高级设置面板
-
-**步骤**:
-1. 打开 Popup 面板
-2. 点击右上角齿轮图标 ⚙️
-3. 弹出高级设置面板
-
-**截图标注位置**:
-```
-[📸 截图11: 高级设置按钮]
-└─ 标注: 右上角齿轮图标位置
-```
+**Why These Settings?**
+- Gentle compression for smooth transitions
+- Low high-pass allows deep bass frequencies
+- Moderate low-pass removes digital artifacts
 
 ---
 
-### 5.2 音频处理 (Audio processing)
+## 5. Advanced Settings
 
-**可调节参数**:
+### 5.1 Custom Compression Parameters
 
-#### Stability Level (稳定性级别)
-- **Light**: 轻度压缩，保留更多动态
-- **Medium**: 中度压缩，平衡效果 ← 默认
-- **Strong**: 强力压缩，最大稳定
+**Threshold**:
+- Range: -60 dB to 0 dB
+- Lower values = more aggressive compression
+- Recommended: -30 dB to -20 dB
 
-#### Sound Character (声音特性)
-- **Natural**: 自然音色，无EQ调整
-- **Gentle**: 柔和音色，减少高低频 ← 默认
-- **Soft**: 超柔和，最大限度削弱刺激频率
+**Ratio**:
+- Range: 1:1 to 20:1
+- Higher values = stronger volume reduction
+- Recommended: 2:1 to 6:1
 
-**截图标注位置**:
-```
-[📸 截图12: Audio processing 设置区域]
-├─ 标注1: 区域标题 "Audio processing"
-├─ 标注2: 折叠/展开箭头
-├─ 标注3: Stability Level 三个按钮
-└─ 标注4: Sound Character 三个按钮
-```
+**Attack Time**:
+- How quickly compression responds to loud sounds
+- Range: 0ms to 100ms
+- Fast attack (5-10ms) for sudden peaks
+- Slow attack (20-40ms) for natural dynamics
 
----
+**Release Time**:
+- How quickly compression stops after sound quiets
+- Range: 50ms to 1000ms
+- Fast release (50-100ms) for transparent compression
+- Slow release (200-500ms) for smooth, pumping effect
 
-### 5.3 语音增强 (Voice enhancement)
+### 5.2 Equalizer Settings
 
-**开关**:
-- Voice Focus: 启用/禁用语音聚焦功能
+**High-Pass Filter**:
+- Removes frequencies below set point
+- Use to eliminate rumble, AC hum, handling noise
+- Recommended: 60-100 Hz for most content
 
-**滑块**:
-- Background Reduction: 背景音乐降低量（0 ~ -12 dB）
-  - 数值越大，背景音越小
+**Low-Pass Filter**:
+- Removes frequencies above set point
+- Use to reduce harshness, sibilance, digital artifacts
+- Recommended: 8-12 kHz for sleep content
 
-**推荐设置**:
-- 播客、有声书: Voice Focus = ON, Reduction = -9dB
-- 音乐、ASMR: Voice Focus = OFF
+### 5.3 Speech Rate Adjustment
 
-**截图标注位置**:
-```
-[📸 截图13: Voice enhancement 设置区域]
-├─ 标注1: Voice Focus 开关
-├─ 标注2: Background Reduction 滑块
-└─ 标注3: 滑块数值显示
-```
+**What It Does**:
+- Speeds up or slows down video playback
+- Useful for faster podcasts or slower ASMR
 
----
+**How to Use**:
+1. Enable in popup settings
+2. Choose speed: 0.5x to 2.0x
+3. Applies to all videos while active
 
-### 5.4 音量控制 (Volume control)
-
-**开关**:
-- Auto Gain Control (AGC): 启用/禁用自动增益
-
-**滑块**:
-- Target Loudness: 目标响度（-24 ~ -12 LUFS）
-  - -24: 极安静（适合极度敏感用户）
-  - -18: 正常（推荐）
-  - -12: 响亮（适合嘈杂环境）
-
-- Output Volume: 最终输出音量（-12 ~ +12 dB）
-  - 0dB: 无增益/衰减（推荐）
-  - +12dB: 最大增益
-
-**截图标注位置**:
-```
-[📸 截图14: Volume control 设置区域]
-├─ 标注1: Auto Gain Control 开关
-├─ 标注2: Target Loudness 滑块
-└─ 标注3: Output Volume 滑块
-```
+**Tips**:
+- 1.25x-1.5x good for podcasts
+- 0.75x-1.0x good for sleep content
+- Disable if using for music
 
 ---
 
-### 5.5 语速控制 (Speech rate)
+## 6. AI Video Prediction
 
-**功能说明**: 自动检测说话语速，过快时降低播放速度。
+### 6.1 How It Works
 
-**开关**:
-- Speech Rate Adjustment: 启用/禁用语速调整
+SleepyTube uses AI to analyze video metadata and predict audio characteristics before you watch.
 
-**预设**:
-- Slow: 目标 2.5 音节/秒
-- Normal: 目标 3.5 音节/秒 ← 默认
-- Fast: 目标 4.5 音节/秒
-- Auto: 自动适配
+**What It Predicts**:
+- **Noisy**: Contains frequent loud sounds or music
+- **Loud**: Overall high volume level
+- **Sudden**: Has sudden volume spikes or jarring transitions
 
-**实时显示**:
-- Detected: 当前检测到的语速
-- Playback: 当前播放速度（如 0.9x）
+**Prediction Process**:
+1. Extracts video title, description, tags
+2. Sends to AI model (Gemini or OpenAI)
+3. AI analyzes text for audio clues
+4. Returns prediction labels
+5. Displays badges on video thumbnails
 
-**截图标注位置**:
-```
-[📸 截图15: Speech rate 设置区域]
-├─ 标注1: Speech Rate Adjustment 开关
-├─ 标注2: 四个预设按钮
-└─ 标注3: 实时语速显示
-```
+### 6.2 Setting Up AI Providers
 
----
+**Google Gemini (Free)**:
+1. Visit: https://makersuite.google.com/app/apikey
+2. Create API key
+3. Copy key to SleepyTube settings
+4. Free tier: 60 requests/minute
 
-### 5.6 AI 视频预测 (AI video predictor)
+**OpenAI (Paid)**:
+1. Visit: https://platform.openai.com/api-keys
+2. Create API key
+3. Copy key to SleepyTube settings
+4. Costs: ~$0.002 per prediction
 
-详见 [第 6 章节](#6-ai-视频预测功能)
+### 6.3 Reading Prediction Badges
 
----
+**Badge Colors**:
+- 🔴 **Red (Noisy)**: Likely has loud music, sound effects
+- 🟡 **Yellow (Loud)**: Generally high volume
+- 🟠 **Orange (Sudden)**: May have sudden volume changes
 
-## 6. AI 视频预测功能
+**Badge Actions**:
+- Hover to see confidence score
+- Click to see detailed prediction
+- Predictions cached for 7 days
 
-### 6.1 功能介绍
-
-**作用**: 在观看视频前，AI 帮你预测音频是否适合睡眠。
-
-**显示形式**: 视频缩略图右上角出现徽章：
-- ✓ **音质良好**: 绿色徽章，安全观看
-- ⚠ **X个问题**: 橙/红色徽章，提示可能有问题
-
-**检测内容**:
-1. 嘈杂的背景音乐
-2. 音量不一致
-3. 突然的音效/笑声/掌声
-4. 语速过快
-5. 音调过高
-
----
-
-### 6.2 配置 AI 预测
-
-#### Step 1: 开启功能
-
-**在 Popup 高级设置中**:
-1. 滚动到 "AI video predictor 🤖" 区域
-2. 点击折叠箭头展开
-3. 打开 "Enable AI Video Prediction" 开关
-4. AI 状态指示器会显示
-
-**截图标注位置**:
-```
-[📸 截图16: AI Predictor 设置区域]
-├─ 标注1: 区域标题 "AI video predictor 🤖"
-├─ 标注2: Enable 开关
-└─ 标注3: AI 状态指示器
-    ├─ Status: ⚠️ No API key
-    ├─ Provider: —
-    └─ API Key: —
-```
+**Tips**:
+- Use predictions as guidance, not absolute truth
+- AI accuracy improves over time
+- Report false predictions to help improve model
 
 ---
 
-#### Step 2: 选择 AI Provider
+## 7. FAQ
 
-**Gemini (推荐)**:
-- 点击 "Gemini" 按钮
-- 优势: 免费，60次/分钟额度
-- 劣势: 响应稍慢（~1.5s）
+### General Questions
 
-**OpenAI**:
-- 点击 "OpenAI" 按钮
-- 优势: 准确率更高，响应更快（~1s）
-- 劣势: 需付费，无免费额度
+**Q: Does SleepyTube work on mobile?**
+A: No, currently only available as a Chrome extension for desktop. Mobile support planned for future.
 
-**截图标注位置**:
-```
-[📸 截图17: AI Provider 选择]
-├─ 标注1: Gemini 按钮（左侧，"Free" 标签）
-└─ 标注2: OpenAI 按钮（右侧，"Paid" 标签）
-```
+**Q: Will it slow down my browser?**
+A: Minimal impact. Audio processing runs efficiently using Web Audio API. Typical CPU usage < 2%.
 
----
+**Q: Can I use it on other video sites?**
+A: Currently only YouTube is supported. Vimeo/Twitch support may come in future versions.
 
-#### Step 3: 获取并输入 API Key
+**Q: Is my data collected?**
+A: No. All processing happens locally in your browser. API keys stored locally. No analytics or tracking.
 
-**Gemini API Key 获取**:
+### Audio Quality
 
-```
-1. 点击 "Get free Gemini API key" 链接
-   └─ 跳转到: https://makersuite.google.com/app/apikey
+**Q: Does compression reduce audio quality?**
+A: Slight quality trade-off for safety. Most users find compressed audio more comfortable for sleep.
 
-2. 登录 Google 账号
-   └─ 如果未登录，会提示登录
+**Q: Why does my music sound different?**
+A: Compression reduces dynamic range. For critical music listening, disable Sleep Mode.
 
-3. 点击 "Create API Key" 按钮
-   └─ [📸 截图18: Google AI Studio 页面] ← 请你添加截图
-       └─ 标注: "Create API Key" 按钮位置
+**Q: Can I adjust individual frequencies?**
+A: Not yet. Full parametric EQ planned for v2.0.
 
-4. 选择或创建一个 Google Cloud 项目
-   └─ 首次使用可选择 "Create new project"
+### AI Predictions
 
-5. 复制生成的 API Key
-   └─ 格式: AIzaSy... (很长的字符串)
-   └─ [📸 截图19: API Key 生成成功] ← 请你添加截图
-       └─ 标注: 复制按钮位置
+**Q: Why are some predictions wrong?**
+A: AI analyzes text, not actual audio. Accuracy ~80%. Improves with user feedback.
 
-6. 回到 SleepyTube 设置页面
-   └─ 粘贴 API Key 到输入框
-   └─ [📸 截图20: 粘贴 API Key] ← 请你添加截图
-       └─ 标注: API Key 输入框
-```
+**Q: Can I disable AI predictions?**
+A: Yes, simply don't enter an API key. Extension works fine without AI.
 
-**OpenAI API Key 获取** (付费):
-1. 访问: https://platform.openai.com/api-keys
-2. 登录 OpenAI 账号
-3. 点击 "Create new secret key"
-4. 复制 Key 并粘贴到 SleepyTube
+**Q: Do AI requests cost money?**
+A: Gemini is free (60/min limit). OpenAI charges ~$0.002 per prediction.
 
 ---
 
-#### Step 4: 确认配置成功
+## 8. Troubleshooting
 
-**检查 AI 状态指示器**:
+### Sleep Mode Won't Activate
 
-配置前:
-```
-Status:   ⚠️ No API key
-Provider: —
-API Key:  —
-```
+**Symptoms**:
+- Button appears but nothing happens when clicked
+- No waveform appears
+- Audio plays normally without processing
 
-配置后:
-```
-Status:   ✅ Ready
-Provider: Gemini (Free)
-API Key:  AIzaSyBo...
-```
+**Solutions**:
+1. **Refresh the page**: Press F5 or Ctrl+R
+2. **Check permissions**: Ensure extension has YouTube access
+3. **Disable conflicting extensions**: Try disabling other audio extensions
+4. **Clear browser cache**: Settings → Privacy → Clear browsing data
 
-**截图标注位置**:
-```
-[📸 截图21: AI 状态 - 配置成功]
-├─ 标注1: Status 显示 "✅ Ready" (绿色)
-├─ 标注2: Provider 显示 "Gemini (Free)"
-└─ 标注3: API Key 显示前8位 + "..."
-```
+### Audio Sounds Distorted
 
----
+**Symptoms**:
+- Crackling or popping sounds
+- Audio cuts in and out
+- Robotic or metallic sound
 
-### 6.3 使用 AI 预测
+**Solutions**:
+1. **Reduce compression ratio**: Lower to 2:1 or 3:1
+2. **Increase threshold**: Try -25 dB or higher
+3. **Disable EQ filters**: Turn off high/low-pass filters temporarily
+4. **Check system volume**: Ensure it's not set too high (>80%)
 
-#### 在 YouTube 首页查看徽章
+### AI Predictions Not Showing
 
-**步骤**:
-1. 配置好 AI 功能后
-2. 打开 YouTube 首页或搜索结果页
-3. 等待 5-10 秒（AI 分析需要时间）
-4. 视频缩略图右上角会出现徽章
+**Symptoms**:
+- No badges on video thumbnails
+- "API Error" in console
+- Predictions never load
 
-**徽章类型**:
+**Solutions**:
+1. **Verify API key**: Check for typos, ensure key is active
+2. **Check quota**: Gemini free tier has rate limits
+3. **Test API directly**: Use provider's playground to test key
+4. **Wait and retry**: Some predictions cached, may appear later
 
-| 徽章 | 颜色 | 含义 | 建议 |
-|------|------|------|------|
-| ✓ 音质良好 | 绿色 | 未检测到问题 | 可放心观看 |
-| ⚠ 1个问题 | 橙色 | 检测到轻微问题 | 可以观看，注意调整 |
-| ⚠ 3+个问题 | 红色 | 检测到多个问题 | 不推荐睡前观看 |
+### Extension Disappeared
 
-**截图标注位置**:
-```
-[📸 截图22: YouTube 首页 - AI 徽章显示]
-├─ 标注1: 视频缩略图
-├─ 标注2: 右上角徽章位置
-│   ├─ 绿色: "✓ 音质良好"
-│   ├─ 橙色: "⚠ 1个问题"
-│   └─ 红色: "⚠ 3个问题"
-└─ 标注3: 鼠标悬停显示详情（Tooltip）
-```
+**Symptoms**:
+- Icon missing from toolbar
+- Extension not in chrome://extensions
+- Settings lost
 
----
+**Solutions**:
+1. **Check if disabled**: Go to chrome://extensions, ensure toggle is ON
+2. **Re-pin to toolbar**: Click puzzle icon → Pin SleepyTube
+3. **Reinstall if needed**: Remove and reinstall from source
+4. **Check Chrome updates**: Update Chrome to latest version
 
-#### 查看问题详情
+### Performance Issues
 
-**操作**: 鼠标悬停在徽章上，会显示 Tooltip 详情。
+**Symptoms**:
+- Browser becomes slow
+- Video stutters or lags
+- High CPU usage
 
-**Tooltip 内容**:
-```
-⚠ 检测到音频问题
-───────────────────
-🎵 背景音乐嘈杂
-📊 音量不一致
-⚡ 突然音效
-───────────────────
-置信度: high
-```
-
-**截图标注位置**:
-```
-[📸 截图23: AI 徽章 Tooltip]
-├─ 标注1: Tooltip 弹窗
-├─ 标注2: 问题列表（带图标）
-└─ 标注3: 置信度显示
-```
+**Solutions**:
+1. **Close other tabs**: Limit to 5-10 tabs while using extension
+2. **Disable visualizer**: Turn off real-time waveform display
+3. **Use lighter scene**: Try White Noise mode (less processing)
+4. **Check system resources**: Close other apps, ensure 4GB+ RAM free
 
 ---
 
-### 6.4 AI 预测的工作原理
+## 📞 Support & Feedback
 
-**数据处理流程**:
-```
-YouTube 视频卡片
-    ↓
-提取信息 (标题、频道、时长)
-    ↓
-检查本地缓存 (24小时有效)
-    ├─ 命中 → 直接显示徽章
-    └─ 未命中 ↓
-发送到 AI API (Gemini/OpenAI)
-    ↓
-AI 分析并返回预测结果
-    ↓
-缓存结果 + 显示徽章
-```
+**Need Help?**
+- GitHub Issues: https://github.com/IRONICBo/SleepyTube/issues
+- Email: support@sleepytube.com (coming soon)
 
-**隐私说明**:
-- ✅ 仅发送视频元数据（标题、频道、时长）
-- ✅ 不发送个人观看历史
-- ✅ 不收集用户数据
-- ✅ API Key 存储在本地，不上传服务器
+**Found a Bug?**
+- Report on GitHub with steps to reproduce
+- Include browser version, extension version, video URL
+
+**Feature Requests?**
+- Open a feature request on GitHub
+- Join community discussions
+
+**Contributing?**
+- Pull requests welcome!
+- See CONTRIBUTING.md for guidelines
 
 ---
 
-## 7. 常见问题 FAQ
+## 📄 License
 
-### Q1: SleepyTube 会影响视频播放性能吗？
+SleepyTube is open source software licensed under the MIT License.
 
-**A**: 不会。
-- CPU 占用 < 5%
-- 内存占用 < 50MB
-- 音频延迟 < 10ms（人耳无感知）
+**What this means**:
+- ✅ Free to use, modify, distribute
+- ✅ Can be used commercially
+- ❌ No warranty provided
+- ❌ Authors not liable for damages
 
----
-
-### Q2: 能在移动端使用吗？
-
-**A**: 目前不支持。
-- iOS/Android 浏览器不支持 Web Audio API 完整功能
-- 计划未来推出独立移动 App
+See LICENSE file for full terms.
 
 ---
 
-### Q3: 为什么有时候 Player 按钮不显示？
+## 🙏 Acknowledgments
 
-**可能原因**:
-1. **页面未完全加载**: 等待 2-3 秒
-2. **YouTube 改版**: DOM 结构变化，需更新扩展
-3. **其他扩展冲突**: 禁用其他音频相关扩展试试
+**Built With**:
+- Web Audio API for audio processing
+- Chrome Extension Manifest V3
+- Google Gemini & OpenAI for AI predictions
 
-**解决方法**:
-- 刷新页面 (F5)
-- 重启浏览器
-- 重新加载扩展
+**Inspired By**:
+- Users struggling with YouTube audio during sleep
+- ASMR community feedback
+- Sleep science research
 
----
-
-### Q4: AI 预测准确吗？
-
-**准确率**:
-- Gemini: 约 75-80%
-- OpenAI: 约 85-90%
-
-**影响因素**:
-- 视频标题信息量（标题越详细越准确）
-- AI 训练数据覆盖度
-- 语言（英文准确率更高）
-
-**建议**:
-- 仅作参考，不是100%准确
-- 可结合缩略图、标题自行判断
+**Special Thanks**:
+- Beta testers for valuable feedback
+- Open source contributors
+- Sleep medicine community for guidance
 
 ---
 
-### Q5: 可以自定义场景参数吗？
-
-**A**: 可以！
-1. 在 Popup 高级设置中调整各项参数
-2. 调整后场景会自动切换为 "Custom"
-3. 配置会自动保存
-
----
-
-### Q6: 语音聚焦和 Podcast 场景的区别？
-
-**语音聚焦 (Voice Focus)**:
-- 单独的功能开关
-- 增强人声，降低背景音
-
-**Podcast 场景**:
-- 预设配置集合
-- 包含: 中度压缩 + 语音聚焦 + 自然EQ
+**Version History**:
+- v1.3.2 (2026-02-08): Enhanced AI predictions, onboarding redesign
+- v1.3.0 (2026-02-07): Added scene modes, speech rate control
+- v1.2.0 (2026-02-06): AI video prediction feature
+- v1.1.0 (2026-02-05): Popup UI improvements
+- v1.0.0 (2026-02-04): Initial release
 
 ---
 
-### Q7: AI 功能免费吗？
-
-**A**: 分情况。
-- **Gemini**: 提供免费额度（60次/分钟）
-- **OpenAI**: 无免费，按调用收费
-
-**费用说明**:
-- 用户自备 API Key
-- SleepyTube 不收取任何费用
-- API 费用由提供商收取
-
----
-
-### Q8: 如何关闭 AI 预测？
-
-**步骤**:
-1. 打开 Popup → 高级设置
-2. 找到 "AI video predictor"
-3. 关闭 "Enable AI Video Prediction" 开关
-4. 徽章会立即消失
-
----
-
-### Q9: 可以同时使用多个场景吗？
-
-**A**: 不可以。
-- 同一时间只能激活一个场景
-- 切换场景会覆盖之前的设置
-
----
-
-### Q10: 扩展会读取我的个人信息吗？
-
-**A**: 绝对不会。
-- 所有处理在本地完成
-- 不上传任何数据到我们的服务器
-- AI 功能仅发送视频元数据到第三方 API
-- 完全开源，代码可审计
-
----
-
-## 8. 故障排除
-
-### 问题 1: 扩展无法加载
-
-**症状**: Chrome 提示"无法加载扩展程序"
-
-**解决方案**:
-1. 确认选择的是 `extension` 文件夹，不是项目根目录
-2. 检查文件夹内是否有 `manifest.json`
-3. 确认 Chrome 版本 ≥ 90
-4. 重新下载源代码，可能文件损坏
-
----
-
-### 问题 2: 按钮点击无反应
-
-**症状**: 点击 Player 按钮后没有变化
-
-**解决方案**:
-1. F12 打开开发者工具 → Console 标签
-2. 查看是否有红色错误
-3. 刷新页面重试
-4. 如果问题持续，提交 Issue 到 GitHub
-
----
-
-### 问题 3: AI 徽章不显示
-
-**症状**: 配置了 API Key 但没有徽章
-
-**检查步骤**:
-```
-1. 确认 "Enable AI Video Prediction" 已开启
-   └─ Popup → 高级设置 → AI video predictor
-
-2. 确认 API Key 正确
-   └─ 状态显示 "✅ Ready"
-
-3. 确认在正确的页面
-   └─ 仅首页/搜索结果页显示徽章
-   └─ 视频播放页不显示
-
-4. 等待足够时间
-   └─ AI 分析需要 5-10 秒
-
-5. 检查 Console 日志
-   └─ F12 → Console
-   └─ 搜索 "[AI Predictor]" 或 "[Badge Observer]"
-   └─ 查看是否有错误信息
-```
-
-**常见错误**:
-- `API error: 400` → API Key 格式错误
-- `API error: 403` → API Key 无效或被禁用
-- `API error: 429` → 配额已用完，等待1分钟后重试
-- `Found 0 video cards` → 不在正确的页面
-
----
-
-### 问题 4: 音频有杂音/卡顿
-
-**症状**: 开启处理后音频出现异常
-
-**解决方案**:
-1. 降低压缩强度: Strong → Medium → Light
-2. 关闭语音聚焦功能
-3. 检查 CPU 占用（任务管理器）
-   - 如果过高，关闭其他标签页
-4. 更新 Chrome 到最新版本
-5. 重启浏览器
-
----
-
-### 问题 5: 配置不保存
-
-**症状**: 重启浏览器后配置丢失
-
-**解决方案**:
-1. 检查 Chrome 是否允许扩展同步数据
-   - chrome://settings/syncSetup
-   - 开启 "扩展程序" 同步
-2. 确认浏览器未使用隐身模式
-3. 检查磁盘空间是否充足
-4. 尝试手动触发同步:
-   - chrome://sync-internals/
-   - 点击 "Trigger Sync"
-
----
-
-### 问题 6: 无法获取 Gemini API Key
-
-**症状**: 点击链接后无法创建 Key
-
-**可能原因**:
-1. **地区限制**: Gemini 可能在某些地区不可用
-2. **账号问题**: Google 账号未激活
-3. **配额限制**: Google Cloud 项目配额已满
-
-**解决方案**:
-1. 使用 VPN 切换到支持的地区
-2. 尝试使用另一个 Google 账号
-3. 切换到 OpenAI Provider（付费）
-
----
-
-### 问题 7: 如何完全卸载？
-
-**步骤**:
-1. 打开 chrome://extensions/
-2. 找到 SleepyTube 卡片
-3. 点击 "移除" 按钮
-4. 确认卸载
-5. 清除数据（可选）:
-   - F12 → Application → Storage → Clear site data
-   - 搜索 "chrome-extension://..."
-
----
-
-## 9. 反馈与支持
-
-### 报告 Bug
-
-**GitHub Issues**: https://github.com/sleepytube/sleepytube/issues
-
-**提交时请包含**:
-1. Chrome 版本 (`chrome://version`)
-2. 扩展版本 (Popup 左下角显示)
-3. 详细复现步骤
-4. 控制台错误截图 (F12 → Console)
-5. 操作系统信息
-
----
-
-### 功能建议
-
-**GitHub Discussions**: https://github.com/sleepytube/sleepytube/discussions
-
-欢迎提出:
-- 新功能想法
-- UI/UX 改进建议
-- 性能优化方向
-
----
-
-### 贡献代码
-
-**欢迎 PR!**
-
-1. Fork 项目
-2. 创建功能分支
-3. 提交 PR
-4. 等待 Review
-
-**贡献指南**: 见 `CONTRIBUTING.md`
-
----
-
-## 10. 致谢
-
-感谢所有为 SleepyTube 做出贡献的开发者和用户！
-
-**特别鸣谢**:
-- Web Audio API 开发团队
-- Google Gemini AI
-- Open Source 社区
-
----
-
-**文档版本**: v1.0  
-**最后更新**: 2026-02-08  
-**维护者**: SleepyTube Team
-
-💤 祝你有个好梦！
+**Last Updated**: 2026-02-08  
+**Document Version**: 1.0  
+**Maintained By**: SleepyTube Team

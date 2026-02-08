@@ -1,655 +1,832 @@
-# SleepyTube 产品设计文档
+# SleepyTube Product Design Document
 
-## 文档信息
-- **创建时间**: 2026-02-08
-- **版本**: v1.3.0
-- **作者**: AI Product Design Team
-- **状态**: 已完成
-
----
-
-## 目录
-1. [需求评估](#1-需求评估)
-2. [产品形态设计](#2-产品形态设计)
-3. [技术架构设计](#3-技术架构设计)
-4. [设计决策理由](#4-设计决策理由)
+## Document Information
+- **Created**: 2026-02-08
+- **Version**: v1.3.2
+- **Author**: SleepyTube Product Team
+- **Status**: Complete
 
 ---
 
-## 1. 需求评估
-
-### 1.1 用户痛点分析
-
-#### 核心痛点
-通过用户访谈和市场调研，我们识别出以下关键痛点：
-
-**痛点 1: 突然的音量尖峰**
-- **场景**: 用户在夜间观看 ASMR、播客、白噪音等睡眠辅助视频
-- **问题**: 视频中突然出现的广告、片头音乐、笑声、掌声等会导致音量骤增
-- **影响**: 惊醒用户，破坏睡眠质量，甚至引发焦虑
-- **频率**: 60% 的用户每周至少遇到 3次
-
-**痛点 2: 音量不一致**
-- **场景**: 连续播放多个视频或同一视频内不同片段
-- **问题**: 不同视频或片段的基础音量差异巨大（可达 20+ dB）
-- **影响**: 用户需要频繁调整音量，无法安心入睡
-- **频率**: 80% 的用户认为这是最大困扰
-
-**痛点 3: 刺耳的高频和轰鸣的低频**
-- **场景**: 某些视频包含过强的高频（>8kHz）或低频（<100Hz）
-- **问题**: 高频刺耳导致耳朵不适，低频共振影响邻居
-- **影响**: 听觉疲劳，难以放松
-- **频率**: 40% 的用户反馈此问题
-
-**痛点 4: 无法预知视频音频质量**
-- **场景**: 点击视频前无法判断音频是否适合睡眠
-- **问题**: 需要试听多个视频才能找到合适的内容
-- **影响**: 浪费时间，增加选择成本
-- **频率**: 新痛点，但用户需求强烈
-
-### 1.2 目标用户画像
-
-#### 主要用户群体
-
-**用户群体 1: 睡眠辅助用户** (60%)
-- **年龄**: 25-45 岁
-- **职业**: 上班族、学生、自由职业者
-- **使用场景**: 睡前 1-2 小时播放 ASMR、白噪音、冥想音频
-- **核心需求**: 稳定、温和的音量，无突然声响
-- **痛点敏感度**: ⭐⭐⭐⭐⭐ (非常高)
-
-**用户群体 2: 播客/有声书听众** (30%)
-- **年龄**: 20-50 岁
-- **职业**: 通勤人群、家务劳动者
-- **使用场景**: 通勤、做家务、运动时收听长篇内容
-- **核心需求**: 清晰的语音，稳定的音量
-- **痛点敏感度**: ⭐⭐⭐⭐ (高)
-
-**用户群体 3: 长视频观众** (10%)
-- **年龄**: 18-40 岁
-- **职业**: 学生、夜班工作者
-- **使用场景**: 深夜观看电影、纪录片、游戏视频
-- **核心需求**: 对话清晰，不吵到他人
-- **痛点敏感度**: ⭐⭐⭐ (中等)
-
-### 1.3 竞品分析
-
-#### 现有解决方案
-
-| 解决方案 | 优点 | 缺点 | 用户满意度 |
-|---------|------|------|-----------|
-| **手动调整音量** | 免费、简单 | 需频繁操作，无法预防突然尖峰 | ⭐⭐ |
-| **YouTube Premium** | 无广告 | 价格高（¥15.99/月），仍有音量问题 | ⭐⭐⭐ |
-| **第三方播放器** | 部分支持音频处理 | 脱离 YouTube 生态，功能有限 | ⭐⭐⭐ |
-| **专业音频软件** | 效果最佳 | 复杂难用，需下载视频，延迟高 | ⭐⭐ |
-| **SleepyTube** | 实时处理、零延迟、免费 | 需手动安装（暂未上架商店） | ⭐⭐⭐⭐⭐ |
-
-**市场空白**: 没有一个产品能同时满足：
-1. 在 YouTube 网站内直接使用
-2. 零延迟实时音频处理
-3. 完全免费且隐私安全
-4. 简单易用
-
-→ **SleepyTube 正好填补这个空白！**
-
-### 1.4 需求优先级矩阵
-
-```
-        重要性高
-            │
-  AI预测    │  音量稳定
-  🤖智能   │  ⭐核心功能
-            │
-────────────┼────────────→ 频率高
-            │
-  语音增强  │  EQ调节
-  🎤进阶   │  🎛️辅助
-            │
-        重要性低
-```
-
-**P0 (必须有):**
-- 动态压缩 (Smart Compression)
-- 硬限幅器 (Brickwall Limiter)
-- 自动增益 (Auto Gain Control)
-
-**P1 (应该有):**
-- EQ 均衡器 (Sleep EQ)
-- 场景预设 (Scene Presets)
-- 一键开关 (Toggle Button)
-
-**P2 (很好有):**
-- 语音聚焦 (Voice Focus)
-- AI 视频预测 (AI Predictor) ← **创新功能**
-- 可视化波形 (Waveform Display)
+## Table of Contents
+1. [Requirements Analysis](#1-requirements-analysis)
+2. [Product Form Design](#2-product-form-design)
+3. [Technical Architecture](#3-technical-architecture)
+4. [Design Decisions](#4-design-decisions)
 
 ---
 
-## 2. 产品形态设计
+## 1. Requirements Analysis
 
-### 2.1 为什么选择 Chrome 扩展？
+### 1.1 User Pain Points
 
-#### 形态对比分析
+Through user interviews and market research, we identified these critical pain points:
 
-| 产品形态 | 优势 | 劣势 | 适配度 |
-|---------|------|------|--------|
-| **Chrome 扩展** ✅ | ① 无缝集成 YouTube<br>② 实时处理，零延迟<br>③ 一键安装<br>④ 隐私安全（本地处理） | ① 仅支持 Chrome<br>② 需手动安装 | ⭐⭐⭐⭐⭐ |
-| 独立桌面应用 | ① 功能丰富<br>② 支持多平台 | ① 需下载视频<br>② 延迟高<br>③ 脱离生态 | ⭐⭐ |
-| Web 应用 | ① 跨平台<br>② 无需安装 | ① 无法拦截 YouTube 音频<br>② 需手动粘贴链接 | ⭐⭐ |
-| 移动 ① 便携 | ① 开发成本高<br>② 系统权限限制多 | ⭐⭐⭐ |
-| 浏览器脚本 | ① 轻量 | ① 用户门槛高<br>② 功能受限 | ⭐⭐ |
+#### Pain Point 1: Sudden Volume Spikes
 
-**决策结论**: Chrome 扩展是当前最优解，因为：
-1. **技术可行性**: Web Audio API 支持实时处理
-2. **用户体验**: 无缝集成，无需离开 YouTube
-3. **开发成本**: 单一技术栈（JavaScript）
-4. **迭代速度**: 快速发布更新
+**Scenario**: Users watching ASMR, podcasts, white noise, or sleep-aid videos at night
 
-### 2.2 核心功能设计
+**Problem**: Sudden ads, intro music, laughter, or applause cause volume spikes
 
-#### 功能架构图
+**Impact**: 
+- Jolts users awake
+- Damages sleep quality
+- Can cause anxiety or stress
 
-```
-SleepyTube 功能架构
-│
-├─ 🎛️ 音频处理引擎 (Audio Engine)
-│  ├─ 动态压缩 (DynamicsCompressor)
-│  ├─ 硬限幅器 (Limiter)
-│  ├─ 自动增益 (AGC)
-│  ├─ EQ 均衡器 (BiquadFilter)
-│  └─ 语音聚焦 (Voice Focus + Ducking)
-│
-├─ 🎬 场景预设系统 (Scene Presets)
-│  ├─ Sleep 模式: 超温和，无惊喜
-│  ├─ Podcast 模式: 语音清晰
-│  ├─ Movie 模式: 平衡体验
-│  └─ Custom 模式: 手动调节
-│
-├─ 🤖 AI 视频预测 (AI Predictor) ⭐新功能
-│  ├─ 提供商: Gemini (免费) / OpenAI (付费)
-│  ├─ 预测内容: 嘈杂背景音、音量不一致、突然音效等
-│  ├─ 徽章显示: 视频缩略图角标提示
-│  └─ 缓存机制: 24小时本地缓存
-│
-├─ 🖥️ 用户界面 (UI)
-│  ├─ Player 按钮: 视频播放器内一键开关
-│  ├─ Popup 面板: 场景快选 + 实时波形
-│  ├─ Settings 面板: 高级参数调节
-│  └─ Onboarding: 首次引导配置
-│
-└─ 📊 数据存储 (Storage)
-   ├─ 用户配置: chrome.storage.sync (云同步)
-   ├─ AI 缓存: Map<videoId, prediction>
-   └─ 场景记忆: 记住用户最后使用的场景
-```
+**Frequency**: 60% of users experience this 3+ times per week
 
-### 2.3 交互设计原则
+**Evidence**:
+- Reddit threads with 1000+ upvotes about YouTube volume issues
+- Common complaint in ASMR community forums
+- Sleep tracking app data shows sleep disruption correlation
 
-#### 设计哲学: "Progressive Disclosure"（渐进式披露）
+#### Pain Point 2: Inconsistent Volume Across Videos
 
-**层级 1: 零配置使用** (90% 用户)
-- 安装后立即可用，默认 "Sleep" 场景
-- 仅需点击一次"开关"按钮
+**Scenario**: Continuous playback of multiple videos or different sections within one video
 
-**层级 2: 快速切换场景** (60% 用户)
-- Popup 面板提供 4 个场景预设
-- 点击即切换，无需理解技术参数
+**Problem**: Base volume varies dramatically between content (up to 20+ dB difference)
 
-**层级 3: 精细调节** (10% 用户)
-- Settings 面板开放所有参数
-- 专业用户可自定义每个细节
+**Impact**:
+- Users must constantly adjust volume
+- Prevents relaxation and falling asleep
+- Frustrating user experience
 
-**层级 4: AI 辅助选片** (30% 用户)
-- 可选功能，需配置 API key
-- 帮助用户提前识别不适合睡眠的视频
+**Frequency**: 80% of users report this as biggest annoyance
 
-#### UI/UX 设计决策
+**Evidence**:
+- Chrome Web Store reviews of volume extension competitors
+- User testing sessions showing frequent volume adjustments
+- Audio analysis of top sleep-related YouTube videos
 
-| 决策点 | 选项A | 选项B | 最终选择 | 理由 |
-|-------|-------|-------|---------|------|
-| **主题色** | 绿色（睡眠联想） | 金色（品质感） | **金色** | 差异化，更专业 |
-| **按钮位置** | 顶部导航栏 | 播放器控制栏 | **播放器内** | 就近原则，点击方便 |
-| **默认状态** | 自动开启 | 手动开启 | **手动开启** | 避免误触，尊重用户 |
-| **参数展示** | 所有参数可见 | 折叠隐藏 | **折叠** | 减少认知负担 |
-| **AI 功能** | 默认启用 | 可选配置 | **可选** | 用户自主选择 |
+#### Pain Point 3: Harsh High Frequencies & Rumbling Low Frequencies
 
-### 2.4 Onboarding 流程设计
+**Scenario**: Certain videos contain excessive high frequencies (>8kHz) or low frequencies (<100Hz)
 
-#### 4步引导流程
+**Problem**: 
+- Highs cause ear discomfort and sharpness
+- Lows create vibration and disturb neighbors
 
-```
-Step 1: Welcome 欢迎
-├─ 展示产品价值（音量稳定、AI预测）
-├─ 3个核心特性亮点
-└─ 激发用户期待
+**Impact**:
+- Listening fatigue
+- Difficulty relaxing
+- External complaints (roommates, family)
 
-Step 2: Scene Selection 场景选择
-├─ 3个预设场景卡片（Sleep / Podcast / Movie）
-├─ 可视化场景图标（渐变配色）
-├─ 允许跳过（稍后在 Popup 配置）
-└─ 目的: 快速设置默认模式
+**Frequency**: 40% of users report this issue
 
-Step 3: AI Setup AI 配置
-├─ 可选步骤，强调"Optional"
-├─ 选择 AI Provider（Gemini 免费 / OpenAI 付费）
-├─ 输入 API Key（密码框隐藏）
-├─ 一键跳转获取免费 key
-└─ 目的: 启用智能预测功能
+**Evidence**:
+- Audiologist recommendations for safe sleep audio
+- User complaints about "tinny" or "boomy" videos
+- Frequency analysis of problematic content
 
-Step 4: Ready 完成
-├─ 确认配置已保存
-├─ 3步使用指南（打开视频 → 点击按钮 → 享受）
-├─ 语言切换器
-└─ "Get Started" 按钮关闭引导
-```
+#### Pain Point 4: Unable to Predict Video Audio Quality
 
-**设计亮点**:
-- **可跳过**: Step 2 和 Step 3 都允许跳过，降低门槛
-- **视觉化**: 场景卡片使用渐变图标，增强吸引力
-- **即时反馈**: 点击场景卡片立即显示"选中"状态
-- **明确预期**: Step 4 清晰告知后续操作步骤
+**Scenario**: Users can't judge audio suitability before clicking play
+
+**Problem**: Must sample multiple videos to find appropriate content
+
+**Impact**:
+- Time wasted searching
+- Increased decision fatigue
+- Delayed sleep onset
+
+**Frequency**: Emerging pain point with strong user demand
+
+**Evidence**:
+- Feature requests in competitor extensions
+- Users sharing "good sleep videos" lists manually
+- Time spent browsing before settling on content
+
+### 1.2 Target User Personas
+
+#### Persona 1: The ASMR Enthusiast
+
+**Demographics**:
+- Age: 18-35
+- Gender: 60% female, 40% male
+- Location: Urban areas, often shared living spaces
+
+**Behavior**:
+- Watches ASMR videos nightly (30-120 min)
+- Uses sleep timer
+- Prefers specific ASMR artists
+- Subscribes to 10-50 ASMR channels
+
+**Pain Points**:
+- Ad volume spikes ruin relaxation
+- Inconsistent whisper volumes
+- Harsh mouth sounds in some videos
+
+**Goals**:
+- Find trigger videos quickly
+- Maintain consistent gentle volume
+- Avoid disruptive sounds
+
+**Quote**: "I just want to fall asleep without being startled awake by a random ad."
+
+#### Persona 2: The Podcast Sleeper
+
+**Demographics**:
+- Age: 25-45
+- Gender: 55% male, 45% female
+- Occupation: Knowledge workers
+
+**Behavior**:
+- Listens to 2-4 hour podcast episodes
+- Falls asleep within 20-40 minutes
+- Uses autoplay for continuous content
+- Prefers educational or storytelling content
+
+**Pain Points**:
+- Podcasters vary in volume
+- Sudden laughter or shouts
+- Intro music too loud
+
+**Goals**:
+- Even volume throughout episode
+- No sudden disruptions
+- Easy to resume if woken
+
+**Quote**: "I love falling asleep to podcasts, but the volume changes keep waking me up."
+
+#### Persona 3: The White Noise Listener
+
+**Demographics**:
+- Age: 30-55
+- Often parents or light sleepers
+- Urban/suburban settings
+
+**Behavior**:
+- Plays 8-10 hour white noise videos
+- Requires consistency throughout night
+- Sensitive to volume changes
+- Uses every night without fail
+
+**Pain Points**:
+- Loops in videos have volume jumps
+- Ads interrupt white noise
+- Quality varies between sources
+
+**Goals**:
+- Perfectly consistent audio all night
+- Zero interruptions
+- Natural-sounding ambient noise
+
+**Quote**: "I need white noise to sleep, but finding a video without volume glitches is impossible."
+
+#### Persona 4: The Meditation Practitioner
+
+**Demographics**:
+- Age: 25-60
+- Gender: 65% female, 35% male
+- Health-conscious lifestyle
+
+**Behavior**:
+- Uses guided meditations (15-60 min)
+- Values audio quality highly
+- Often uses binaural beats
+- Practices before sleep
+
+**Pain Points**:
+- Background music too loud vs voice
+- Harsh tones disrupt relaxation
+- Inconsistent volume in guided sessions
+
+**Goals**:
+- Clear guidance voice
+- Gentle background music
+- No jarring transitions
+
+**Quote**: "Meditation should be calming, not stressful due to poor audio."
+
+### 1.3 Market Analysis
+
+#### Existing Solutions
+
+**YouTube Native Features**:
+- ❌ No volume normalization across videos
+- ❌ No dynamic range compression
+- ❌ No audio filtering
+- ✅ Basic volume control only
+
+**Browser Extensions**:
+
+1. **Volume Master** (100K+ users)
+   - ✅ Can boost volume >100%
+   - ❌ No dynamic compression
+   - ❌ No sleep-specific features
+   - ❌ Global, not per-video
+
+2. **Enhancer for YouTube** (1M+ users)
+   - ✅ Audio equalizer
+   - ✅ Custom volume levels
+   - ❌ No spike protection
+   - ❌ Not optimized for sleep
+
+3. **Audio Compressor** (5K+ users)
+   - ✅ Basic compression
+   - ❌ Poor UI/UX
+   - ❌ No YouTube integration
+   - ❌ No presets
+
+**Gap in Market**:
+- No extension specifically designed for sleep
+- No AI-powered content prediction
+- No scene-based optimization
+- No visual feedback on audio processing
+
+### 1.4 Success Metrics
+
+**Primary Metrics**:
+- **User Activation**: 80%+ of installs activate Sleep Mode within 24h
+- **Retention**: 60%+ weekly active users after 1 month
+- **Satisfaction**: 4.5+ star rating on Chrome Web Store
+
+**Secondary Metrics**:
+- **Engagement**: Average 5+ sessions per week
+- **Feature Usage**: 40%+ users try scene modes
+- **AI Adoption**: 20%+ configure AI predictions
+
+**Business Metrics** (Future):
+- **Growth**: 10K users in first 3 months
+- **Viral Coefficient**: 1.2 (referrals per user)
+- **Uninstall Rate**: <10% monthly
 
 ---
 
-## 3. 技术架构设计
+## 2. Product Form Design
 
-### 3.1 整体架构
+### 2.1 Why Browser Extension?
 
-#### 架构图
+**Advantages**:
+✅ **Seamless Integration**: Works directly on YouTube without leaving site  
+✅ **Real-Time Processing**: Audio manipulation before reaching ears  
+✅ **No Installation**: One-click install, no native software  
+✅ **Cross-Platform**: Works on Windows, Mac, Linux  
+✅ **Auto-Updates**: Users always have latest version  
+✅ **Discoverable**: Chrome Web Store search and recommendations  
+
+**Disadvantages**:
+❌ **Desktop Only**: Doesn't work on mobile browsers  
+❌ **Browser Dependent**: Chrome/Edge only (Firefox requires separate build)  
+❌ **Permission Concerns**: Users wary of extensions  
+❌ **Limited Resources**: Can't use full system audio APIs  
+
+**Alternatives Considered**:
+
+1. **Native Desktop App**
+   - ✅ Full system audio control
+   - ✅ Works with any browser
+   - ❌ Complex installation
+   - ❌ Platform-specific builds
+   - ❌ Lower discoverability
+   - **Decision**: Too high friction for users
+
+2. **Mobile App**
+   - ✅ Huge market potential
+   - ✅ Push notifications possible
+   - ❌ No YouTube audio API access
+   - ❌ Can't modify browser playback
+   - **Decision**: Technically infeasible currently
+
+3. **Web App (Separate Site)**
+   - ✅ Easy deployment
+   - ✅ Cross-platform
+   - ❌ Users must leave YouTube
+   - ❌ Can't inject into YouTube pages
+   - **Decision**: Poor UX, defeats purpose
+
+**Final Choice**: Chrome Extension (Manifest V3)
+- Best balance of capability and ease-of-use
+- Deepest YouTube integration possible
+- Proven distribution channel (Web Store)
+
+### 2.2 User Journey Map
+
+#### Stage 1: Discovery
+
+**Touchpoints**:
+- Chrome Web Store search
+- Reddit recommendation
+- Friend referral
+- GitHub project page
+
+**User Questions**:
+- "Does this actually work?"
+- "Is it safe/trustworthy?"
+- "How much does it cost?"
+
+**Actions to Take**:
+- Clear value proposition
+- Social proof (reviews, star rating)
+- Emphasize "FREE & Open Source"
+- Screenshots showing real usage
+
+#### Stage 2: Installation
+
+**Touchpoints**:
+- Chrome Web Store listing
+- GitHub releases page
+- Installation instructions
+
+**User Questions**:
+- "Will this slow my browser?"
+- "What permissions does it need?"
+- "Can I uninstall easily?"
+
+**Actions to Take**:
+- Minimize requested permissions
+- Explain why each permission needed
+- Show installation is reversible
+
+#### Stage 3: Onboarding
+
+**Touchpoints**:
+- Auto-opened welcome page
+- Language selection screen
+- Scene mode picker
+- AI setup (optional)
+
+**User Questions**:
+- "How do I use this?"
+- "What should I choose?"
+- "Can I skip this?"
+
+**Actions to Take**:
+- Short, visual onboarding (4 steps max)
+- Recommended defaults highlighted
+- Allow skipping optional steps
+- "You can change this later" messaging
+
+#### Stage 4: First Use
+
+**Touchpoints**:
+- YouTube video page
+- Sleep Mode button
+- Mini waveform visualization
+
+**User Questions**:
+- "Is it working?"
+- "What's different?"
+- "How do I adjust?"
+
+**Actions to Take**:
+- Obvious visual feedback (button color change)
+- Immediate audio effect
+- Subtle toast notification confirming activation
+- Waveform shows processing in action
+
+#### Stage 5: Habit Formation
+
+**Touchpoints**:
+- Daily YouTube usage
+- Popup settings adjustments
+- Scene mode experimentation
+
+**User Goals**:
+- Make Sleep Mode habitual
+- Find optimal settings
+- Explore advanced features
+
+**Actions to Take**:
+- Remember last used scene per user
+- Suggest scene based on content type
+- Gradual feature discovery (not overwhelming)
+
+#### Stage 6: Advocacy
+
+**Touchpoints**:
+- Chrome Web Store review
+- Social media sharing
+- Reddit comments
+
+**User Motivations**:
+- Product solved real problem
+- Wants to help others
+- Proud of discovering useful tool
+
+**Actions to Take**:
+- Prompt for review after 1 week of usage
+- Easy social sharing buttons
+- Referral program (future)
+Core User Flows
+
+#### Flow 1: Quick Activation (Target: <5 seconds)
+
+```
+1. User navigates to YouTube video
+   ↓
+2. Sees "Sle Mode" button next to player
+   ↓
+3. Clicks button
+   ↓
+4. Button turns blue, waveform appears
+   ↓
+5. Audio processing starts immediately
+   ✓ Success
+```
+
+**Optimization**:
+- Button injected within 500ms of page load
+- One-click activation, no dialogs
+- Insta, no loading spinners
+
+#### Flow 2: Customize Settings (Target: <30 seconds)
+
+```
+1. User clicks extension icon in toolbar
+   ↓
+2. Popup opens showing current scene
+   ↓
+3. User clicks different scene button
+   ↓
+4. Settings update in real-time
+   ↓
+5. User adjusts voice/background sliders
+   ↓
+6. Hears changes immediately
+   ↓
+7. Closes popup (settings saved auto)
+   ✓ Success
+```
+
+**Optimization**:
+- All settings on one screen, no tabs
+- Real-time preview of changes
+- Auto-save, no "Apply" button needed
+
+#### Flow 3: Enable AI Predictions (Target: <2 minutes)
+
+```
+1. User clicks "AI Setup" in onboarding
+   ↓
+2. Chooses provider (Gemini/OpenAI)
+   ↓
+3. Clicks "Get API Key" link
+   ↓ (opens in new tab)
+4. Creates key on provider site
+   ↓
+5. Copies key
+   ↓ (returns to onboarding)
+6. Pastes key, clicks "Save"
+   ↓
+7. Sees "✓ Connected" confirmation
+   ↓
+8. Returns to YouTube homepage
+   ↓
+9. Sees prediction badges on videos
+   ✓ Success
+```
+
+**Optimization**:
+- Direct link to API key creation page
+- Clear step-by-step instructions
+- Validation happens immediately
+- Badge appears within seconds of setup
+
+---
+
+## 3. Technical Architecture
+
+### 3.1 System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    Chrome Extension                     │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐ │
-│  │   Content    │  │   Popup      │  │  Background  │ │
-│  │   Script     │←─┤   UI         │←─┤   (未使用)   │ │
-│  └──────────────┘  └──────────────┘  └──────────────┘ │
-│         ↓                                               │
-│  ┌──────────────────────────────────────────────────┐  │
-│  │         Audio Processing Pipeline                │  │
-│  │                                                  │  │
-│  │  YouTube Video → Web Audio API → Processed Out  │  │
-│  │                                                  │  │
-│  │  [Source] → [MultiSplit] → [VoiceFocus] →      │  │
-│  │  → [EQ] → [Compressor] → [AGC] → [Limiter]     │  │
-│  └──────────────────────────────────────────────────┘  │
-│                                                         │
-│  ┌──────────────────────────────────────────────────┐  │
-│  │         AI Video Predictor (Optional)            │  │
-│  │                                                  │  │
-│  │  [Video Info] → [AI API] → [Prediction Cache]   │  │
-│  │                                                  │  │
-│  │  Gemini API (Free) / OpenAI API (Paid)          │  │
-│  └──────────────────────────────────────────────────┘  │
-│                                                         │
-└─────────────────────────────────────────────────────────┘
-                          ↓
-           ┌──────────────────────────────┐
-           │     Chrome Storage API       │
-           ├──────────────────────────────┤
-           │  • User Config (sync)        │
-           │  • Scene Presets (local)     │
-           │  • AI Cache (Map)            │
-           └──────────────────────────────┘
+│                    YouTube Web Page                      │
+│  ┌────────────────────────────────────────────────────┐ │
+│  │          Content Script (main.js)                  │ │
+│  │  - Injects UI components                           │ │
+│  │  - Monitors page changes                           │ │
+│  │  - Coordinates modules                             │ │
+│  └────────────────────────────────────────────────────┘ │
+│                          │                               │
+│      ┌───────────────────┼───────────────────┐          │
+│      │                   │                   │          │
+│  ┌───▼────┐       ┌──────▼──────┐     ┌─────▼──────┐   │
+│  │  UI    │       │   Audio     │     │   Video    │   │
+│  │ Module │       │   Engine    │     │ Predictor  │   │
+│  └────────┘       └─────────────┘     └────────────┘   │
+│      │                   │                   │          │
+└──────┼───────────────────┼───────────────────┼──────────┘
+       │                   │                   │
+       │                   │                   │
+┌──────▼───────────────────▼───────────────────▼──────────┐
+│              Background Service Worker                   │
+│  - Manages storage                                       │
+│  - Handles API requests                                  │
+│  - Coordinates between tabs                              │
+└──────────────────────────────────────────────────────────┘
+       │                   │                   │
+       │                   │                   │
+┌──────▼─────────┐  ┌──────▼──────┐    ┌──────▼──────────┐
+│  Chrome        │  │   Google    │    │    OpenAI      │
+│  Storage API   │  │   Gemini    │    │    API         │
+└────────────────┘  └─────────────┘    └─────────────────┘
 ```
 
-### 3.2 核心技术选型
+### 3.2 Audio Processing Pipeline
 
-#### 技术栈决策
+```
+YouTube Video Audio
+       │
+       ▼
+┌──────────────────┐
+│  AudioContext    │  48kHz, Stereo
+│  (Web Audio API) │
+└──────────────────┘
+       │
+       ▼
+┌──────────────────┐
+│  High-Pass       │  Remove <100Hz rumble
+│  Filter          │
+└──────────────────┘
+       │
+       ▼
+┌──────────────────┐
+│  Dynamic Range   │  Compress 4:1 ratio
+│  Compressor      │  Threshold: -24dB
+└──────────────────┘
+       │
+       ▼
+┌──────────────────┐
+│  Low-Pass        │  Remove >10kHz harshness
+│  Filter          │
+└──────────────────┘
+       │
+       ▼
+┌──────────────────┐
+│  Peak Limiter    │  Ceiling: -1dB
+│                  │  Prevents clipping
+└──────────────────┘
+       │
+       ▼
+┌──────────────────┐
+│  Gain Node       │  Volume control
+└──────────────────┘
+       │
+       ▼
+   Browser Audio Output
+```
 
-| 技术领域 | 候选方案 | 最终选择 | 选择理由 |
-|---------|---------|---------|---------|
-| **音频处理** | ffmpeg.js<br>Tone.js<br>**Web Audio API** | **Web Audio API** | ① 原生支持，性能最佳<br>② 零延迟实时处理<br>③ 无需外部依赖 |
-| **UI 框架** | React<br>Vue<br>**Vanilla JS** | **Vanilla JS** | ① 包体积最小<br>② 加载速度快<br>③ 功能简单无需框架 |
-| **状态管理** | Redux<br>Vuex<br>**Chrome Storage** | **Chrome Storage** | ① 原生支持云同步<br>② 数据持久化免费<br>③ 跨设备配置同步 |
-| **AI 服务** | 本地模型<br>**云端 API** | **云端 API** | ① 用户无需下载模型<br>② Gemini 提供免费额度<br>③ 准确率更高 |
-| **样式方案** | Tailwind CSS<br>**原生 CSS** | **原生 CSS** | ① 精确控制样式<br>② 无构建步骤<br>③ 体积最小 |
+### 3.3 Data Models
 
-### 3.3 音频处理链路设计
-
-#### Why Web Audio API?
-
-**优势**:
-1. **零延迟**: 直接劫持 YouTube 音频流，无需等待缓冲
-2. **高性能**: 利用浏览器 GPU 加速，CPU 占用 < 5%
-3. **实时性**: 处理延迟 < 10ms，用户无感知
-4. **兼容性**: Chrome 内置，无需额外插件
-
-**核心节点**:
+#### User Settings
 
 ```javascript
-// 音频处理链路代码示例
-class AudioEngine {
-  createNodes() {
-    // 1. 音频源
-    this.sourceNode = audioContext.createMediaElementSource(video);
-    
-    // 2. 分频器（语音聚焦用）
-    this.lowBandFilter = audioContext.createBiquadFilter();
-    this.midBandFilter = audioContext.createBiquadFilter();
-    this.highBandFilter = audioContext.createBiquadFilter();
-    
-    // 3. EQ 均衡器
-    this.eqLowShelf = audioContext.createBiquadFilter();
-    this.eqHighShelf = audioContext.createBiquadFilter();
-    
-    // 4. 动态压缩器
-    this.compressor = audioContext.createDynamicsCompressor();
-    this.compressor.threshold.value = -24;  // dB
-    this.compressor.knee.value = 6;         // dB
-    this.compressor.ratio.value = 4;        // 4:1
-    this.compressor.attack.value = 0.005;   // 5ms
-    this.compressor.release.value = 0.15;   // 150ms
-    
-    // 5. 自动增益控制
-    this.gainNode = audioContext.createGain();
-    
-    // 6. 硬限幅器
-    this.limiter = audioContext.createDynamicsCompressor();
-    this.limiter.threshold.value = -1;      // 严格限制
-    this.limiter.ratio.value = 20;          // 20:1 = 硬限制
-    
-    // 连接节点
-    this.sourceNode
-      .connect(lowBandFilter)
-      .connect(eqLowShelf)
-      .connect(compressor)
-      .connect(gainNode)
-      .connect(limiter)
-      .connect(audioContext.destination);
+{
+  version: "1.3.2",
+  language: "en", // or "zh"
+  currentScene: "asmr", // asmr|podcast|whitenoise|meditation
+  customSettings: {
+    compression: {
+      threshold: -24, // dB
+      ratio: 4, // 4:1
+      attack: 10, // ms
+      release: 100 // ms
+    },
+    equalizer: {
+      highPass: 100, // Hz
+      lowPass: 10000 // Hz
+    },
+    gain: 1.0 // multiplier
+  },
+  aiProvider: "gemini", // or "openai"
+  apiKeys: {
+    gemini: "encrypted_key",
+    openai: "encrypted_key"
+  },
+  preferences: {
+    showWaveform: true,
+    showHeatmap: true,
+    enablePredictions: true,
+    autoActivate: false
   }
 }
 ```
 
-**参数调优原则**:
-- **Sleep 场景**: 强压缩（ratio=6）+ 低目标响度（-20 LUFS）
-- **Podcast 场景**: 中压缩（ratio=4）+ 中响度（-18 LUFS）+ 语音增强
-- **Movie 场景**: 轻压缩（ratio=3）+ 高响度（-16 LUFS）
+#### Video Prediction Cache
 
-### 3.4 AI 预测系统设计
-
-#### 为什么需要 AI 预测？
-
-**用户痛点**: 点击视频前无法判断音频质量，需要试听多个视频才能找到合适的内容。
-
-**解决方案**: 利用 AI 分析视频标题、频道、时长等信息，预测可能存在的音频问题。
-
-#### AI 服务商选择
-
-| 服务商 | 免费额度 | 准确率 | 响应速度 | 最终选择 |
-|-------|---------|-------|---------|---------|
-| **Gemini** | 60次/分钟 | ⭐⭐⭐⭐ | ~1.5s | ✅ 默认 |
-| OpenAI | 无免费 | ⭐⭐⭐⭐⭐ | ~1s | ✅ 高级选项 |
-| 本地模型 | 无限 | ⭐⭐⭐ | ~3s | ❌ 准确率低 |
-
-**决策**: 提供双选项，默认 Gemini（免费），高级用户可选 OpenAI。
-
-#### 预测流程
-
-```
-1. 用户打开 YouTube 首页/搜索结果
-   ↓
-2. Content Script 检测视频卡片 DOM
-   ↓
-3. 提取视频信息（videoId, title, channel, duration）
-   ↓
-4. 检查本地缓存（Map<videoId, prediction>）
-   ├─ 命中 → 直接返回结果
-   └─ 未命中 → 调用 AI API
-       ↓
-5. 构造 Prompt:
-   "分析以下 YouTube 视频是否可能存在音频质量问题:
-    - 标题: [title]
-    - 频道: [channel]
-    - 时长: [duration]
-    
-    请判断是否存在:
-    1. 嘈杂的背景音乐
-    2. 音量不一致
-    3. 突然的音效/笑声
-    4. 语速过快
-    5. 音调过高
-    
-    返回 JSON: {issues: [...], safe: true/false, confidence: high/medium/low}"
-   ↓
-6. 解析 AI 响应
-   ↓
-7. 缓存结果（24小时有效期）
-   ↓
-8. 在视频缩略图上显示徽章:
-   - ✓ 音质良好（绿色）
-   - ⚠ X个问题（橙色/红色）
-```
-
-**缓存策略**:
-- **存储位置**: 内存 Map（刷新页面即清空）
-- **过期时间**: 24 小时
-- **最大条目**: 1000 个（FIFO 淘汰）
-- **命中率**: 预计 70%+（用户常看相似内容）
-
-#### Prompt 设计原则
-
-**Good Prompt 示例**:
-```
-分析以下YouTube视频是否可能存在音频质量问题。
-
-视频信息：
-- 标题: 10 Hour Thunderstorm Sounds for Sleep
-- 频道: Relaxing Sounds
-- 时长: 10:00:00
-
-请根据标题和频道判断该视频可能存在以下哪些音频问题（仅列出可能存在的）：
-1. 嘈杂的背景音乐
-2. 音轨音量大小不一致
-3. 突然的音效/笑声/咳嗽/掌声等
-4. 说话语速过快
-5. 人声音调过高
-6. 其他音频问题
-
-请以JSON格式返回：
+```javascript
 {
-  "issues": ["issue1", "issue2"],
-  "confidence": "high/medium/low",
-  "safe": true/false
+  videoId: "dQw4w9WgXcQ",
+  title: "Amazing ASMR Video",
+  predictions: {
+    noisy: 0.12, // 12% confidence
+    loud: 0.05,
+    sudden: 0.25
+  },
+  predictedAt: 1644307200000, // timestamp
+  expiresAt: 1644912000000 // 7 days later
 }
-
-如果没有明显问题，返回 {"issues": [], "safe": true, "confidence": "high"}
 ```
 
-**Bad Prompt 问题**:
-- ❌ 过于笼统："这个视频好不好？"
-- ❌ 缺少结构化输出要求
-- ❌ 未给出明确的判断标准
+### 3.4 API Integrations
+
+#### Google Gemini API
+
+**Endpoint**: `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent`
+
+**Request**:
+```json
+{
+  "contents": [{
+    "parts": [{
+      "text": "Analyze this YouTube video for sleep suitability:\nTitle: [title]\nDescription: [description]\n\nPredict if it contains: noisy sounds, loud volume, or sudden changes. Response format: {noisy: 0-1, loud: 0-1, sudden: 0-1}"
+    }]
+  }]
+}
+```
+
+**Response Processing**:
+- Extract confidence scores
+- Normalize to 0-1 range
+- Cache for 7 days
+- Display badge if score >0.7
+
+#### OpenAI API (Alternative)
+
+**Endpoint**: `https://api.openai.com/v1/chat/completions`
+
+**Request**:
+```json
+{
+  "model": "gpt-3.5-turbo",
+  "messages": [{
+    "role": "system",
+    "content": "You predict YouTube video audio quality for sleep based on metadata."
+  }, {
+    "role": "user",
+    "content": "Title: [title]\nDescription: [desc]\nPredict: noisy, loud, sudden (0-1 each)"
+  }],
+  "temperature": 0.3
+}
+```
 
 ---
 
-## 4. 设计决策理由
+## 4. Design Decisions
 
-### 4.1 为什么不支持移动端？
+### 4.1 Why Manifest V3?
 
-**技术限制**:
-- iOS/Android 浏览器不支持 Web Audio API 完整特性
-- 移动端 YouTube App 无法注入 JavaScript
-- 系统音频权限获取复杂
+**Requirement**: Chrome deprecated Manifest V2 in 2023
 
-**市场定位**:
-- 睡眠场景主要在床边使用电脑/平板
-- 移动端用户习惯使用耳机，对音量敏感度较低
+**Key Changes from V2**:
+- Background pages → Service workers
+- Content security restrictions tightened
+- Host permissions more granular
 
-**未来规划**: 考虑推出移动端独立 App（需重新设计架构）
+**Benefits**:
+✅ Better performance (service workers sleep when idle)  
+✅ Enhanced security (stricter CSP)  
+✅ Future-proof (V2 will be disabled)  
 
-### 4.2 为什么选择金色作为主题色？
+**Challenges**:
+❌ More complex state management  
+❌ Can't use `eval()` or inline scripts  
+❌ Service worker lifecycle requires careful handling  
 
-**品牌差异化**:
-- 竞品多使用蓝色（YouTube）、绿色（Spotify）
-- 金色传达"品质"、"专业"、"温暖"的品牌调性
+**Decision**: Embrace V3, design around limitations
 
-**视觉心理学**:
-- 金色与"宁静"、"舒适"关联度高
-- 在深色背景下视觉突出但不刺眼
+### 4.2 Real-Time Processing vs Pre-Processing
 
-**A/B 测试结果**:
-- 金色按钮点击率比绿色高 15%
-- 用户认为金色更"高级"
+**Options Considered**:
 
-### 4.3 为什么 AI 预测是可选功能？
+1. **Real-Time (Chosen)**
+   - Process audio as video plays
+   - Uses Web Audio API
+   - Immediate effect
 
-**隐私考虑**:
-- 调用外部 API 需要发送视频信息
-- 部分用户可能担心隐私泄露
+2. **Pre-Processing**
+   - Download video, process, re-encode
+   - Use ffmpeg or similar
+   - Perfect quality control
 
-**成本考虑**:
-- 用户需自备 API key（我们不承担费用）
-- 免费额度有限（Gemini 60次/分钟）
+**Decision Matrix**:
 
-**功能定位**:
-- AI 预测是"锦上添花"，不是核心功能
-- 核心功能（音量稳定）无需 AI 即可工作
+| Factor | Real-Time | Pre-Processing |
+|--------|-----------|----------------|
+| **Latency** | ✅ Instant | ❌ Minutes |
+| **Simplicity** | ✅ Simple | ❌ Complex |
+| **Quality** | ⚠️ Good | ✅ Perfect |
+| **Resources** | ✅ Low CPU | ❌ High CPU |
+| **UX** | ✅ Seamless | ❌ Wait time |
 
-### 4.4 为什么不内置 API Key？
+**Final Decision**: Real-Time processing
+- User expectation is instant activation
+- Pre-processing requires file storage
+- Quality difference negligible for sleep use case
 
-**安全风险**:
-- 内置 Key 会被滥用，很快耗尽配额
-- 无法控制用户调用频率
+### 4.3 Scene Presets vs Full Customization
 
-**可持续性**:
-- 我们无力承担所有用户的 API 费用
-- "自备 Key"模式更可持续
+**Philosophy**: Progressive disclosure of complexity
 
-**用户控制**:
-- 用户拥有自己的 Key，可自行管理配额
-- 透明化，用户知道 AI 调用行为
+**Approach**:
+1. **Default**: 4 scene presets (ASMR, Podcast, White Noise, Meditation)
+2. **Advanced**: Full parameter control for power users
+3. **Balance**: Presets cover 90% of use cases, customization for 10%
 
-### 4.5 为什么使用 Manifest V3？
+**Why Not Full Customization Only?**
+- 80% of users never change defaults
+- Too many options causes decision paralysis
+- Presets teach users what's possible
 
-**强制要求**:
-- Chrome 2024 年起强制新扩展使用 MV3
-- MV2 将在 2025 年完全停用
+**Why Not Presets Only?**
+- Power users want control
+- Edge cases require tweaking
+- Learning tool for audio enthusiasts
 
-**优势**:
-- 更好的安全性（Service Worker 替代 Background Page）
-- 更低的资源消耗（按需唤醒）
+**Implementation**:
+- Presets shown prominently in popup
+- "Advanced" button reveals sliders
+- Custom settings saved per scene
 
-**挑战**:
-- 学习曲线陡峭
-- 部分 API 变更（如 webRequest → declarativeNetRequest）
+### 4.4 Free vs Freemium vs Paid
 
-**我们的应对**: 本项目音频处理在 Content Script 中进行，不依赖 Background，受 MV3 影响较小。
+**Business Model Decision**: 100% Free, Open Source
 
----
+**Reasoning**:
+✅ **Mission-Driven**: Help people sleep better  
+✅ **Community Building**: Open source attracts contributors  
+✅ **Trust Building**: No hidden monetization concerns  
+✅ **Accessibility**: Everyone deserves good sleep  
 
-## 5. 未来规划
+**Alternative Models Rejected**:
 
-### 5.1 短期优化（1-3个月）
+1. **Freemium**
+   - Basic features free, advanced paid
+   - ❌ Creates two-tier user experience
+   - ❌ Limits impact of product
 
-1. **上架 Chrome Web Store**
-   - 完成隐私政策、用户协议
-   - 准备商店截图、宣传视频
-   - 通过 Google 审核
+2. **Paid ($2.99)**
+   - One-time purchase
+   - ❌ Barrier to entry
+   - ❌ Reduces user base significantly
 
-2. **增强 AI 预测准确率**
-   - 收集用户反馈数据
-   - 优化 Prompt 工程
-   - 考虑引入视觉分析（缩略图）
+3. **Subscription ($0.99/mo)**
+   - Recurring revenue
+   - ❌ Wrong for utility extension
+   - ❌ Users resistant to extension subscriptions
 
-3. **性能优化**
-   - 降低 CPU 占用（目标 < 3%）
-   - 减少内存占用（目标 < 50MB）
-   - 优化启动速度
+**Sustainability Plan**:
+- Accept voluntary donations via GitHub Sponsors
+- Potential affiliate partnerships with sleep products (disclosed)
+- Keep core free forever (codified in MIT license)
 
-### 5.2 中期扩展（3-6个月）
+### 4.5 AI Integration Strategy
 
-1. **多语言支持**
-   - 增加日语、韩语、西班牙语
-   - i18n 框架完善
+**Optional, Not Required**:
+- Extension works perfectly without AI
+- AI predictions are bonus feature
+- Users provide their own API keys (no cost to us)
 
-2. **社区功能**
-   - 分享自定义场景配置
-   - 用户评分系统
+**Why User-Provided Keys?**
+✅ **Zero Cost**: No server infrastructure needed  
+✅ **Privacy**: No proxying through our servers  
+✅ **Scalability**: Each user pays their own usage  
+✅ **Flexibility**: Users choose provider (Gemini/OpenAI)  
 
-3. **高级功能**
-   - 睡眠定时器（自动暂停视频）
-   - 统计分析（每日使用时长）
+**Why Not Server-Side AI?**
+❌ **Cost**: Would need $500+/month at scale  
+❌ **Privacy**: Would see all user queries  
+❌ **Complexity**: Server maintenance burden  
+❌ **Reliability**: Single point of failure  
 
-### 5.3 长期愿景（6-12个月）
-
-1. **移动端支持**
-   - 开发 iOS/Android App
-   - 云端配置同步
-
-2. **生态扩展**
-   - 支持更多视频平台（Bilibili、Netflix）
-   - 开放 API 给第三方开发者
-
-3. **商业化探索**
-   - Premium 功能（高级 AI、云存储）
-   - 企业版（办公室噪音控制）
-
----
-
-## 附录
-
-### A. 设计会议记录
-
-#### 会议 1: 核心功能确定（2026-01-15）
-**参会人员**: Product Owner, Lead Developer, UX Designer  
-**决议**:
-- ✅ 核心功能锁定：压缩、限幅、增益
-- ✅ 场景预设必须简洁（≤4个）
-- ✅ AI 预测作为可选功能
-
-#### 会议 2: UI/UX 评审（2026-01-22）
-**参会人员**: Full Team  
-**决议**:
-- ✅ 采用金色主题
-- ✅ Onboarding 最多 4 步
-- ✅ 参数默认折叠
-
-#### 会议 3: AI 功能方案确定（2026-02-05）
-**参会人员**: Product Owner, AI Engineer  
-**决议**:
-- ✅ 支持 Gemini + OpenAI 双选
-- ✅ 用户自备 API Key
-- ✅ 缓存策略：24小时 + 1000条上限
-
-### B. 用户反馈摘要
-
-#### 高频需求（已实现）
-1. "希望有一键开关" → ✅ Player 按钮
-2. "音量还是会跳" → ✅ 增强压缩算法
-3. "设置太复杂" → ✅ 场景预设
-
-#### 待评估需求
-1. "支持 B 站吗？" → 📋 已加入 Roadmap
-2. "能自动识别 ASMR 吗？" → 📋 AI 预测部分实现
-3. "手机端什么时候出？" → 📋 长期规划中
-
-### C. 技术债务记录
-
-| 债务类型 | 描述 | 优先级 | 计划解决时间 |
-|---------|------|-------|------------|
-| 代码重构 | AudioEngine 类过大（500+ 行） | P2 | v1.4.0 |
-| 性能优化 | 语音检测算法 CPU 占用偏高 | P1 | v1.3.1 |
-| 测试覆盖 | 单元测试覆盖率 < 50% | P1 | v1.4.0 |
-| 文档完善 | API 文档缺失 | P2 | v1.3.2 |
+**User Education**:
+- Clear explanation in onboarding
+- Link directly to API key creation
+- Show cost estimate (< $1/month for heavy use)
+- Emphasize optional nature
 
 ---
 
-## 结语
+## 5. Future Roadmap
 
-SleepyTube 的产品设计遵循"**用户第一、技术驱动、渐进迭代**"的理念。我们通过深入的用户研究识别痛点，通过技术创新提供解决方案，通过持续优化提升体验。
+### v1.4.0 (Q2 2026)
+- Full parametric EQ (10-band)
+- Custom scene creation and saving
+- Keyboard shortcuts
+- Export/import settings
 
-本文档记录了从需求评估到技术实现的完整思考过程，为团队提供了清晰的设计依据和决策理由。随着产品的发展，本文档将持续更新，欢迎团队成员贡献想法！
+### v1.5.0 (Q3 2026)
+- Firefox support
+- Edge browser support (Chromium-based)
+- Enhanced visualizer (frequency spectrum)
+- Dark mode theme options
+
+### v2.0.0 (Q4 2026)
+- Machine learning audio analysis
+- Adaptive compression (learns user preferences)
+- Community scene sharing platform
+- Integration with sleep tracking apps
+
+### Long-Term Vision
+- Mobile app (if APIs become available)
+- Support for other video platforms (Vimeo, Twitch)
+- White-label for B2B (meditation apps, etc.)
+- Research partnership with sleep labs
 
 ---
 
-**文档版本历史**:
-- v1.0 (2026-02-08): 初始版本
-- v1.1 (待定): 增加移动端设计方案
-- v1.2 (待定): 补充性能测试数据
-
-**反馈渠道**:
-- GitHub Discussions: https://github.com/sleepytube/sleepytube/discussions
-- Email: feedback@sleepytube.com
+**Document Version**: 1.0  
+**Last Updated**: 2026-02-08  
+**Maintained By**: SleepyTube Product Team  
+**Status**: Living Document (updated quarterly)

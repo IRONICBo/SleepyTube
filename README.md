@@ -13,6 +13,12 @@
 
 ## What is SleepyTube?
 
+<div align="center">
+  <img src="docs/assets/sleepy_player.jpg" alt="SleepyTube Sleep Mode activated on YouTube player" width="100%">
+  <p><em>Sleep Mode activated on YouTube with Volume View visualization</em></p>
+</div>
+
+
 SleepyTube is a Chrome extension that makes YouTube safe for sleeping by eliminating unpredictable audio stimuli that can wake you up. Whether you're listening to ASMR, podcasts, ambient sounds, or educational content to fall asleep, SleepyTube ensures you won't be startled awake by:
 
 - 🔊 Sudden volume spikes (applause, laughter, sound effects)
@@ -117,13 +123,6 @@ Video Audio → Multiband Split → EQ → Compressor → AGC → Limiter → Ou
 - **Voice Focus**: Detects speech energy and reduces background frequencies
 
 See [Technical Design Document](docs/1.tech-design.md) for full architecture details.
-
-## 📸 Screenshots
-
-<div align="center">
-  <img src="docs/assets/sleepy_player.jpg" alt="SleepyTube Sleep Mode activated on YouTube player" width="100%">
-  <p><em>Sleep Mode activated on YouTube with Volume View visualization</em></p>
-</div>
 
 ### Audio Visualizer
 The visualizer shows real-time before/after comparison:

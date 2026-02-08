@@ -225,7 +225,44 @@
             </div>
           </div>
           
-          <!-- Speech Rate Control -->\n          <div class="setting-section">\n            <h3 class="section-title">Speech Rate</h3>\n            \n            <div class="setting-row">\n              <label class="row-label">\n                <span>Speech Rate Adjustment</span>\n                <span class="hint">Auto-adjust playback speed</span>\n              </label>\n              <label class="switch">\n                <input type="checkbox" id="speech-rate-toggle">\n                <span class="switch-slider"></span>\n              </label>\n            </div>\n            \n            <div class="setting-item" id="speech-rate-container" style="display: none;">\n              <label class="setting-label">Target Speech Rate</label>\n              <div class="button-group">\n                <button class="option-btn" data-setting="targetSpeechRate" data-value="slow">\n                  <span class="option-label">Slow</span>\n                  <span class="option-desc">2.5 syl/s</span>\n                </button>\n                <button class="option-btn active" data-setting="targetSpeechRate" data-value="normal">\n                  <span class="option-label">Normal</span>\n                  <span class="option-desc">3.5 syl/s</span>\n                </button>\n                <button class="option-btn" data-setting="targetSpeechRate" data-value="fast">\n                  <span class="option-label">Fast</span>\n                  <span class="option-desc">4.5 syl/s</span>\n                </button>\n                <button class="option-btn" data-setting="targetSpeechRate" data-value="auto">\n                  <span class="option-label">Auto</span>\n                  <span class="option-desc">Adaptive</span>\n                </button>\n              </div>\n              <p class="setting-hint">Detected: <span id="detected-rate" class="highlight">—</span> | Playback: <span id="playback-rate" class="highlight">1.0x</span></p>\n            </div>\n          </div>
+          <!-- Speech Rate Control -->
+          <div class="setting-section">
+            <h3 class="section-title">Speech Rate</h3>
+            
+            <div class="setting-row">
+              <label class="row-label">
+                <span>Speech Rate Adjustment</span>
+                <span class="hint">Auto-adjust playback speed</span>
+              </label>
+              <label class="switch">
+                <input type="checkbox" id="speech-rate-toggle">
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+            
+            <div class="setting-item" id="speech-rate-container" style="display: none;">
+              <label class="setting-label">Target Speech Rate</label>
+              <div class="button-group">
+                <button class="option-btn" data-setting="targetSpeechRate" data-value="slow">
+                  <span class="option-label">Slow</span>
+                  <span class="option-desc">2.5 syl/s</span>
+                </button>
+                <button class="option-btn active" data-setting="targetSpeechRate" data-value="normal">
+                  <span class="option-label">Normal</span>
+                  <span class="option-desc">3.5 syl/s</span>
+                </button>
+                <button class="option-btn" data-setting="targetSpeechRate" data-value="fast">
+                  <span class="option-label">Fast</span>
+                  <span class="option-desc">4.5 syl/s</span>
+                </button>
+                <button class="option-btn" data-setting="targetSpeechRate" data-value="auto">
+                  <span class="option-label">Auto</span>
+                  <span class="option-desc">Adaptive</span>
+                </button>
+              </div>
+              <p class="setting-hint">Detected: <span id="detected-rate" class="highlight">—</span> | Playback: <span id="playback-rate" class="highlight">1.0x</span></p>
+            </div>
+          </div>
           
         </div>
       </div>

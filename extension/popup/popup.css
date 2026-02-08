@@ -121,6 +121,37 @@ body {
   color: #4CAF50;
 }
 
+/* Speech Rate Info under waveform */
+.speech-rate-info {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  display: flex;
+  gap: 16px;
+  font-size: 11px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 6px 12px;
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+}
+
+.rate-info-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rate-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.rate-value {
+  color: #4CAF50;
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+}
+
 /* ===== Scene Selector ===== */
 .scene-selector {
   padding: 20px;

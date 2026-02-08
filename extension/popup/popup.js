@@ -509,19 +509,41 @@ function startSpeechRateMonitoring() {
     if (tabs[0]) {
       chrome.tabs.sendMessage(tabs[0].id, { action: 'getSpeechRateStatus' }, (response) => {
         if (response && response.status) {
-          const { detected, playbackRate } = response.status;
+          const { detected, playbackRate, enabled } = response.status;
           
-          // Update UI
+          // Show/hide the rate info under waveform
+          const rateInfo = document.getElementById('speech-rate-info');
+          if (rateInfo) {
+            rateInfo.style.display = enabled ? 'flex' : 'none';
+          }
+          
+          // Update waveform area display
+          const popupDetectedRate = document.getElementById('popup-detected-rate');
+          const popupPlaybackSpeed = document.getElementById('popup-playback-speed');
+          
           if (detected && detected.syllablesPerSecond > 0) {
             const rate = detected.syllablesPerSecond.toFixed(1);
             const category = detected.category;
+            
+            // Update settings panel
             document.getElementById('detected-rate').textContent = `${rate} syl/s (${category})`;
+            
+            // Update waveform area
+            if (popupDetectedRate) {
+              popupDetectedRate.textContent = `${rate} syl/s (${category})`;
+            }
           } else {
-            document.getElementById('detected-rate').textContent = 'Detecting...';
+            document.getElementById('detected-rate').textContent = '—';
+            if (popupDetectedRate) {
+              popupDetectedRate.textContent = '—';
+            }
           }
           
           if (playbackRate) {
             document.getElementById('playback-rate').textContent = `${playbackRate.toFixed(2)}x`;
+            if (popupPlaybackSpeed) {
+              popupPlaybackSpeed.textContent = `${playbackRate.toFixed(2)}x`;
+            }
           }
         }
       });

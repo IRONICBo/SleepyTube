@@ -2,12 +2,12 @@
 
 <div align="center">
   <img src="static/icon.png" alt="SleepyTube Logo" width="128" height="128">
-  
+
   <h3>Transform YouTube into a sleep-safe audio experience</h3>
-  
+
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
   [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-brightgreen)](https://chrome.google.com/webstore)
-  
+
   <img src="static/banner.png" alt="SleepyTube Banner" width="100%">
 </div>
 
@@ -159,8 +159,8 @@ See [Technical Design Document](docs/1.tech-design.md) for full architecture det
 ## 📸 Screenshots
 
 <div align="center">
-  <img src="static/banner.png" alt="SleepyTube in action" width="100%">
-  <p><em>Sleep Mode activated on YouTube with real-time audio visualization</em></p>
+  <img src="docs/assets/sleepy_player.jpg" alt="SleepyTube Sleep Mode activated on YouTube player" width="100%">
+  <p><em>Sleep Mode activated on YouTube with Volume View visualization</em></p>
 </div>
 
 ### Audio Visualizer
@@ -170,30 +170,6 @@ The visualizer shows real-time before/after comparison:
 - **Metrics**: Live stats showing compression, peaks blocked, and gain adjustments
 
 See [Visualizer Guide](docs/VISUALIZER.md) for detailed usage instructions.
-
-## 🗺️ Roadmap
-
-### Version 1.0 (Current)
-- ✅ Core audio stabilization
-- ✅ Sleep Mode toggle
-- ✅ Compression presets
-- ✅ Sleep EQ presets
-- ✅ Auto Gain Control
-- ✅ Voice Focus Mode
-- ✅ Settings panel
-- ✅ **Real-time audio visualizer**
-
-### Version 1.1 (Next)
-- ⏳ Sleep Score calculation
-- ⏳ Thumbnail badges (homepage/search)
-- ⏳ Advanced metrics panel
-- ⏳ Onboarding tour
-
-### Version 2.0 (Future)
-- 🔮 Machine learning event detection (laughter, applause)
-- 🔮 Adaptive learning from user behavior
-- 🔮 Sleep analytics dashboard
-- 🔮 Auto-fade after N minutes
 
 ## 🤝 Contributing
 
@@ -253,7 +229,7 @@ If you see errors like "AudioEngine is not a constructor" or "Unexpected token" 
    - Go to `chrome://extensions/`
    - Find "SleepyTube"
    - Click the **refresh icon** (🔄) or toggle it off and on
-   
+
 2. **Hard refresh YouTube**:
    - Press `Ctrl+Shift+R` (Windows/Linux) or `Cmd+Shift+R` (Mac)
    - Or close all YouTube tabs and reopen
@@ -282,26 +258,20 @@ If you see errors like "AudioEngine is not a constructor" or "Unexpected token" 
 
 ## ❓ FAQ
 
-**Q: Does SleepyTube work on mobile?**  
+**Q: Does SleepyTube work on mobile?**
 A: Currently Chrome extensions don't support mobile browsers. We're exploring mobile app options for the future.
 
-**Q: Will this affect audio quality?**  
+**Q: Will this affect audio quality?**
 A: Modern audio processing is imperceptible to most listeners. The slight compression/limiting trade-off is worthwhile for sleep safety.
 
-**Q: Does it work with YouTube Premium/Music?**  
+**Q: Does it work with YouTube Premium/Music?**
 A: Yes! SleepyTube works with any YouTube audio, including Premium and Music.
 
-**Q: Can I use it with other websites?**  
+**Q: Can I use it with other websites?**
 A: Currently YouTube-only. Future versions may support other platforms.
 
-**Q: Is it compatible with other YouTube extensions?**  
+**Q: Is it compatible with other YouTube extensions?**
 A: Generally yes, but extensions that modify audio (e.g., equalizers) may conflict.
-
-## 💬 Support
-
-- **Website**: [https://sleepytube.github.io](https://sleepytube.github.io)
-- **Issues**: [GitHub Issues](https://github.com/IRONICBo/sleepytube/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/IRONICBo/sleepytube/discussions)
 
 ## 📄 License
 
@@ -323,6 +293,6 @@ SleepyTube is an independent project and is not affiliated with, endorsed by, or
 
 <div align="center">
   <strong>Made with care for better sleep 🌙</strong>
-  
+
   [Website](https://sleepytube.github.io) • [Chrome Store](https://chrome.google.com/webstore) • [GitHub](https://github.com/IRONICBo/sleepytube)
 </div>

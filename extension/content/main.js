@@ -126,12 +126,14 @@ class SleepyTubeController {
       // Connect audio engine to UI manager
       this.uiManager.updateAudioEngine(this.audioEngine);
       
+      // Get config for feature initialization
+      const config = window.SleepyTubeConfig.get();
+      
       // Step 4: Initialize mini waveform
       if (window.MiniWaveform) {
         this.miniWaveform = new window.MiniWaveform(this.audioEngine);
         
         // Check if mini waveform should be shown
-        const config = window.SleepyTubeConfig.get();
         if (config.miniWaveformEnabled && config.sleepModeEnabled) {
           this.miniWaveform.show();
         }

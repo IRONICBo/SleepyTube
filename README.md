@@ -108,6 +108,8 @@ For best sleep experience, we recommend:\n- **Compression**: Medium or Strong
 - **Auto Gain**: Enabled
 - **AI Prediction**: Enabled (helps pre-screen videos)
 
+Refer to [USER_GUIDE.md](docs/USER_GUIDE.md) for detailed usage instructions and screenshots.
+
 ## 🔧 How It Works
 
 SleepyTube uses the Web Audio API to process YouTube's audio in real-time:

@@ -1,7 +1,7 @@
 # SleepyTube: Product Design Document
-**Version**: 1.0  
-**Last Updated**: 2026-02-09  
-**Authors**: SleepyTube Product Team  
+**Version**: 1.0
+**Last Updated**: 2026-02-09
+**Authors**: SleepyTube Product Team
 **Status**: Approved
 
 ---
@@ -67,13 +67,13 @@ graph TB
         A[YouTube Video Page]
         B[User Preferences]
     end
-    
+
     subgraph "SleepyTube Extension"
         C[Content Script Injector]
         D[UI Control Panel]
         E[Settings Manager]
     end
-    
+
     subgraph "Audio Processing Pipeline"
         F[Web Audio Context]
         G[Dynamic Range Compressor]
@@ -81,14 +81,14 @@ graph TB
         I[Peak Limiter]
         J[Gain Controller]
     end
-    
+
     subgraph "AI Prediction System"
         K[Video Metadata Extractor]
         L[AI Model API]
         M[Prediction Cache]
         N[Badge Renderer]
     end
-    
+
     A --> C
     B --> E
     C --> D
@@ -100,13 +100,13 @@ graph TB
     H --> I
     I --> J
     J --> A
-    
+
     A --> K
     K --> L
     L --> M
     M --> N
     N --> A
-    
+
     style F fill:#e1f5fe
     style G fill:#fff3e0
     style H fill:#fff3e0
@@ -155,7 +155,7 @@ sequenceDiagram
     participant LIM as Peak Limiter
     participant GN as Gain Node
     participant OUT as Audio Output
-    
+
     YT->>MS: Raw Audio Stream
     MS->>HPF: Remove Sub-Bass (<80Hz)
     HPF->>DRC: Filtered Signal
@@ -199,7 +199,7 @@ flowchart LR
     L --> N
     M --> N
     N --> O[Display Badge]
-    
+
     style G fill:#e8f5e9
     style H fill:#e3f2fd
     style K fill:#ffebee
@@ -324,7 +324,7 @@ graph LR
     I -->|Yes| J[Success]
     I -->|No| K[Investigate Regression]
     K --> F
-    
+
     style E fill:#c8e6c9
     style J fill:#a5d6a7
     style F fill:#ffccbc
@@ -365,24 +365,6 @@ graph LR
 - Researchlaboration with sleep laboratories
 - Open-source SDK for third-party integrations
 
-### 7.2 Resource Requirements
-
-```mermaid
-gantt
-    tiopment Timeline (2026)
-    dateFormat YYYY-MM-DD
-    section Foundation
-    MVP Development           :done, 30d
-    Chrome Store Launch       :done, 2026-02-01, 7d
-    section Enhancement
-    AI Prediction System      02-08, 14d
-    Scene Presets            :done, 2026-02-15, 10d
-    Advanced Viz             :active, 2026-02-20, 15d
-    ion Expansion
-    Cross-browser Support    :2026-04-01, 45d Adaptive Learning        :2026-05-15, 60d
-    Community Features       :2026-07-15, 60d
-```
-
 **Team Composition**:
 - Product Manager: 1 FTE
 - Frontend Engineer: 1 FTE
@@ -401,15 +383,7 @@ gantt
 | Performance degradation | Low gh | Continuous profiling; lazy loading; worker thread processing |
 | Browser compatibility | Medium | Medium | Progressive enhancement; feature detection |
 
-### 8.2 Business Risks
-
-| Risk | Probability | Impact | Mitigation Straten|------|-------------|--------|---------------------|
-| Low user acquisition | Medium | High | SEO optimization; communitygagement; influencer partnerships |
-| Competitive entry | Medium | Medium | Accelerate feature development; build brand loyalty |
-| Monetization pressure | Low | Medium | Maintain free core; explore ethical premium features |
-| Pcy changes | Low | High | Maintain Chrome Web Store compliance; divify distribution |
-
-### 8.3 User Experience Risks
+### 8.2 User Experience Risks
 
 | Risk | Probability | Impact | Mitigation Strategy |
 |------|-------|--------|---------------------|

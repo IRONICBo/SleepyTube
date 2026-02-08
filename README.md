@@ -40,10 +40,12 @@ SleepyTube is a Chrome extension that makes YouTube safe for sleeping by elimina
   - Metrics dashboard with loudness, gain, peaks suppressed
   - Compression activity monitor
   - 60 FPS real-time updates
+- **Fast UI Injection**: Button appears within 0.5-2 seconds (optimized loading)
 - **Sleep Score** (Coming Soon): Rates videos for sleep-friendliness
 - **One-Click Activation**: Toggle button integrated into YouTube player
 - **Real-Time Processing**: Zero-latency audio modification
 - **Settings Sync**: Configuration saved across browser sessions
+- **Smart Fade In/Out**: Smooth 1-second volume transitions prevent sudden changes
 
 ## 🚀 Installation
 
@@ -189,6 +191,43 @@ SleepyTube is committed to user privacy:
 - **Minimal Permissions**: Only requires `storage` and YouTube host access
 
 See [Privacy Policy](https://sleepytube.github.io/privacy) for details.
+
+## 🔧 Troubleshooting
+
+### Extension Not Working After Update
+
+If you see errors like "AudioEngine is not a constructor" or "Unexpected token" after updating:
+
+1. **Reload the extension**:
+   - Go to `chrome://extensions/`
+   - Find "SleepyTube"
+   - Click the **refresh icon** (🔄) or toggle it off and on
+   
+2. **Hard refresh YouTube**:
+   - Press `Ctrl+Shift+R` (Windows/Linux) or `Cmd+Shift+R` (Mac)
+   - Or close all YouTube tabs and reopen
+
+3. **Clear extension cache**:
+   - Go to `chrome://extensions/`
+   - Click "Remove" on SleepyTube
+   - Re-install by clicking "Load unpacked" and selecting the `extension` folder
+
+### Common Issues
+
+**Sleep Mode button not appearing**:
+- Refresh the YouTube page (`F5`)
+- Check if extension is enabled in `chrome://extensions/`
+- Try on a different video (some videos may take longer to load controls)
+
+**Audio visualizer not showing**:
+- Make sure Sleep Mode is enabled first
+- Right-click the Sleep Mode button → click "Show Audio Monitor"
+- Refresh the page if visualizer appears blank
+
+**No audio after enabling Sleep Mode**:
+- Check your system volume and YouTube player volume
+- Try toggling Sleep Mode off and on
+- Refresh the page
 
 ## ❓ FAQ
 

@@ -277,9 +277,13 @@ class AudioEngine {
     
     // Start speech rate detection if enabled
     if (window.SleepyTubeConfig.getValue('speechRateEnabled')) {
-      this.speechRateDetector.start();
-      const targetRate = window.SleepyTubeConfig.getValue('targetSpeechRate') || 'auto';
-      this.speechRateController.enable(targetRate);
+      if (this.speechRateDetector) {
+        this.speechRateDetector.start();
+      }
+      if (this.speechRateController) {
+        const targetRate = window.SleepyTubeConfig.getValue('targetSpeechRate') || 'auto';
+        this.speechRateController.enable(targetRate);
+      }
     }
     
     this.isConnected = true;

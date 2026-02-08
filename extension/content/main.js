@@ -386,8 +386,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 window.SleepyTubeUtils.log('Content script loaded');
 
-// Initialize and start the controller
+// Initialize and start the controller (only once)
 (function initSleepyTube() {
+  // Prevent multiple initialization
+  if (window.SleepyTubeController) {
+    window.SleepyTubeUtils.log('Controller already initialized, skipping');
+    return;
+  }
+  
   // Create controller instance
   window.SleepyTubeController = new SleepyTubeController();
   

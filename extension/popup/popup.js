@@ -14,6 +14,11 @@ const DEFAULT_CONFIG = {
   outputGain: 0,
   speechRateEnabled: false,
   targetSpeechRate: 'normal',
+  aiPredictorEnabled: false,
+  aiPredictorProvider: 'gemini',
+  aiPredictorApiKey: '',
+  aiPredictorBadgePosition: 'top-right',
+  aiPredictorBadgeSize: 'small',
   miniWaveformEnabled: true
 };
 
@@ -460,10 +465,76 @@ function setupEventListeners() {
     startSpeechRateMonitoring();
   }
   
+  // AI Predictor Toggle
+  document.getElementById('ai-predictor-toggle').addEventListener('change', async (e) => {
+    const enabled = e.target.checked;
+    await saveConfig({ 
+      aiPredictorEnabled: enabled,
+      currentScene: 'custom'
+    });
+    document.getElementById('ai-predictor-container').style.display = enabled ? 'block' : 'none';
+    updateAIStatus();
+  });
+  
+  // AI API Key Input
+  const apiKeyInput = document.getElementById('ai-api-key');
+  apiKeyInput.addEventListener('change', async (e) => {
+    await saveConfig({ 
+      aiPredictorApiKey: e.target.value,
+      currentScene: 'custom'
+    });
+    updateAIStatus();
+  });
+  
+  // Update "Get API key" link based on provider
+  function updateApiKeyLink() {
+    const provider = currentConfig.aiPredictorProvider;
+    const link = document.getElementById('get-api-key-link');
+    if (provider === 'gemini') {
+      link.href = 'https://makersuite.google.com/app/apikey';
+      link.textContent = 'Get free Gemini API key';
+    } else {
+      link.href = 'https://platform.openai.com/api-keys';
+      link.textContent = 'Get OpenAI API key';
+    }
+  }
+  updateApiKeyLink();
+  
   // Help Link
   document.getElementById('help-link').addEventListener('click', (e) => {
     e.preventDefault();
     chrome.tabs.create({ url: 'https://github.com/IRONICBo/sleepytube#readme' });
+  });
+  
+  // Language Selector
+  const languageSelect = document.getElementById('popup-language-select');
+  if (languageSelect && window.PopupI18n) {
+    // Set current language
+    languageSelect.value = window.PopupI18n.currentLang;
+    
+    // Listen for language changes
+    languageSelect.addEventListener('change', async (e) => {
+      const newLang = e.target.value;
+      await window.PopupI18n.setLanguage(newLang);
+      
+      // Also update scene description
+      updateSceneUI();
+    });
+  }
+  
+  // ===== Collapsible Sections =====
+  document.querySelectorAll('.collapsible-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const section = header.closest('.setting-section');
+      section.classList.toggle('collapsed');
+    });
+  });
+  
+  // Collapse all sections by default except first one
+  document.querySelectorAll('.setting-section.collapsible').forEach((section, index) => {
+    if (index > 0) {
+      section.classList.add('collapsed');
+    }
   });
 }
 
@@ -497,7 +568,60 @@ function updateUI() {
   document.getElementById('speech-rate-toggle').checked = currentConfig.speechRateEnabled;
   document.getElementById('speech-rate-container').style.display = currentConfig.speechRateEnabled ? 'block' : 'none';
   
+  // AI Predictor
+  document.getElementById('ai-predictor-toggle').checked = currentConfig.aiPredictorEnabled;
+  document.getElementById('ai-predictor-container').style.display = currentConfig.aiPredictorEnabled ? 'block' : 'none';
+  document.getElementById('ai-api-key').value = currentConfig.aiPredictorApiKey || '';
+  
+  // AI Status Indicator
+  updateAIStatus();
+  
   updateCurrentSettingsDisplay();
+}
+
+// ===== Update AI Status =====
+function updateAIStatus() {
+  const statusIndicator = document.getElementById('ai-status-indicator');
+  const statusText = document.getElementById('ai-status-text');
+  const providerText = document.getElementById('ai-provider-text');
+  const apiKeyText = document.getElementById('ai-apikey-text');
+  
+  if (!currentConfig.aiPredictorEnabled) {
+    statusIndicator.style.display = 'none';
+    return;
+  }
+  
+  statusIndicator.style.display = 'block';
+  
+  // Check configuration status
+  const hasApiKey = currentConfig.aiPredictorApiKey && currentConfig.aiPredictorApiKey.length > 0;
+  const provider = currentConfig.aiPredictorProvider || 'gemini';
+  
+  // Update provider
+  providerText.textContent = provider === 'gemini' ? 'Gemini (Free)' : 'OpenAI (Paid)';
+  
+  // Update API key status
+  if (hasApiKey) {
+    const keyPreview = currentConfig.aiPredictorApiKey.substring(0, 8) + '...';
+    apiKeyText.textContent = keyPreview;
+    apiKeyText.classList.remove('status-error', 'status-warning');
+    apiKeyText.classList.add('status-working');
+  } else {
+    apiKeyText.textContent = 'Not configured';
+    apiKeyText.classList.remove('status-working');
+    apiKeyText.classList.add('status-error');
+  }
+  
+  // Update overall status
+  if (hasApiKey) {
+    statusText.textContent = '✅ Ready';
+    statusText.classList.remove('status-error', 'status-warning');
+    statusText.classList.add('status-working');
+  } else {
+    statusText.textContent = '⚠️ No API key';
+    statusText.classList.remove('status-working');
+    statusText.classList.add('status-warning');
+  }
 }
 
 // ===== Storage Listener =====

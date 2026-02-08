@@ -44,3 +44,6 @@ coverage/
 # Environment
 .env
 .env.local
+
+# Project specific
+SKILLS.md

@@ -128,150 +128,237 @@
         <div class="advanced-content">
           
           <!-- Audio Processing -->
-          <div class="setting-section">
-            <h3 class="section-title">Audio Processing</h3>
+          <div class="setting-section collapsible">
+            <h3 class="section-title collapsible-header">
+              <span>Audio processing</span>
+              <svg class="collapse-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </h3>
             
-            <div class="setting-item">
-              <label class="setting-label">Stability Level</label>
-              <div class="button-group">
-                <button class="option-btn" data-setting="compressionStrength" data-value="light">
-                  <span class="option-label">Light</span>
-                  <span class="option-desc">Minimal</span>
-                </button>
-                <button class="option-btn active" data-setting="compressionStrength" data-value="medium">
-                  <span class="option-label">Medium</span>
-                  <span class="option-desc">Balanced</span>
-                </button>
-                <button class="option-btn" data-setting="compressionStrength" data-value="strong">
-                  <span class="option-label">Strong</span>
-                  <span class="option-desc">Maximum</span>
-                </button>
+            <div class="collapsible-content">
+              <div class="setting-item">
+                <label class="setting-label">Stability Level</label>
+                <div class="button-group">
+                  <button class="option-btn" data-setting="compressionStrength" data-value="light">
+                    <span class="option-label">Light</span>
+                    <span class="option-desc">Minimal</span>
+                  </button>
+                  <button class="option-btn active" data-setting="compressionStrength" data-value="medium">
+                    <span class="option-label">Medium</span>
+                    <span class="option-desc">Balanced</span>
+                  </button>
+                  <button class="option-btn" data-setting="compressionStrength" data-value="strong">
+                    <span class="option-label">Strong</span>
+                    <span class="option-desc">Maximum</span>
+                  </button>
+                </div>
               </div>
-            </div>
-            
-            <div class="setting-item">
-              <label class="setting-label">Sound Character</label>
-              <div class="button-group">
-                <button class="option-btn" data-setting="eqPreset" data-value="natural">
-                  <span class="option-label">Natural</span>
-                </button>
-                <button class="option-btn active" data-setting="eqPreset" data-value="gentle">
-                  <span class="option-label">Gentle</span>
-                </button>
-                <button class="option-btn" data-setting="eqPreset" data-value="ultra-soft">
-                  <span class="option-label">Soft</span>
-                </button>
+              
+              <div class="setting-item">
+                <label class="setting-label">Sound Character</label>
+                <div class="button-group">
+                  <button class="option-btn" data-setting="eqPreset" data-value="natural">
+                    <span class="option-label">Natural</span>
+                  </button>
+                  <button class="option-btn active" data-setting="eqPreset" data-value="gentle">
+                    <span class="option-label">Gentle</span>
+                  </button>
+                  <button class="option-btn" data-setting="eqPreset" data-value="ultra-soft">
+                    <span class="option-label">Soft</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
           
           <!-- Voice Enhancement -->
-          <div class="setting-section">
-            <h3 class="section-title">Voice Enhancement</h3>
+          <div class="setting-section collapsible">
+            <h3 class="section-title collapsible-header">
+              <span data-i18n="settings.voiceEnhancement">Voice Enhancement</span>
+              <svg class="collapse-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </h3>
             
-            <div class="setting-row">
-              <label class="row-label">
-                <span>Voice Focus</span>
-                <span class="hint">Enhance speech clarity</span>
-              </label>
-              <label class="switch">
-                <input type="checkbox" id="voice-focus-toggle">
-                <span class="switch-slider"></span>
-              </label>
-            </div>
-            
-            <div class="setting-item slider-item" id="ducking-container" style="display: none;">
-              <label class="setting-label">
-                <span>Background Reduction</span>
-                <span class="value" id="ducking-value">-9 dB</span>
-              </label>
-              <input type="range" class="slider" id="ducking-slider" min="0" max="12" step="1" value="9">
-              <div class="slider-track-labels">
-                <span>0</span>
-                <span>-6</span>
-                <span>-12</span>
+            <div class="collapsible-content">
+              <div class="setting-row">
+                <label class="row-label">
+                  <span>Voice Focus</span>
+                  <span class="hint">Enhance speech clarity</span>
+                </label>
+                <label class="switch">
+                  <input type="checkbox" id="voice-focus-toggle">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+              
+              <div class="setting-item slider-item" id="ducking-container" style="display: none;">
+                <label class="setting-label">
+                  <span data-i18n="settings.backgroundReduction">Background Reduction</span>
+                  <span class="value" id="ducking-value">-9 dB</span>
+                </label>
+                <input type="range" class="slider" id="ducking-slider" min="0" max="12" step="1" value="9">
+                <div class="slider-track-labels">
+                  <span>0</span>
+                  <span>-6</span>
+                  <span>-12</span>
+                </div>
               </div>
             </div>
           </div>
           
           <!-- Volume Control -->
-          <div class="setting-section">
-            <h3 class="section-title">Volume Control</h3>
+          <div class="setting-section collapsible">
+            <h3 class="section-title collapsible-header">
+              <span>Volume control</span>
+              <svg class="collapse-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </h3>
             
-            <div class="setting-row">
-              <label class="row-label">
-                <span>Auto Gain Control</span>
-                <span class="hint">Consistent loudness</span>
-              </label>
-              <label class="switch">
-                <input type="checkbox" id="agc-toggle" checked>
-                <span class="switch-slider"></span>
-              </label>
-            </div>
-            
-            <div class="setting-item slider-item" id="loudness-container">
-              <label class="setting-label">
-                <span>Target Loudness</span>
-                <span class="value" id="loudness-value">-18 LUFS</span>
-              </label>
-              <input type="range" class="slider" id="loudness-slider" min="-24" max="-12" step="1" value="-18">
-              <div class="slider-track-labels">
-                <span>Quiet</span>
-                <span>Normal</span>
-                <span>Loud</span>
+            <div class="collapsible-content">
+              <div class="setting-row">
+                <label class="row-label">
+                  <span>Auto Gain Control</span>
+                  <span class="hint">Consistent loudness</span>
+                </label>
+                <label class="switch">
+                  <input type="checkbox" id="agc-toggle" checked>
+                  <span class="switch-slider"></span>
+                </label>
               </div>
-            </div>
-            
-            <div class="setting-item slider-item">
-              <label class="setting-label">
-                <span>Output Volume</span>
-                <span class="value" id="output-value">0 dB</span>
-              </label>
-              <input type="range" class="slider" id="output-slider" min="-12" max="12" step="1" value="0">
-              <div class="slider-track-labels">
-                <span>-12</span>
-                <span>0</span>
-                <span>+12</span>
+              
+              <div class="setting-item slider-item" id="loudness-container">
+                <label class="setting-label">
+                  <span>Target Loudness</span>
+                  <span class="value" id="loudness-value">-18 LUFS</span>
+                </label>
+                <input type="range" class="slider" id="loudness-slider" min="-24" max="-12" step="1" value="-18">
+                <div class="slider-track-labels">
+                  <span>Quiet</span>
+                  <span>Normal</span>
+                  <span>Loud</span>
+                </div>
+              </div>
+              
+              <div class="setting-item slider-item">
+                <label class="setting-label">
+                  <span>Output Volume</span>
+                  <span class="value" id="output-value">0 dB</span>
+                </label>
+                <input type="range" class="slider" id="output-slider" min="-12" max="12" step="1" value="0">
+                <div class="slider-track-labels">
+                  <span>-12</span>
+                  <span>0</span>
+                  <span>+12</span>
+                </div>
               </div>
             </div>
           </div>
           
           <!-- Speech Rate Control -->
-          <div class="setting-section">
-            <h3 class="section-title">Speech Rate</h3>
+          <div class="setting-section collapsible">
+            <h3 class="section-title collapsible-header">
+              <span>Speech rate</span>
+              <svg class="collapse-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </h3>
             
-            <div class="setting-row">
-              <label class="row-label">
-                <span>Speech Rate Adjustment</span>
-                <span class="hint">Auto-adjust playback speed</span>
-              </label>
-              <label class="switch">
-                <input type="checkbox" id="speech-rate-toggle">
-                <span class="switch-slider"></span>
-              </label>
-            </div>
-            
-            <div class="setting-item" id="speech-rate-container" style="display: none;">
-              <label class="setting-label">Target Speech Rate</label>
-              <div class="button-group">
-                <button class="option-btn" data-setting="targetSpeechRate" data-value="slow">
-                  <span class="option-label">Slow</span>
-                  <span class="option-desc">2.5 syl/s</span>
-                </button>
-                <button class="option-btn active" data-setting="targetSpeechRate" data-value="normal">
-                  <span class="option-label">Normal</span>
-                  <span class="option-desc">3.5 syl/s</span>
-                </button>
-                <button class="option-btn" data-setting="targetSpeechRate" data-value="fast">
-                  <span class="option-label">Fast</span>
-                  <span class="option-desc">4.5 syl/s</span>
-                </button>
-                <button class="option-btn" data-setting="targetSpeechRate" data-value="auto">
-                  <span class="option-label">Auto</span>
-                  <span class="option-desc">Adaptive</span>
-                </button>
+            <div class="collapsible-content">
+              <div class="setting-row">
+                <label class="row-label">
+                  <span>Speech Rate Adjustment</span>
+                  <span class="hint">Auto-adjust playback speed</span>
+                </label>
+                <label class="switch">
+                  <input type="checkbox" id="speech-rate-toggle">
+                  <span class="switch-slider"></span>
+                </label>
               </div>
-              <p class="setting-hint">Detected: <span id="detected-rate" class="highlight">—</span> | Playback: <span id="playback-rate" class="highlight">1.0x</span></p>
+              
+              <div class="setting-item" id="speech-rate-container" style="display: none;">
+                <label class="setting-label">Target Speech Rate</label>
+                <div class="button-group">
+                  <button class="option-btn" data-setting="targetSpeechRate" data-value="slow">
+                    <span class="option-label">Slow</span>
+                    <span class="option-desc">2.5 syl/s</span>
+                  </button>
+                  <button class="option-btn active" data-setting="targetSpeechRate" data-value="normal">
+                    <span class="option-label">Normal</span>
+                    <span class="option-desc">3.5 syl/s</span>
+                  </button>
+                  <button class="option-btn" data-setting="targetSpeechRate" data-value="fast">
+                    <span class="option-label">Fast</span>
+                    <span class="option-desc">4.5 syl/s</span>
+                  </button>
+                  <button class="option-btn" data-setting="targetSpeechRate" data-value="auto">
+                    <span class="option-label">Auto</span>
+                    <span class="option-desc">Adaptive</span>
+                  </button>
+                </div>
+                <p class="setting-hint">Detected: <span id="detected-rate" class="highlight">—</span> | Playback: <span id="playback-rate" class="highlight">1.0x</span></p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- AI Video Predictor -->
+          <div class="setting-section collapsible">
+            <h3 class="section-title collapsible-header">
+              <span>AI video predictor</span>
+              <svg class="collapse-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </h3>
+            
+            <div class="collapsible-content">
+              <div class="setting-row">
+                <label class="row-label">
+                  <span>Enable AI Video Prediction</span>
+                  <span class="hint">Predict audio quality before watching</span>
+                </label>
+                <label class="switch">
+                  <input type="checkbox" id="ai-predictor-toggle">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+              
+              <!-- AI Status Indicator -->
+              <div class="ai-status-indicator" id="ai-status-indicator" style="display: none;">
+                <div class="status-row">
+                  <span class="status-label">Status:</span>
+                  <span class="status-value" id="ai-status-text">⚠️ Not configured</span>
+                </div>
+                <div class="status-row">
+                  <span class="status-label">Provider:</span>
+                  <span class="status-value" id="ai-provider-text">—</span>
+                </div>
+                <div class="status-row">
+                  <span class="status-label">API Key:</span>
+                  <span class="status-value" id="ai-apikey-text">—</span>
+                </div>
+              </div>
+              
+              <div class="setting-item" id="ai-predictor-container" style="display: none;">
+                <label class="setting-label" data-i18n="settings.provider">AI Provider</label>
+                <div class="button-group">
+                  <button class="option-btn active" data-setting="aiPredictorProvider" data-value="gemini">
+                    <span class="option-label" data-i18n="settings.gemini">Gemini</span>
+                  </button>
+                  <button class="option-btn" data-setting="aiPredictorProvider" data-value="openai">
+                    <span class="option-label" data-i18n="settings.openai">OpenAI</span>
+                  </button>
+                </div>
+                
+                <div class="setting-item" style="margin-top: 12px;">
+                  <label class="setting-label">API Key</label>
+                  <input type="password" class="api-key-input" id="ai-api-key" placeholder="Enter your API key">
+                  <p class="setting-hint">
+                    <a href="https://makersuite.google.com/app/apikey" target="_blank" id="get-api-key-link">Get Gemini API key</a>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
           
@@ -281,17 +368,32 @@
     
     <!-- Footer -->
     <div class="popup-footer">
-      <a href="#" id="help-link" class="footer-link">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01" stroke="currentColor" stroke-width="2"/>
-        </svg>
-        Help & Documentation
-      </a>
+      <div class="footer-left">
+        <a href="#" id="help-link" class="footer-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Help & Documentation
+        </a>
+      </div>
+      <div class="footer-right">
+        <div class="language-selector">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <select id="popup-language-select" class="language-select">
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+          </select>
+        </div>
+      </div>
     </div>
     
   </div>
   
+  <script src="popup-i18n.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

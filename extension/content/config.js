@@ -27,6 +27,12 @@ const DEFAULT_CONFIG = {
   targetSpeechRate: 'normal',     // 'slow' | 'normal' | 'fast' | 'auto'
   speechRateAdjustment: 1.0,      // Playback rate multiplier (0.5-2.0)
   
+  // AI video predictor settings
+  aiPredictorEnabled: false,      // Enable AI-based video quality prediction
+  aiPredictorProvider: 'gemini',  // 'gemini' | 'openai'
+  aiPredictorApiKey: '',          // API key for the selected provider
+  aiPredictorShowBadges: true,    // Show warning badges on video thumbnails
+  
   // UI preferences
   showOnboarding: true,
   miniWaveformEnabled: true
@@ -138,6 +144,51 @@ const SPEECH_RATE_CONFIG = {
     fast: 4.5,      // syllables/sec
     auto: 3.5       // default to normal
   }
+};
+
+// AI Video Predictor configuration
+const AI_PREDICTOR_CONFIG = {
+  // Issue types - 简化为三种主要问题
+  issueTypes: {
+    noisy: {
+      label_zh: '可能有噪音',
+      label_en: 'May have noise',
+      icon: '🔊',
+      color: '#FF9800'
+    },
+    loud: {
+      label_zh: '可能声音大',
+      label_en: 'May be loud',
+      icon: '📢',
+      color: '#F44336'
+    },
+    sudden: {
+      label_zh: '可能有突发声音',
+      label_en: 'May have sudden sounds',
+      icon: '⚡',
+      color: '#FFC107'
+    }
+  },
+  
+  // Badge显示设置
+  badgePosition: 'top-right',  // 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
+  badgeSize: 'small',          // 'small' | 'medium' | 'large'
+  
+  // API配置
+  gemini: {
+    endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+    freeQuota: 60,  // 每分钟请求数 (免费版)
+    model: 'gemini-pro'
+  },
+  openai: {
+    endpoint: 'https://api.openai.com/v1/chat/completions',
+    model: 'gpt-3.5-turbo',
+    maxTokens: 256
+  },
+  
+  // 缓存配置
+  cacheExpiration: 24 * 60 * 60 * 1000,  // 24小时
+  maxCacheSize: 1000  // 最多缓存1000个预测结果
 };
 
 /**
@@ -260,5 +311,6 @@ window.SleepyTubeConstants = {
   VOICE_FOCUS_CONFIG,
   LIMITER_CONFIG,
   AGC_CONFIG,
-  SPEECH_RATE_CONFIG
+  SPEECH_RATE_CONFIG,
+  AI_PREDICTOR_CONFIG
 };

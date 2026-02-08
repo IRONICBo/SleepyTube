@@ -35,6 +35,15 @@ SleepyTube is a Chrome extension that makes YouTube safe for sleeping by elimina
 - **Sound Softening**: Natural, Gentle, or Ultra Soft EQ presets
 
 ### Intelligent Features
+- **AI Video Quality Prediction** 🤖 NEW!: Predict audio quality before watching
+  - Automatically analyzes video metadata (title, channel, duration)
+  - Detects potential audio issues: noisy background music, volume inconsistency, sudden sounds, fast speech, high pitch
+  - Visual badges on video thumbnails (✅ safe, ⚠️ warning, 🚨 danger)
+  - Detailed tooltip showing specific issues
+  - Supports free Gemini API or OpenAI API
+  - 24-hour local cache to save API quota
+  - Customizable badge position and size
+  - Works on homepage, search results, and recommendations
 - **Speech Rate Detection & Adjustment**: Automatically detects speaking speed and adjusts playback
   - Real-time syllable detection using audio energy analysis
   - Smart speed adjustment (slows fast speech, normal for comfortable pace)
@@ -86,12 +95,46 @@ SleepyTube is a Chrome extension that makes YouTube safe for sleeping by elimina
 4. Right-click the button to open advanced settings
 5. Click "Show Audio Monitor" to see real-time visualization of audio processing effects
 
+### AI Video Prediction (NEW!) 🤖
+Get audio quality predictions before watching videos:
+
+1. **Get free API Key**:
+   - Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
+   - Create a free Gemini API key (no credit card needed)
+   - Copy the API key
+
+2. **Configure in SleepyTube**:
+   - Click the SleepyTube extension icon
+   - Open Advanced Settings (gear icon)
+   - Scroll to "AI Video Predictor"
+   - Enable the toggle
+   - Paste your API key
+   - Save
+
+3. **Start browsing**:
+   - Open YouTube homepage or search results
+   - Look for colored badges on video thumbnails:
+     - ✅ **Green**: Audio quality good, safe for sleep
+     - ⚠️ **Orange**: 1-2 potential issues
+     - 🚨 **Red**: 3+ issues, not recommended
+   - Hover over badges to see detailed issue list
+
+**Detected Issues:**
+- 🎵 Noisy background music
+- 📊 Volume inconsistency
+- ⚡ Sudden sound effects/laughter
+- 💨 Fast speech rate
+- 🎤 High-pitched voice
+- ⚠️ Other audio problems
+
+See [AI Predictor Guide](AI_VIDEO_PREDICTOR_GUIDE.md) for complete documentation.
+
 ### Recommended Settings
-For best sleep experience, we recommend:
-- **Compression**: Medium or Strong
+For best sleep experience, we recommend:\n- **Compression**: Medium or Strong
 - **EQ**: Gentle or Ultra Soft
 - **Voice Focus**: Enabled (for podcasts/ASMR with speech)
 - **Auto Gain**: Enabled
+- **AI Prediction**: Enabled (helps pre-screen videos)
 
 ### Keyboard Shortcuts
 - `Alt+S`: Toggle Sleep Mode (configurable in Chrome settings)

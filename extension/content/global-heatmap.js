@@ -163,6 +163,13 @@ class GlobalHeatmap {
       // Get compression reduction (in dB)
       const reduction = nodes.compressor.reduction;
       
+      // Debug log every 60 frames (~1 second)
+      if (!this.debugCounter) this.debugCounter = 0;
+      this.debugCounter++;
+      if (this.debugCounter % 60 === 0) {
+        console.log('[Heatmap] Compression reduction:', reduction, 'dB');
+      }
+      
       // Store compression history
       this.compressionHistory.push(Math.abs(reduction));
       

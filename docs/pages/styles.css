@@ -79,6 +79,9 @@ body {
 
 .logo-icon {
   border-radius: 6px;
+  object-fit: contain;
+  width: 32px;
+  height: 32px;
 }
 
 .logo-text {

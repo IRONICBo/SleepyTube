@@ -105,7 +105,7 @@ function isSleepModeAllowed() {
 // Extract video ID from URL
 function getVideoId() {
   const urlParams = new URLSearchParams(window.location.search);
-  const watchId = urlParams.  
+  const watchId = urlParams.get('v');
   if (watchId) return watchId;
   
   // Try shorts URL

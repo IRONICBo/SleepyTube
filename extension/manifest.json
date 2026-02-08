@@ -36,7 +36,6 @@
         "content/mini-waveform.js",
         "content/global-heatmap.js",
         "content/ui-components.js",
-        "content/debug-tools.js",
         "content/main.js"
       ],
       "css": [

@@ -650,26 +650,35 @@ body {
   line-height: 1.6;
 }
 
+/* Install Steps Section */
 .install-steps {
   max-width: 800px;
-  margin: 0 auto;
-  padding: vaacing-xl);
+  margin: var(--spacing-xl) auto 0;
+  padding: var(--spacing-xl);
   background: var(--color-surface-elevated);
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border)}
+  border: 1px solid var(--color-border);
+}
 
 .install-steps h3 {
   font-size: 20px;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
 }
 
 .install-steps ol {
-  paddvar(--spacing-lg);
+  padding-left: var(--spacing-lg);
+  margin: 0;
 }
 
 .install-steps li {
   margin-bottom: var(--spacing-md);
-  color: var(--color-text-secon  line-height: 1.6;
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+  font-size: 15px;
 }
 
 .install-steps code {
@@ -683,121 +692,77 @@ body {
 
 /* Steps Code Block */
 .steps-code-block {
-  background: #1e1e1e;
-  border-radius: 8px;
-  padding: var(--spacing-lg);
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  background: rgba(15, 15, 15, 0.8);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-xl);
+  border: 1px solid rgba(102, 126, 234, 0.15);
+  margin-top: var(--spacing-lg);
 }
 
 .steps-code-block ol {
   margin: 0;
-  padding-left: var(--spacing-xl);
+  padding-left: 0;
   counter-reset: step-counter;
   list-style: none;
 }
 
 .steps-code-block li {
-  margin-bottom: var(--spacing-md);
-  color: #e0e0e0;
-  line-height: 1.8;
   position: relative;
-  counter-increment: step-counter;
-}
-
-.steps-code-block li::before {
-  content: counter(step-counter) ".";
-  position: absolute;
-  left: -2em;
-  color: var(--color-secondary);
-  font-weight: 600;
-  font-family: 'Monaco', monospace;
+  padding-left: 40px;
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-text);
+  line-height: 1.8;
+  font-size: 15px;
 }
 
 .steps-code-block li:last-child {
   margin-bottom: 0;
 }
 
+.steps-code-block li::before {
+  content: counter(step-counter);
+  counter-increment: step-counter;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #764ba2 100%);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 13px;
+}
+
 .steps-code-block code {
-  background: rgba(245, 165, 36, 0.15);
-  color: #ffa726;
-  padding: 3px 8px;
+  background: rgba(102, 126, 234, 0.15);
+  padding: 3px 10px;
   border-radius: 4px;
   font-family: 'Monaco', 'Courier New', monospace;
   font-size: 13px;
-  border: 1px solid rgba(245, 165, 36, 0.3);
+  color: #a5b4fc;
+  border: 1px solid rgba(102, 126, 234, 0.2);
 }
 
 .steps-code-block strong {
-  color: #90caf9;
+  color: var(--color-primary);
   font-weight: 600;
 }
 
 .steps-code-block a {
-  color: var(--color-secondary);
+  color: var(--color-primary);
   text-decoration: none;
   border-bottom: 1px solid transparent;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
 }
 
 .steps-code-block a:hover {
-  border-bottom-color: var(--color-secondary);
+  border-bottom-color: var(--color-primary);
+  color: #8b9bff;
 }
-
-/* Responsive */
-@media (max-width: 968px) {
-  .hero .container {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-  
-  .hero-title {
-    font-size: 42px;
-  }
-  
-  .hero-description {
-    margin: 0 auto var(--spacing-xl) auto;
-  }
-  
-  .hero-actions {
-    justify-content: center;
-  }
-  
-  .hero-stats {
-    justify-content: center;
-  }
-  
-  .features-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .tech-details {
-    grid-template-columns: 1fr;
-  }
-  
-  .install-methods {
-    grid-template-columns: 1fr;
-  }
-  
-  .nav-links {
-    display: none;
-  }
-}
-
-@media (max-width: 640px) {
-  .hero-title {
-    font-size: 32px;
-  }
-  
-  .section-header h2 {
-    font-size: 32px;
-  }
-  
-  .features-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .process-flow {
-    flex-direction: column;
   }
   
   .process-arrow {

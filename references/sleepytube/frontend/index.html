@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SleepyTube - 睡眠友好版 YouTube</title>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; margin: 0; padding: 24px; max-width: 880px; }
+    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin: 12px 0; }
+    label { display: block; font-weight: 600; margin-top: 12px; }
+    input, select { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 10px; margin-top: 6px; }
+    button { padding: 12px 14px; border: 0; border-radius: 12px; cursor: pointer; font-weight: 700; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .muted { color: #6b7280; }
+    .success { padding: 10px; border-radius: 10px; background: #ecfdf5; border: 1px solid #a7f3d0; }
+    .error { padding: 10px; border-radius: 10px; background: #fef2f2; border: 1px solid #fecaca; }
+  </style>
+</head>
+<body>
+  <h1>SleepyTube</h1>
+  <p class="muted">把 YouTube 视频处理成“适合睡前听”的音频：自动统一音量 + 压缩动态范围 + 限幅防爆音 + 轻度削高频 + 可选降速/降音调。</p>
+
+  <div class="card">
+    <label>视频链接（YouTube 等）</label>
+    <input id="url" placeholder="https://www.youtube.com/watch?v=..." />
+
+    <div class="row">
+      <div>
+        <label>预设</label>
+        <select id="preset">
+          <option value="sleep">Sleep（默认）</option>
+          <option value="focus">Focus</option>
+          <option value="raw">Raw（最少处理）</option>
+        </select>
+      </div>
+      <div>
+        <label>语速（0.5-1.5，<1 更慢）</label>
+        <input id="speed" type="number" step="0.05" min="0.5" max="1.5" value="0.9" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>音调（半音，负数更低）</label>
+        <input id="pitch" type="number" step="0.5" min="-6" max="6" value="-1" />
+      </div>
+      <div>
+        <label>低通截止（Hz，降低刺耳高频）</label>
+        <input id="lowpass" type="number" step="500" min="2000" max="20000" value="9000" />
+      </div>
+    </div>
+
+    <div style="margin-top: 14px; display:flex; gap:12px; align-items:center;">
+      <button id="go">生成睡眠版音频</button>
+      <span class="muted" id="status"></span>
+    </div>
+  </div>
+
+  <div id="result"></div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    async function go() {
+      const url = $("url").value.trim();
+      const preset = $("preset").value;
+      const speed = parseFloat($("speed").value);
+      const pitch_semitones = parseFloat($("pitch").value);
+      const lowpass_hz = parseInt($("lowpass").value, 10);
+
+      if (!url) {
+        $("result").innerHTML = `<div class="error">请先输入链接</div>`;
+        return;
+      }
+
+      $("status").textContent = "处理中…（下载 + 转码可能需要几十秒）";
+      $("result").innerHTML = "";
+
+      try {
+        const resp = await fetch('/api/process', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url, preset, speed, pitch_semitones, lowpass_hz })
+        });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data?.error || '处理失败');
+
+        const dl = data.download_url;
+        $("result").innerHTML = `
+          <div class="success">
+            <div><b>已生成</b>（job: ${data.job_id}）</div>
+            <div style="margin-top:8px;"><a href="${dl}">点击下载 MP3</a></div>
+            <details style="margin-top:10px;">
+              <summary>查看处理参数</summary>
+              <pre style="white-space: pre-wrap;">${JSON.stringify(data.info, null, 2)}</pre>
+            </details>
+          </div>`;
+        $("status").textContent = "";
+      } catch (e) {
+        $("status").textContent = "";
+        $("result").innerHTML = `<div class="error">${e.message}</div>`;
+      }
+    }
+
+    $("go").addEventListener('click', go);
+  </script>
+</body>
+</html>

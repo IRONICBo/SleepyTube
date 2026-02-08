@@ -1,20 +1,26 @@
 # SleepyTube
 
-> Transform YouTube into a sleep-safe audio experience
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Chrome Web Store](https://img.shields.io/badge/Chrome-Extension-brightgreen)](https://chrome.google.com/webstore)
+<div align="center">
+  <img src="static/icon.png" alt="SleepyTube Logo" width="128" height="128">
+  
+  <h3>Transform YouTube into a sleep-safe audio experience</h3>
+  
+  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+  [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-brightgreen)](https://chrome.google.com/webstore)
+  
+  <img src="static/banner.png" alt="SleepyTube Banner" width="100%">
+</div>
 
 ## What is SleepyTube?
 
 SleepyTube is a Chrome extension that makes YouTube safe for sleeping by eliminating unpredictable audio stimuli that can wake you up. Whether you're listening to ASMR, podcasts, ambient sounds, or educational content to fall asleep, SleepyTube ensures you won't be startled awake by:
 
-- Sudden volume spikes (applause, laughter, sound effects)
-- Inconsistent loudness between videos
-- Harsh high frequencies or rumbling bass
-- Fast, stimulating speech
+- 🔊 Sudden volume spikes (applause, laughter, sound effects)
+- 📊 Inconsistent loudness between videos
+- 🎵 Harsh high frequencies or rumbling bass
+- 🗣️ Fast, stimulating speech
 
-## Features
+## ✨ Features
 
 ### Core Audio Protection
 - **Smart Compression**: Automatically smooths out volume differences
@@ -34,29 +40,29 @@ SleepyTube is a Chrome extension that makes YouTube safe for sleeping by elimina
 - **Real-Time Processing**: Zero-latency audio modification
 - **Settings Sync**: Configuration saved across browser sessions
 
-## Installation
+## 🚀 Installation
 
-### From Chrome Web Store (Recommended)
+### From Chrome Web Store (Recommended - Coming Soon)
 1. Visit [Chrome Web Store - SleepyTube](https://chrome.google.com/webstore) _(coming soon)_
 2. Click "Add to Chrome"
 3. Confirm installation
 
-### Manual Installation (Development)
-1. Clone this repository:
+### Manual Installation (Available Now)
+1. **Clone this repository**:
    ```bash
    git clone https://github.com/sleepytube/sleepytube.git
    cd sleepytube
    ```
 
-2. Open Chrome and navigate to `chrome://extensions/`
+2. **Open Chrome** and navigate to `chrome://extensions/`
 
-3. Enable "Developer mode" (toggle in top-right corner)
+3. **Enable "Developer mode"** (toggle in top-right corner)
 
-4. Click "Load unpacked" and select the `extension` folder
+4. **Click "Load unpacked"** and select the `extension` folder
 
-5. The SleepyTube icon should appear in your extensions toolbar
+5. **Done!** The SleepyTube icon should appear in your extensions toolbar
 
-## Usage
+## 📖 Usage
 
 ### Quick Start
 1. Open any YouTube video
@@ -71,11 +77,11 @@ For best sleep experience, we recommend:
 - **Voice Focus**: Enabled (for podcasts/ASMR with speech)
 - **Auto Gain**: Enabled
 
-# Shortcuts
+### Keyboard Shortcuts
 - `Alt+S`: Toggle Sleep Mode (configurable in Chrome settings)
 - `Esc`: Close control panel
 
-## How It Works
+## 🔧 How It Works
 
 SleepyTube uses the Web Audio API to process YouTube's audio in real-time:
 
@@ -91,34 +97,37 @@ Video Audio → Multiband Split → EQ → Compressor → AGC → Limiter → Ou
 
 See [Technical Design Document](docs/1.tech-design.md) for full architecture details.
 
-## Screenshots
+## 📸 Screenshots
 
-_Coming soon_
+<div align="center">
+  <img src="static/banner.png" alt="SleepyTube in action" width="100%">
+  <p><em>Sleep Mode activated on YouTube</em></p>
+</div>
 
-## Roadmap
+## 🗺️ Roadmap
 
 ### Version 1.0 (Current)
-- [x] Core audio stabilization
-- [x] Sleep Mode toggle
-- [x] Compression presets
-- [x] Sleep EQ presets
-- [x] Auto Gain Control
-- [x] Voice Focus Mode
-- [x] Settings panel
+- ✅ Core audio stabilization
+- ✅ Sleep Mode toggle
+- ✅ Compression presets
+- ✅ Sleep EQ presets
+- ✅ Auto Gain Control
+- ✅ Voice Focus Mode
+- ✅ Settings panel
 
-### Version 1.1
-- [ ] Sleep Score calculation
-- [ ] Thumbnail badges (homepage/search)
-- [ ] Advanced metrics panel
-- [ ] Onboarding tour
+### Version 1.1 (Next)
+- ⏳ Sleep Score calculation
+- ⏳ Thumbnail badges (homepage/search)
+- ⏳ Advanced metrics panel
+- ⏳ Onboarding tour
 
-### Version 2.0
-- [ ] Machine learning event detection (laughter, applause)
-- [ ] Adaptive learning from user behavior
-- [ ] Sleep analytics dashboard
-- [ ] Auto-fade after N minutes
+### Version 2.0 (Future)
+- 🔮 Machine learning event detection (laughter, applause)
+- 🔮 Adaptive learning from user behavior
+- 🔮 Sleep analytics dashboard
+- 🔮 Auto-fade after N minutes
 
-## Contributing
+## 🤝 Contributing
 
 We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
@@ -128,7 +137,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 git clone https://github.com/sleepytube/sleepytube.git
 cd sleepytube
 
-# Load extensionn Chrome (see Manual Installation above)
+# Load extension in Chrome (see Manual Installation above)
 
 # Make changes to code in extension/ directory
 
@@ -148,11 +157,15 @@ sleepytube/
 ├── docs/                   # Documentation
 │   ├── 0.product-design.md # Product specification
 │   ├── 1.tech-design.md    # Technical architecture
-│   └── 2.features.md       # Feature roadmap
+│   ├── 2.features.md       # Feature roadmap
+│   └── pages/              # GitHub Pages site
+├── static/                 # Static assets
+│   ├── icon.png            # App icon
+│   └── banner.png          # Banner image
 └── README.md               # This file
 ```
 
-## Privacy
+## 🔒 Privacy
 
 SleepyTube is committed to user privacy:
 - **Zero Telemetry**: No usage data sent to external servers
@@ -162,7 +175,7 @@ SleepyTube is committed to user privacy:
 
 See [Privacy Policy](https://sleepytube.github.io/privacy) for details.
 
-## FAQ
+## ❓ FAQ
 
 **Q: Does SleepyTube work on mobile?**  
 A: Currently Chrome extensions don't support mobile browsers. We're exploring mobile app options for the future.
@@ -179,17 +192,17 @@ A: Currently YouTube-only. Future versions may support other platforms.
 **Q: Is it compatible with other YouTube extensions?**  
 A: Generally yes, but extensions that modify audio (e.g., equalizers) may conflict.
 
-## Support
+## 💬 Support
 
-- **Documentation**: [https://sleepytube.github.io](https://sleepytube.github.io)
+- **Website**: [https://sleepytube.github.io](https://sleepytube.github.io)
 - **Issues**: [GitHub Issues](https://github.com/sleepytube/sleepytube/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/sleepytube/sleepytube/discussions)
 
-## License
+## 📄 License
 
 MIT License - see [LICENSE](LICENSE) for details.
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
 - Inspired by community discussions about YouTube sleep audio challenges
 - Built with Web Audio API and Chrome Extensions API
@@ -197,12 +210,14 @@ MIT License - see [LICENSE](LICENSE) for details.
   - [NebulaNorm](https://github.com/references/NebulaNorm)
   - [YouTube Volume Normalizer](https://github.com/Kelvin-Ng/youtube-volume-normalizer)
 
-## Disclaimer
+## ⚠️ Disclaimer
 
 SleepyTube is an independent project and is not affiliated with, endorsed by, or sponsored by YouTube or Google.
 
 ---
 
-**Made with care for better sleep** 🌙
-
-[Website](https://sleepytube.github.io) • [Chrome Store](https://chrome.google.com/webstore) • [GitHub](https://github.com/sleepytube/sleepytube)
+<div align="center">
+  <strong>Made with care for better sleep 🌙</strong>
+  
+  [Website](https://sleepytube.github.io) • [Chrome Store](https://chrome.google.com/webstore) • [GitHub](https://github.com/sleepytube/sleepytube)
+</div>

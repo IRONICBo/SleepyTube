@@ -7,6 +7,7 @@
   <meta name="keywords" content="YouTube, sleep, ASMR, audio, volume, Chrome extension">
   <title>SleepyTube - Sleep-Safe YouTube Audio</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -16,17 +17,14 @@
   <nav class="navbar">
     <div class="container">
       <div class="nav-brand">
-        <svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24">
-          <path d="M3 12h2v4H3v-4zm4-8h2v12H7V4zm4 5h2v11h-2V9zm4-3h2v14h-2V6zm4 7h2v7h-2v-7z" fill="currentColor"/>
-        </svg>
+        <img src="icon.png" alt="SleepyTube" class="logo-icon" width="32" height="32">
         <span class="logo-text">SleepyTube</span>
       </div>
       <div class="nav-links">
         <a href="#features">Features</a>
         <a href="#how-it-works">How It Works</a>
-        <a href="#docs">Docs</a>
         <a href="https://github.com/sleepytube/sleepytube" target="_blank">GitHub</a>
-        <a href="#" class="cta-button">Get Extension</a>
+        <a href="#get-started" class="cta-button">Get Extension</a>
       </div>
     </div>
   </nav>
@@ -46,7 +44,7 @@
           SleepyTube makes any YouTube video gentle enough for sleep.
         </p>
         <div class="hero-actions">
-          <a href="#" class="button button-primary">
+          <a href="#get-started" class="button button-primary">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
               <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
@@ -54,12 +52,11 @@
             </svg>
             Add to Chrome - Free
           </a>
-          <a href="#demo" class="button button-secondary">
+          <a href="https://github.com/sleepytube/sleepytube" class="button button-secondary" target="_blank">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-              <polygon points="10,8 16,12 10,16" fill="currentColor"/>
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            Watch Demo
+            View on GitHub
           </a>
         </div>
         <div class="hero-stats">
@@ -83,27 +80,30 @@
             <div class="demo-dots">
               <span></span><span></span><span></span>
             </div>
-            <div class="demo-title">youtube.com/watch?v=...</div>
+            <div class="demo-title">youtube.com/watch</div>
           </div>
           <div class="demo-content">
-            <div class="waveform-before">
-              <svg width="100%" height="80" viewBox="0 0 400 80">
+            <div class="waveform-container">
+              <div class="waveform-label">Before: Chaotic Volume</div>
+              <svg class="waveform waveform-before" width="100%" height="80" viewBox="0 0 400 80">
                 <path d="M0,40 L20,10 L40,50 L60,20 L80,70 L100,5 L120,60 L140,25 L160,55 L180,15 L200,65 L220,30 L240,50 L260,10 L280,70 L300,20 L320,55 L340,25 L360,60 L380,15 L400,40" 
-                  stroke="#ff4444" stroke-width="2" fill="none"/>
+                  stroke="#ff4444" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              <span class="label label-bad">Before: Chaotic</span>
             </div>
+            
             <div class="arrow-down">
               <svg width="40" height="40" viewBox="0 0 24 24">
-                <path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="currentColor" stroke-width="2" fill="none"/>
+                <path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
+              <span>SleepyTube Processing</span>
             </div>
-            <div class="waveform-after">
-              <svg width="100%" height="80" viewBox="0 0 400 80">
+            
+            <div class="waveform-container">
+              <div class="waveform-label">After: Smooth & Safe</div>
+              <svg class="waveform waveform-after" width="100%" height="80" viewBox="0 0 400 80">
                 <path d="M0,40 L20,35 L40,45 L60,37 L80,43 L100,36 L120,44 L140,38 L160,42 L180,37 L200,43 L220,39 L240,42 L260,38 L280,43 L300,37 L320,42 L340,39 L360,43 L380,38 L400,40" 
-                  stroke="#4caf50" stroke-width="2" fill="none"/>
+                  stroke="#4caf50" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              <span class="label label-good">After: Smooth & Safe</span>
             </div>
           </div>
         </div>
@@ -123,10 +123,10 @@
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" stroke-width="2" fill="none"/>
-              <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" fill="none"/>
-              <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" fill="none"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" stroke-width="2"/>
+              <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2"/>
+              <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2"/>
             </svg>
           </div>
           <h3>Smart Compression</h3>
@@ -135,7 +135,7 @@
 
         <div class="feature-card">
           <div class="feature-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-            <svg width="24" height="24" viewBox="0 0 24 24">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path d="M12 2v20M2 12h20" stroke="white" stroke-width="2"/>
               <circle cx="12" cy="12" r="3" fill="white"/>
             </svg>
@@ -156,8 +156,8 @@
 
         <div class="feature-card">
           <div class="feature-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <path d="M3 18v-6a9 9 0 0 1 18 0v6M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" stroke="white" stroke-width="2" fill="none"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M3 18v-6a9 9 0 0 1 18 0v6M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" stroke="white" stroke-width="2"/>
             </svg>
           </div>
           <h3>Sleep EQ</h3>
@@ -166,8 +166,8 @@
 
         <div class="feature-card">
           <div class="feature-icon" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" stroke="white" stroke-width="2" fill="none"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" stroke="white" stroke-width="2"/>
             </svg>
           </div>
           <h3>Voice Focus Mode</h3>
@@ -176,8 +176,8 @@
 
         <div class="feature-card">
           <div class="feature-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke="white" stroke-width="2" fill="none"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke="white" stroke-width="2"/>
             </svg>
           </div>
           <h3>Personalized Settings</h3>
@@ -219,43 +219,43 @@
       <div class="tech-details">
         <div class="tech-diagram">
           <pre class="code-block">
+<span class="code-comment"># Audio Processing Pipeline</span>
+
 Video Audio
     ↓
-MediaElementSource
+<span class="code-function">MediaElementSource</span>
     ↓
-Multiband Split (Low/Mid/High)
+<span class="code-function">Multiband Split</span> (Low/Mid/High)
     ↓
-Voice Detection & Ducking
+<span class="code-function">Voice Detection</span> & Ducking
     ↓
-EQ Filtering
+<span class="code-function">EQ Filtering</span>
     ↓
-Dynamic Compressor
+<span class="code-function">Dynamic Compressor</span>
     ↓
-Auto Gain Control
+<span class="code-function">Auto Gain Control</span>
     ↓
-Brickwall Limiter
+<span class="code-function">Brickwall Limiter</span>
     ↓
-Audio Output 🔊
+<span class="code-output">Audio Output 🔊</span>
           </pre>
         </div>
         <div class="tech-highlights">
-          <h3>Key Technologies</h3>
-          <ul>
+          <h3>Key Technologies</h3         <ul>
             <li>
               <strong>Web Audio API</strong>
-              <p>Native browser audio processing - no external dependencies</p>
+              <p>Native browser  processing - no external dependencies</p>
             </li>
             <li>
-              <strong>DynamicsCompressor</strong>
+              <strong>DynamicsCompressor</song>
               <p>Reduces dynamic range using industry-standard algorithms</p>
             </li>
-            <li>
-              <strong>BiquadFiltng>
+            <l             <strong>BiquadFilter</strong>
               <p>Surgical frequency control with minimal phase distortion</p>
- </li>
+        </li>
             <li>
               <strong>Real-Time Analysis</strong>
-              <p>Loudness measurement tive gain adjustment at 60 FPS</p>
+              <p>Loudness measurement and adaptive gain adjustment at 60 FPS</p>
             </li>
           </ul>
         </div>
@@ -263,56 +263,107 @@ Audio Output 🔊
     </div>
   </section>
 
-  <!-- CTAtion -->
+  <!-- Installation ction -->
+  <section id="get-started" class="install-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Get Started</div>
+        <h2>Install in Minutes</h2>
+        <ose your preferred installation method</p>
+      </div>
+      
+      <div class="install-methods">
+        <div class="install-card">
+          <div class="install-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+              <circ"12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+              <pa 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Chrome Web Store</h3>
+          <p class="coming-soon">(Coming Soon)</p>
+          <p>One-click installation frial Chrome Web Store</p>
+          <button class="button button-disabled" disabled>Coming Soon</button>div>
+        
+        <div class="install-card install-card-active">
+          <div class="install-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+              <path d="M9 19c-5 1.5-5-2.5-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.1stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+     >
+          </div>
+          <h3>Manual Install</h3>
+          <p class="available-now">Available Now</p>
+      <p>Download from GitHub and load as unpacked extension</p>
+          <a href="https://github.com/sleepytube/sleepytube" class="button button-primary" target="_blank">Download from GitHub</a>
+        </div>
+      </div>
+      
+      <div class="install-steps">
+        <h3>Installation Steps:</h3>
+        <ol>
+          <li>Download the repository from GitHub</li>
+          <li>Open Chrome and go to <code>chrome://extensions/</code></li>
+          <li>Enable "Developer mode" in the top-right corner</li>
+          <li>Click "Load unpacked" and select the <code>extension</code> folder</li>
+          <li>Open any YouTube video and click the Sleep Mode button!</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
   <section class="cta-section">
     <div class="container">
       <div class="cta-content">
         <h2>Ready for Better Sleep?</h2>
-        <p>Join thousands of users who sleep peacefully with YouTube</p>
-        <div class="cta-bu          <a href="#" class="button button-primary button-large">
-            Add to Chrome - It's Free
-                <a href="https://github.com/sleepytube/sleepytube" class="button button-secondary button-large" target="_bk">
+        <p>Join users who sleep peacefully with YouTube</p>
+        <div class="cta-buttons">
+          <a href="https://github.com/sleepytube/sleepytube" class="button button-primary button-large" target="_blank">
+            Get Started Now
+          </a>
+          <a href="https://github.com/sleepytube/sleepytube" class="button button-secondary button-large" target="_blank">
             View on GitHub
           </a>
         </div>
-        <p class="cta-note">No account required • 100% private •n source</p>
+        <p class="cta-note">No account required • 100% private • Open source</p>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="containen      <div class="footer-content">
+    <div class="container">
+      <div class="footer-content">
         <div class="footer-brand">
-          <svg class="logo-icon" wi" height="32" viewBox="0 0 24 24">
-            <path d="M3 12h2v4H3v-4zm4-8h2v12H7V4zm4 5h2v11h-2V9zm4-3h2v14h-2V6zm4 7h2v7h-2v-7z" fill="currentColor"/>
-          </svg>
+          <img src="icon.png" alt="SleepyTube" class="logo-icon" width="32" height="32">
           <span class="logo-text">SleepyTube</span>
-          <p>Sleep-safe YouTube audio<    </div>
+          <p>Sleep-safe YouTube audio</p>
+        </div>
         <div class="footer-links">
           <div class="footer-column">
             <h4>Product</h4>
-            <a hre#features">Features</a>
+            <a href="#features">Features</a>
             <a href="#how-it-works">How It Works</a>
-            <a href="#docs">Documentation</a>
-            <a href="#">FAQ</a>
+            <a href="https://github.com/sleepytube/sleepytube/tree/main/docs">Documentation</a>
+            <a href="https://github.com/sleepytube/sleepytube/issues">Support</a>
           </div>
           <div class="footer-column">
-     <h4>Resources</h4>
+            <h4>Resources</h4>
             <a href="https://github.com/sleepytube/sleepytube">GitHub</a>
-            <>Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Support</a>
+            <a href="https://github.com/sleepytube/sleepytube/blob/main/README.md">README</a>
+            <a href="https://github.com/sleepytube/sleepytube/blob/main/LICENSE">License (MIT)</a>
+            <a href="https://github.com/sleepytube/sleepytube/issues">Report Issue</a>
           </div>
           <div class="footer-column">
             <h4>Connect</h4>
-            <a href="https://githutube/sleepytube/discussions">Discussions</a>
-            <a href="https://github.com/sleepytube/sleepytube/iseport Issue</a>
-            <a href="#">Twitter</a>
+            <a href="https://github.com/sleepytube/sleepytube/discussions">Discussions</a>
+            <a href="https://github.com/sleepytube/sleepytube/issues/new">Feedback</a>
+            <a href="https://github.com/sleepytube/sleepytube/stargazers">Star on GitHub</a>
           </div>
         </div>
       </div>
-      <div class="footer-bottom">p>&copy; 2026 SleepyTube. Open source under MIT License.</p>
+      <div class="footer-bottom">
+        <p>&copy; 2026 SleepyTube. Open source under MIT License.</p>
         <p>Not affiliated with YouTube or Google.</p>
       </div>
     </div>

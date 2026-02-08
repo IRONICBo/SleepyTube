@@ -1,0 +1,2 @@
+This repo includes a tiny static frontend in ../frontend.
+The FastAPI app mounts it at "/" using StaticFiles (no build step required).

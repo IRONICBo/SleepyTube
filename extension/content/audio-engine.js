@@ -406,9 +406,14 @@ class AudioEngine {
     // Update speech rate control
     if (config.speechRateEnabled !== undefined) {
       if (config.speechRateEnabled && this.isConnected) {
-        this.speechRateDetector.start();
-        const targetRate = config.targetSpeechRate || 'auto';
-        this.speechRateController.enable(targetRate);
+        // Check if detector exists before starting
+        if (this.speechRateDetector) {
+          this.speechRateDetector.start();
+        }
+        if (this.speechRateController) {
+          const targetRate = config.targetSpeechRate || 'auto';
+          this.speechRateController.enable(targetRate);
+        }
       } else {
         if (this.speechRateDetector) {
           this.speechRateDetector.stop();

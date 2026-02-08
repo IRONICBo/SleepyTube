@@ -76,6 +76,11 @@ class AudioEngine {
       const merger = this.audioContext.createGain();
       merger.gain.value = 1.0;
       
+      // Create analyser for source (before processing)
+      const sourceAnalyser = this.audioContext.createAnalyser();
+      sourceAnalyser.fftSize = 2048;
+      sourceAnalyser.smoothingTimeConstant = 0.3;
+      
       // Create analyser for mid-band (speech detection)
       const midAnalyser = this.audioContext.createAnalyser();
       midAnalyser.fftSize = 2048;
@@ -111,12 +116,18 @@ class AudioEngine {
       limiter.threshold.value = limiterConfig.threshold;
       limiter.knee.value = limiterConfig.knee;
       limiter.ratio.value = limiterConfig.ratio;
-      limiter.attack.value = limiter.attack;
+      limiter.attack.value = limiterConfig.attack;
       limiter.release.value = limiterConfig.release;
+      
+      // Create output analyser for visualization (after processing)
+      const outputAnalyser = this.audioContext.createAnalyser();
+      outputAnalyser.fftSize = 2048;
+      outputAnalyser.smoothingTimeConstant = 0.3;
       
       // Store all nodes
       this.nodes = {
         source,
+        sourceAnalyser,
         lowPassFilter,
         midBandpass1,
         midBandpass2,
@@ -131,12 +142,16 @@ class AudioEngine {
         lowShelfFilter,
         compressor,
         makeupGain,
-        limiter
+        limiter,
+        outputAnalyser
       };
       
       // Tag source node for reuse
       this.video.__sleepytubeSource = source;
       source.__sleepytubeNodes = this.nodes;
+      
+      // Connect source to sourceAnalyser for visualization
+      source.connect(sourceAnalyser);
       
       // Connect multiband split
       source.connect(lowPassFilter);
@@ -153,13 +168,14 @@ class AudioEngine {
       highPassFilter.connect(highGain);
       highGain.connect(merger);
       
-      // Connect EQ -> Compressor -> Makeup Gain -> Limiter -> Destination
+      // Connect EQ -> Compressor -> Makeup Gain -> Limiter -> Output Analyser -> Destination
       merger.connect(lowShelfFilter);
       lowShelfFilter.connect(highShelfFilter);
       highShelfFilter.connect(compressor);
       compressor.connect(makeupGain);
       makeupGain.connect(limiter);
-      limiter.connect(this.audioContext.destination);
+      limiter.connect(outputAnalyser);
+      outputAnalyser.connect(this.audioContext.destination);
       
       // Initialize AGC controller
       this.agcController = new AGCController(
@@ -351,23 +367,24 @@ class AudioEngine {
 /**
  * Auto Gain Control (AGC) Controller
  */
-GCController {
+class AGCController {
   constructor(audioContext, makeupGainNode, analyserNode, analyserBuffer) {
     this.ac = audioContext;
-    this.gaNode = makeupGainNode;
+    this.gainNode = makeupGainNode;
     this.analyser = analyserNode;
     this.buffer = analyserBuffer;
     
     this.targetLoudness = window.SleepyTubeConstants.AGC_CONFIG.targetLoudness;
     this.currentGainDb = 0;
     this.lastMeasuredDb = -60;
-  is.attackTimeMs = window.SleepyTubeConstants.AGC_CONFIG.attackTimeMs;
+    this.attackTimeMs = window.SleepyTubeConstants.AGC_CONFIG.attackTimeMs;
     this.releaseTimeMs = window.SleepyTubeConstants.AGC_CONFIG.releaseTimeMs;
     
     this.isRunning = false;
     this.animationFrameId = null;
     
     this.tick = this.tick.bind(this);
+  }
   
   start() {
     if (this.isRunning) return;
@@ -376,10 +393,10 @@ GCController {
   }
   
   stop() {
- s.isRunning = false;
+    this.isRunning = false;
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
-      this.animationFrull;
+      this.animationFrameId = null;
     }
   }
   
@@ -387,26 +404,26 @@ GCController {
     if (!this.isRunning) return;
     
     // Measure current loudness
-    const this.measureLoudness();
+    const currentDb = this.measureLoudness();
     this.lastMeasuredDb = currentDb;
     
     // Calculate needed gain adjustment
-    const err= this.targetLoudness - currentDb;
+    const error = this.targetLoudness - currentDb;
     const limitedError = window.SleepyTubeUtils.clamp(
       error,
-      window.SleepyTubeConstants.AGC_CFIG.minGainDb,
+      window.SleepyTubeConstants.AGC_CONFIG.minGainDb,
       window.SleepyTubeConstants.AGC_CONFIG.maxGainDb
     );
     
-    moothing (attack/release)
+    // Smoothing (attack/release)
     const alpha = this.calculateSmoothingFactor(limitedError);
-    this.currentGainDb += (limitedError - this.currentGab) * alpha;
+    this.currentGainDb += (limitedError - this.currentGainDb) * alpha;
     
     // Get manual output gain from config
-    const outputGain = window.SleepyTubeClue('outputGain') || 0;
+    const outputGain = window.SleepyTubeConfig.getValue('outputGain') || 0;
     
     // Update gain node
-    const totalGainLinear = window.SleepyTubeUtils.dbToLinear(this.cur+ outputGain);
+    const totalGainLinear = window.SleepyTubeUtils.dbToLinear(this.currentGainDb + outputGain);
     this.gainNode.gain.setTargetAtTime(totalGainLinear, this.ac.currentTime, 0.05);
     
     // Continue loop
@@ -414,88 +431,92 @@ GCController {
   }
   
   measureLoudness() {
-    this.analyser.getFloatTimeDomainData(this);
+    this.analyser.getFloatTimeDomainData(this.buffer);
     return window.SleepyTubeUtils.estimateLoudnessDb(this.buffer);
   }
   
   calculateSmoothingFactor(error) {
-    // Use attack increasing gain, release time when decreasing
+    // Use attack time when increasing gain, release time when decreasing
     const timeConstant = (error > this.currentGainDb) ? this.attackTimeMs : this.releaseTimeMs;
     const samplesPerFrame = (this.ac.sampleRate / 60); // Assume 60 FPS
     const framesPerSecond = 60;
-    const alpha = 1ath.exp(-framesPerSecond / (timeConstant / 1000 * framesPerSecond));
+    const alpha = 1 - Math.exp(-framesPerSecond / (timeConstant / 1000 * framesPerSecond));
     return window.SleepyTubeUtils.clamp(alpha, 0.01, 0.25);
   }
 }
 
-ice Focus Controller (Multiband Sidechain Ducking)
+/**
+ * Voice Focus Controller (Multiband Sidechain Ducking)
  */
 class VoiceFocusController {
-  constructor(lowGainN, highGainNode, analyserNode, analyserBuffer) {
+  constructor(lowGainNode, highGainNode, analyserNode, analyserBuffer) {
     this.lowGain = lowGainNode;
     this.highGain = highGainNode;
-this.analyser = analyserNode;
+    this.analyser = analyserNode;
     this.buffer = analyserBuffer;
     
-    this.duckingAmou = window.SleepyTubeConfig.getValue('duckingAmount') || 9;
+    this.duckingAmount = window.SleepyTubeConfig.getValue('duckingAmount') || 9;
     this.isRunning = false;
     this.animationFrameId = null;
     
-    thitick = this.tick.bind(this);
+    this.tick = this.tick.bind(this);
   }
   
   start(audioContext) {
     if (this.isRunning) return;
     this.ac = audioContext;
-    this.isRun;
+    this.isRunning = true;
     this.tick();
   }
   
   stop() {
     this.isRunning = false;
     if (this.animationFrameId) {
-      cancelAnimationFrame(.animationFrameId);
+      cancelAnimationFrame(this.animationFrameId);
       this.animationFrameId = null;
     }
     
-    // Reset gains to unity
+    // Reset gains to normal
     if (this.ac) {
-      const t = this.ac.currentTime + 0.1;
-      this.lowGain.gain.setTargetAtTime(1.0, t, 0.05);
-      this.highGain.gain.setTargetAtT0, t, 0.05);
+      this.lowGain.gain.setTargetAtTime(1.0, this.ac.currentTime, 0.1);
+      this.highGain.gain.setTargetAtTime(1.0, this.ac.currentTime, 0.1);
     }
+  }
+  
+  updateDuckingAmount(amount) {
+    this.duckingAmount = amount;
   }
   
   tick() {
     if (!this.isRunning) return;
     
-    // Measure speech band energy
-    const speechDb = this.measureSpeechLevel();
-    const speechLinear = Math.pow(10, speechDb / 20);
+    // Measure mid-band energy (voice presence)
+    const voiceLevel = this.measureVoiceLevel();
     
-    // Detect speech presence (threshold-based)onst config = window.SleepyTubeConstants.VOICE_FOCUS_CONFIG;
-    const speechPresence = window.SleepyTubeUtils.clamp(
-      (sLinear - config.speechThreshold) / config.speechRange,
-      0,
-      1
-    );
+    // Duck low and high bands when voice is present
+    const threshold = -40; // dB
+    const ratio = 0.8; // How much to duck
     
-    // Calculate duck amount
-   duckDb = this.duckingAmount * speechPresence;
-    const duckGain = window.SleepyTubeUtils.dbToLinear(-duckDb);
+    let duckGain = 1.0;
+    if (voiceLevel > threshold) {
+      // Voice detected, apply ducking
+      const duckDb = -this.duckingAmount;
+      duckGain = window.SleepyTubeUtils.dbToLinear(duckDb);
+    }
     
     // Apply to low and high bands
     this.lowGain.gain.setTargetAtTime(duckGain, this.ac.currentTime, 0.05);
-    this.highGain.gain.setTargetAtTime(duckGain, this.Time, 0.05);
+    this.highGain.gain.setTargetAtTime(duckGain, this.ac.currentTime, 0.05);
     
     // Continue loop
     this.animationFrameId = requestAnimationFrame(this.tick);
   }
   
-  measure) {
+  measureVoiceLevel() {
     this.analyser.getFloatTimeDomainData(this.buffer);
     return window.SleepyTubeUtils.estimateLoudnessDb(this.buffer);
   }
 }
 
-// Exportow.AudioEngine = AudioEngine;
+// Export
+window.AudioEngine = AudioEngine;

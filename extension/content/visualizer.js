@@ -251,31 +251,26 @@ class AudioVisualizer {
     }
     
     // Get audio data
-    // Before processing: from source (approximated by merger output)
-    const beforeAnalyser = nodes.analyserMid; // Use mid-band as representative
+    // Before processing: from source analyser
+    const beforeAnalyser = nodes.sourceAnalyser;
+    if (!beforeAnalyser) {
+      this.animationFrameId = requestAnimationFrame(this.render);
+      return;
+    }
     beforeAnalyser.getFloatTimeDomainData(this.beforeData);
     
-    // After processing: from makeup gain output
-    // We need to create an analyser for the output if not exists
-    if (!this.outputAnalyser) {
-      this.outputAnalyser = this.audioEngine.audioContext.createAnalyser();
-      this.outputAnalyser.fftSize = 2048;
-      this.outputAnalyser.smoothingTimeConstant = 0.3;
-      this.afterData = new Float32Array(this.outputAnalyser.fftSize);
-      
-      // Connect limiter to output analyser (before destination)
-      nodes.limiter.connect(this.outputAnalyser);
-      this.outputAnalyser.connect(this.audioEngine.audioContext.destination);
-      
-      // Disconnect limiter from destination and reconnect through analyser
-      try {
-        nodes.limiter.disconnect(this.audioEngine.audioContext.destination);
-      } catch (e) {
-        // May not be connected
-      }
+    // After processing: use output analyser from audio engine
+    const afterAnalyser = nodes.outputAnalyser;
+    if (!afterAnalyser) {
+      this.animationFrameId = requestAnimationFrame(this.render);
+      return;
     }
     
-    this.outputAnalyser.getFloatTimeDomainData(this.afterData);
+    if (!this.afterData || this.afterData.length !== afterAnalyser.fftSize) {
+      this.afterData = new Float32Array(afterAnalyser.fftSize);
+    }
+    
+    afterAnalyser.getFloatTimeDomainData(this.afterData);
     
     // Calculate statistics
     this.updateStatistics(nodes);
@@ -386,7 +381,7 @@ class AudioVisualizer {
    */
   drawWaveform(data, offsetY, availableHeight, color, alpha) {
     const ctx = this.ctx;
-    const  this.width;
+    const width = this.width;
     const sliceWidth = width / data.length;
     const centerY = offsetY + availableHeight / 2;
     
@@ -412,19 +407,21 @@ class AudioVisualizer {
     ctx.stroke();
     ctx.globalAlpha = 1.0;
     
-    // Draw filledctx.globalAlpha = 0.2;
+    // Draw filled area
+    ctx.globalAlpha = 0.2;
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.moveTo(0, centerY);
     
     x = 0;
-    for (let i 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       const v = data[i];
       const y = centerY + (v * availableHeight / 2);
-      ctx.lineTo(x, x += sliceWidth;
+      ctx.lineTo(x, y);
+      x += sliceWidth;
     }
     
-    ctx.lineTo(width, centY);
+    ctx.lineTo(width, centerY);
     ctx.closePath();
     ctx.fill();
     ctx.globalAlpha = 1.0;
@@ -435,7 +432,7 @@ class AudioVisualizer {
    */
   updateMetrics() {
     // Loudness
-    const lonessEl = document.getElementById('metric-loudness');
+    const loudnessEl = document.getElementById('metric-loudness');
     const loudnessBar = document.getElementById('bar-loudness');
     if (loudnessEl && loudnessBar) {
       const db = this.stats.currentLoudness;
@@ -498,15 +495,6 @@ class AudioVisualizer {
   destroy() {
     this.stop();
     
-    if (this.outputAnalyser && this.audioEngine && this.audioEngine.nodes) {
-      try {
-        this.outputAnalyser.disconnect();
-        this.audioEngine.nodes.limiter.connect(this.audioEngine.audioContext.destination);
-      } catch (e) {
-        // Ignore
-      }
-    }
-    
     if (this.container && this.container.parentElement) {
       this.container.remove();
     }
@@ -514,7 +502,6 @@ class AudioVisualizer {
     this.container = null;
     this.canvas = null;
     this.ctx = null;
-    this.outputAnalyser = null;
   }
 }
 

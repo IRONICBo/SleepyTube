@@ -372,29 +372,29 @@ class UIManager {
         
         // Update UI
         panel.querySelectorAll('[data-preset]').forEach(b => b.classList.remove('active'));
-     et.classList.add('active');
+        e.target.classList.add('active');
         panel.querySelector('#sleepytube-strength-value').textContent = preset;
       });
     });
     
     // EQ presets
     panel.querySelectorAll('[data-eq]').forEach(btn => {
-      btn.addEventListener, async (e) => {
+      btn.addEventListener('click', async (e) => {
         const preset = e.target.dataset.eq;
         await window.SleepyTubeConfig.setValue('eqPreset', preset);
-      this.audioEngine.updateSettings({ eqPreset: preset });
+        this.audioEngine.updateSettings({ eqPreset: preset });
         
         // Update UI
         panel.querySelectorAll('[data-eq]').forEach(b => b.classList.remove('active'));
         e.target.classList.add('active');
-        panector('#sleepytube-eq-value').textContent = preset;
+        panel.querySelector('#sleepytube-eq-value').textContent = preset;
       });
     });
     
     // Voice focus toggle
     panel.querySelector('#sleepytube-voice-focus').addEventListener('change', async (e) => {
       const enabled = e.target.checked;
-      await dow.SleepyTubeConfig.setValue('voiceFocusEnabled', enabled);
+      await window.SleepyTubeConfig.setValue('voiceFocusEnabled', enabled);
       this.audioEngine.updateSettings({ voiceFocusEnabled: enabled });
       
       // Update ducking section

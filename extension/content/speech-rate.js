@@ -256,12 +256,12 @@ class SpeechRateController {
     this.lastUserSetTime = Date.now();
     this.originalPlaybackRate = this.video.playbackRate;
     
-    // Show notification
-    this.showNotification(
-      '⚠️ Manual Speed',
-      'Auto-adjustment paused for 30s',
-      'warning'
-    );
+    // Don't show notification - status shown in popup instead
+    // this.showNotification(
+    //   '⚠️ Manual Speed',
+    //   'Auto-adjustment paused for 30s',
+    //   'warning'
+    // );
     
     window.SleepyTubeUtils.log('User manually set speed to', this.video.playbackRate);
   }
@@ -276,19 +276,20 @@ class SpeechRateController {
     this.targetRate = targetRate;
     this.originalPlaybackRate = this.video.playbackRate;
     
-    // Create UI indicator
-    this.createIndicator();
+    // Don't create UI indicator - status shown in popup instead
+    // this.createIndicator();
     
     // Start updates
     this.updateInterval = setInterval(() => {
       this.updatePlaybackRate();
     }, this.updateFrequency);
     
-    this.showNotification(
-      '✅ Speech Rate Active',
-      `Target: ${targetRate}`,
-      'success'
-    );
+    // Don't show notification - status shown in popup instead
+    // this.showNotification(
+    //   '✅ Speech Rate Active',
+    //   `Target: ${targetRate}`,
+    //   'success'
+    // );
     
     window.SleepyTubeUtils.log('Speech rate adjustment enabled:', targetRate);
   }
@@ -313,17 +314,18 @@ class SpeechRateController {
     this.isUpdating = false;
     this.currentAdjustment = 1.0;
     
-    // Remove UI
+    // Remove UI (if exists)
     if (this.indicator) {
       this.indicator.remove();
       this.indicator = null;
     }
     
-    this.showNotification(
-      'ℹ️ Speech Rate Disabled',
-      'Speed restored',
-      'info'
-    );
+    // Don't show notification - status shown in popup instead
+    // this.showNotification(
+    //   'ℹ️ Speech Rate Disabled',
+    //   'Speed restored',
+    //   'info'
+    // );
     
     window.SleepyTubeUtils.log('Speech rate adjustment disabled');
   }
@@ -337,7 +339,7 @@ class SpeechRateController {
     // Respect user manual settings (30 second grace period)
     const timeSinceUserSet = Date.now() - this.lastUserSetTime;
     if (this.userManuallySet && timeSinceUserSet < 30000) {
-      this.updateIndicatorUI('paused');
+      // this.updateIndicatorUI('paused');
       return;
     }
     
@@ -352,13 +354,9 @@ class SpeechRateController {
     // Check if significant change
     const diff = Math.abs(newAdjustment - this.currentAdjustment);
     
+    // Don't show notification - just log
     if (diff > 0.1) {
-      // Significant change, notify user
-      this.showNotification(
-        '⚡ Speed Adjusting',
-        `${this.currentAdjustment.toFixed(2)}x → ${newAdjustment.toFixed(2)}x`,
-        'info'
-      );
+      window.SleepyTubeUtils.log(`Speed adjusting: ${this.currentAdjustment.toFixed(2)}x → ${newAdjustment.toFixed(2)}x`);
     }
     
     // Smooth transition
@@ -371,8 +369,8 @@ class SpeechRateController {
     this.video.playbackRate = this.currentAdjustment * this.originalPlaybackRate;
     this.isUpdating = false;
     
-    // Update UI
-    this.updateIndicatorUI('active');
+    // Don't update UI indicator - status shown in popup instead
+    // this.updateIndicatorUI('active');
     
     const rate = this.detector.getRate();
     window.SleepyTubeUtils.log('Speech rate update:', {
@@ -631,7 +629,7 @@ class SpeechRateController {
       this.isPaused = !this.isPaused;
       const btn = indicator.querySelector('#st-rate-toggle');
       btn.textContent = this.isPaused ? '▶ Resume' : '⏸ Pause';
-      this.updateIndicatorUI(this.isPaused ? 'paused' : 'active');
+      // this.updateIndicatorUI(this.isPaused ? 'paused' : 'active');
     });
   }
   
@@ -709,9 +707,9 @@ class SpeechRateController {
     if (this.isEnabled) {
       this.updatePlaybackRate();
     }
-    if (this.indicator) {
-      this.updateIndicatorUI(this.isPaused ? 'paused' : 'active');
-    }
+    // if (this.indicator) {
+    //   this.updateIndicatorUI(this.isPaused ? 'paused' : 'active');
+    // }
   }
   
   /**

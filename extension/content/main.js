@@ -385,3 +385,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 window.SleepyTubeUtils.log('Content script loaded');
+
+// Initialize and start the controller
+(function initSleepyTube() {
+  // Create controller instance
+  window.SleepyTubeController = new SleepyTubeController();
+  
+  // Initialize
+  window.SleepyTubeController.init();
+  
+  // Boot on current page
+  window.SleepyTubeController.boot();
+  
+  window.SleepyTubeUtils.log('SleepyTube initialized 🚀');
+})();

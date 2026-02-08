@@ -31,10 +31,14 @@
         "content/utils.js",
         "content/config.js",
         "content/audio-engine.js",
+        "content/visualizer.js",
         "content/ui-components.js",
         "content/main.js"
       ],
-      "css": ["content/styles.css"],
+      "css": [
+        "content/styles.css",
+        "content/visualizer.css"
+      ],
       "run_at": "document_end"
     }
   ],

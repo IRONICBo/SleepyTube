@@ -35,6 +35,11 @@ SleepyTube is a Chrome extension that makes YouTube safe for sleeping by elimina
 - **Sound Softening**: Natural, Gentle, or Ultra Soft EQ presets
 
 ### Intelligent Features
+- **Real-Time Audio Visualizer**: See the before/after comparison of audio processing
+  - Live waveform display showing processing effects
+  - Metrics dashboard with loudness, gain, peaks suppressed
+  - Compression activity monitor
+  - 60 FPS real-time updates
 - **Sleep Score** (Coming Soon): Rates videos for sleep-friendliness
 - **One-Click Activation**: Toggle button integrated into YouTube player
 - **Real-Time Processing**: Zero-latency audio modification
@@ -68,7 +73,8 @@ SleepyTube is a Chrome extension that makes YouTube safe for sleeping by elimina
 1. Open any YouTube video
 2. Look for the Sleep Mode button (equalizer icon) in the player controls
 3. Click to enable Sleep Mode - audio processing starts immediately
-4. Right-click the button or open extension popup for advanced settings
+4. Right-click the button to open advanced settings
+5. Click "Show Audio Monitor" to see real-time visualization of audio processing effects
 
 ### Recommended Settings
 For best sleep experience, we recommend:
@@ -101,8 +107,16 @@ See [Technical Design Document](docs/1.tech-design.md) for full architecture det
 
 <div align="center">
   <img src="static/banner.png" alt="SleepyTube in action" width="100%">
-  <p><em>Sleep Mode activated on YouTube</em></p>
+  <p><em>Sleep Mode activated on YouTube with real-time audio visualization</em></p>
 </div>
+
+### Audio Visualizer
+The visualizer shows real-time before/after comparison:
+- **Top (Red)**: Original chaotic audio waveform
+- **Bottom (Green)**: Processed smooth audio
+- **Metrics**: Live stats showing compression, peaks blocked, and gain adjustments
+
+See [Visualizer Guide](docs/VISUALIZER.md) for detailed usage instructions.
 
 ## 🗺️ Roadmap
 
@@ -114,6 +128,7 @@ See [Technical Design Document](docs/1.tech-design.md) for full architecture det
 - ✅ Auto Gain Control
 - ✅ Voice Focus Mode
 - ✅ Settings panel
+- ✅ **Real-time audio visualizer**
 
 ### Version 1.1 (Next)
 - ⏳ Sleep Score calculation

@@ -8,12 +8,14 @@ class UIManager {
     this.audioEngine = audioEngine;
     this.sleepModeButton = null;
     this.controlPanel = null;
+    this.visualizer = null;
     this.initialized = false;
     
     // Bind methods
     this.injectSleepModeButton = this.injectSleepModeButton.bind(this);
     this.toggleSleepMode = this.toggleSleepMode.bind(this);
     this.toggleControlPanel = this.toggleControlPanel.bind(this);
+    this.toggleVisualizer = this.toggleVisualizer.bind(this);
   }
   
   /**
@@ -324,6 +326,15 @@ class UIManager {
             <span>Auto Gain Control</span>
           </label>
         </div>
+        
+        <div class="sleepytube-section">
+          <button class="sleepytube-visualizer-btn" id="sleepytube-show-visualizer">
+            <svg width="16" height="16" viewBox="0 0 24 24">
+              <path d="M3 12h2v4H3v-4zm4-8h2v12H7V4zm4 5h2v11h-2V9zm4-3h2v14h-2V6zm4 7h2v7h-2v-7z" fill="currentColor"/>
+            </svg>
+            <span>Show Audio Monitor</span>
+          </button>
+        </div>
       </div>
     `;
     
@@ -409,6 +420,25 @@ class UIManager {
       await window.SleepyTubeConfig.setValue('autoGainEnabled', enabled);
       this.audioEngine.updateSettings({ autoGainEnabled: enabled });
     });
+    
+    // Visualizer button
+    panel.querySelector('#sleepytube-show-visualizer').addEventListener('click', () => {
+      this.toggleVisualizer();
+      this.closeControlPanel();
+    });
+  }
+  
+  /**
+   * Toggle visualizer
+   */
+  toggleVisualizer() {
+    if (!this.visualizer && window.AudioVisualizer) {
+      this.visualizer = new window.AudioVisualizer(this.audioEngine);
+    }
+    
+    if (this.visualizer) {
+      this.visualizer.toggle();
+    }
   }
   
   /**
@@ -416,6 +446,11 @@ class UIManager {
    */
   updateAudioEngine(audioEngine) {
     this.audioEngine = audioEngine;
+    
+    // Update visualizer if exists
+    if (this.visualizer) {
+      this.visualizer.audioEngine = audioEngine;
+    }
   }
 }
 

@@ -35,6 +35,14 @@ SleepyTube is a Chrome extension that makes YouTube safe for sleeping by elimina
 - **Sound Softening**: Natural, Gentle, or Ultra Soft EQ presets
 
 ### Intelligent Features
+- **Speech Rate Detection & Adjustment**: Automatically detects speaking speed and adjusts playback
+  - Real-time syllable detection using audio energy analysis
+  - Smart speed adjustment (slows fast speech, normal for comfortable pace)
+  - Floating status panel with live metrics
+  - User manual override with 30-second grace period
+  - Pause/resume controls for full user control
+  - Visual feedback with toast notifications
+  - No conflicts with YouTube's native speed controls
 - **Real-Time Audio Visualizer**: See the before/after comparison of audio processing
   - Live waveform display showing processing effects
   - Metrics dashboard with loudness, gain, peaks suppressed

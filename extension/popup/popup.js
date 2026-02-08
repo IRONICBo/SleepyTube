@@ -96,6 +96,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Start waveform rendering if on YouTube
   if (currentTab && currentTab.url && currentTab.url.includes('youtube.com')) {
     startWaveformRendering();
+    // Always start speech rate monitoring to update the display
+    startSpeechRateMonitoring();
   }
 });
 
@@ -269,10 +271,18 @@ async function applyScenePreset(sceneName) {
   const preset = SCENE_PRESETS[sceneName];
   if (!preset) return;
   
+  // Preserve user's speech rate settings
+  const preservedSpeechSettings = {
+    speechRateEnabled: currentConfig.speechRateEnabled,
+    targetSpeechRate: currentConfig.targetSpeechRate
+  };
+  
   const updates = {
     currentScene: sceneName,
     sleepModeEnabled: preset.sleepModeEnabled,
-    ...preset.settings
+    ...preset.settings,
+    // Restore speech rate settings
+    ...preservedSpeechSettings
   };
   
   await saveConfig(updates);

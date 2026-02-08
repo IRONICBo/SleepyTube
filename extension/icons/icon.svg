@@ -1,0 +1,15 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <rect width="128" height="128" fill="#4CAF50" rx="24"/>
+  <g transform="translate(24, 24)">
+    <!-- Bar 1 -->
+    <rect x="4" y="48" width="8" height="16" fill="white" rx="2"/>
+    <!-- Bar 2 -->
+    <rect x="20" y="16" width="8" height="48" fill="white" rx="2"/>
+    <!-- Bar 3 -->
+    <rect x="36" y="36" width="8" height="44" fill="white" rx="2"/>
+    <!-- Bar 4 -->
+    <rect x="52" y="24" width="8" height="56" fill="white" rx="2"/>
+    <!-- Bar 5 -->
+    <rect x="68" y="52" width="8" height="28" fill="white" rx="2"/>
+  </g>
+</svg>

@@ -518,6 +518,16 @@ function startSpeechRateMonitoring() {
     const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
     if (tabs[0]) {
       chrome.tabs.sendMessage(tabs[0].id, { type: 'getSpeechRateStatus' }, (response) => {
+        // Ignore connection errors (content script not ready)
+        if (chrome.runtime.lastError) {
+          // Hide speech rate info if content script not available
+          const rateInfo = document.getElementById('speech-rate-info');
+          if (rateInfo) {
+            rateInfo.style.display = 'none';
+          }
+          return;
+        }
+        
         if (response && response.status) {
           const { detected, playbackRate, enabled } = response.status;
           

@@ -1,4 +1,46 @@
-references/
-guide.md
-product.md
-SKILLS.md
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+*.crx
+*.pem
+*.zip
+
+# OS files
+.DS_Store
+Thumbs.db
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Extension packaging
+*.pem
+*.key
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Environment
+.env
+.env.local

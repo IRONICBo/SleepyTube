@@ -463,7 +463,7 @@ function setupEventListeners() {
   // Help Link
   document.getElementById('help-link').addEventListener('click', (e) => {
     e.preventDefault();
-    chrome.tabs.create({ url: 'https://github.com/sleepytube/sleepytube#readme' });
+    chrome.tabs.create({ url: 'https://github.com/IRONICBo/sleepytube#readme' });
   });
 }
 
@@ -535,6 +535,8 @@ function startSpeechRateMonitoring() {
           const rateInfo = document.getElementById('speech-rate-info');
           if (rateInfo) {
             rateInfo.style.display = enabled ? 'flex' : 'none';
+            // Debug: log status
+            console.log('Speech rate status:', { enabled, detected, playbackRate });
           }
           
           // Update waveform area display
@@ -545,22 +547,37 @@ function startSpeechRateMonitoring() {
             const rate = detected.syllablesPerSecond.toFixed(1);
             const category = detected.category;
             
-            // Update settings panel
-            document.getElementById('detected-rate').textContent = `${rate} syl/s (${category})`;
+            // Update settings panel (if exists)
+            const settingsPanelRate = document.getElementById('detected-rate');
+            if (settingsPanelRate) {
+              settingsPanelRate.textContent = `${rate} syl/s (${category})`;
+            }
             
             // Update waveform area
             if (popupDetectedRate) {
               popupDetectedRate.textContent = `${rate} syl/s (${category})`;
             }
           } else {
-            document.getElementById('detected-rate').textContent = '—';
+            // Update settings panel (if exists)
+            const settingsPanelRate = document.getElementById('detected-rate');
+            if (settingsPanelRate) {
+              settingsPanelRate.textContent = '—';
+            }
+            
+            // Update waveform area
             if (popupDetectedRate) {
               popupDetectedRate.textContent = '—';
             }
           }
           
-          if (playbackRate) {
-            document.getElementById('playback-rate').textContent = `${playbackRate.toFixed(2)}x`;
+          if (playbackRate !== undefined && playbackRate !== null) {
+            // Update settings panel (if exists)
+            const settingsPanelSpeed = document.getElementById('playback-rate');
+            if (settingsPanelSpeed) {
+              settingsPanelSpeed.textContent = `${playbackRate.toFixed(2)}x`;
+            }
+            
+            // Update waveform area
             if (popupPlaybackSpeed) {
               popupPlaybackSpeed.textContent = `${playbackRate.toFixed(2)}x`;
             }

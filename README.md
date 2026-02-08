@@ -65,7 +65,7 @@ SleepyTube is a Chrome extension that makes YouTube safe for sleeping by elimina
 ### Manual Installation (Available Now)
 1. **Clone this repository**:
    ```bash
-   git clone https://github.com/sleepytube/sleepytube.git
+   git clone https://github.com/IRONICBo/sleepytube.git
    cd sleepytube
    ```
 
@@ -159,7 +159,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 ### Development Setup
 ```bash
 # Clone repository
-git clone https://github.com/sleepytube/sleepytube.git
+git clone https://github.com/IRONICBo/sleepytube.git
 cd sleepytube
 
 # Load extension in Chrome (see Manual Installation above)
@@ -257,8 +257,8 @@ A: Generally yes, but extensions that modify audio (e.g., equalizers) may confli
 ## 💬 Support
 
 - **Website**: [https://sleepytube.github.io](https://sleepytube.github.io)
-- **Issues**: [GitHub Issues](https://github.com/sleepytube/sleepytube/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/sleepytube/sleepytube/discussions)
+- **Issues**: [GitHub Issues](https://github.com/IRONICBo/sleepytube/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/IRONICBo/sleepytube/discussions)
 
 ## 📄 License
 
@@ -281,5 +281,5 @@ SleepyTube is an independent project and is not affiliated with, endorsed by, or
 <div align="center">
   <strong>Made with care for better sleep 🌙</strong>
   
-  [Website](https://sleepytube.github.io) • [Chrome Store](https://chrome.google.com/webstore) • [GitHub](https://github.com/sleepytube/sleepytube)
+  [Website](https://sleepytube.github.io) • [Chrome Store](https://chrome.google.com/webstore) • [GitHub](https://github.com/IRONICBo/sleepytube)
 </div>
